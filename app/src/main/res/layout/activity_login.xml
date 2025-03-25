@@ -2,11 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main_color"
-    tools:context=".LoginActivity">
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    tools:context=".Activities.LoginActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -29,7 +30,7 @@
                 android:textStyle="bold"/>
 
             <EditText
-                android:id="@+id/editTextText"
+                android:id="@+id/editTextUser"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:hint="Username"
@@ -68,18 +69,19 @@
                 android:layout_marginTop="16dp"/>
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button2"
+                android:id="@+id/LoginButton"
                 style="@android:style/Widget.Button"
-                android:layout_marginTop="64dp"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
                 android:layout_marginStart="32dp"
+                android:layout_marginTop="64dp"
                 android:layout_marginEnd="32dp"
                 android:background="@drawable/orange_button_background"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                android:text="Login"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Login" />
+                android:textSize="30sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textView7"
