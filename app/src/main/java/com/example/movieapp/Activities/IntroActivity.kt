@@ -20,6 +20,7 @@ class IntroActivity : ComponentActivity() {
         getStartBt.setOnClickListener {
             Toast.makeText(this,"Button Clicked!",Toast.LENGTH_SHORT).show()
             val intent = Intent(this, LoginActivity::class.java)
+            //val intent = Intent(this,SignUpActivity::class.java)
             startActivity(intent)
         }
     }
