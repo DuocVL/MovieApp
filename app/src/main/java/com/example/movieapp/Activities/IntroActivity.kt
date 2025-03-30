@@ -19,8 +19,8 @@ class IntroActivity : ComponentActivity() {
         val getStartBt : Button = findViewById(R.id.getStartBt)
         getStartBt.setOnClickListener {
             Toast.makeText(this,"Button Clicked!",Toast.LENGTH_SHORT).show()
-            val intent = Intent(this, LoginActivity::class.java)
-            //val intent = Intent(this,SignUpActivity::class.java)
+            //val intent = Intent(this, LoginActivity::class.java)
+            val intent = Intent(this,SignupActivity::class.java)
             startActivity(intent)
         }
     }

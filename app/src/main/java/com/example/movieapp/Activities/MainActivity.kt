@@ -32,7 +32,5 @@ class MainActivity : AppCompatActivity() {
         // Thiết lập ViewPager2
         val adapter = ImagePagerAdapter(imageUrls)
         binding.viewPager.adapter = adapter
-
-        setContentView(R.layout.activity_main)
     }
 }

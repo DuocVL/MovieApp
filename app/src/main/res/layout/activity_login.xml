@@ -32,13 +32,13 @@
             <EditText
                 android:id="@+id/editTextUser"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="60dp"
                 android:hint="Username"
-                android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
                 android:ems="10"
                 android:background="@drawable/edittext_background"
+                android:padding="20dp"
                 android:layout_marginTop="128dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="32dp"
@@ -46,9 +46,8 @@
             <EditText
                 android:id="@+id/editTextPassword"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="60dp"
                 android:hint="Password"
-                android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
                 android:ems="10"
@@ -56,6 +55,7 @@
                 android:layout_marginTop="32dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="32dp"
+                android:padding="20dp"
                 android:inputType="textPassword" />
 
             <TextView
@@ -72,7 +72,7 @@
                 android:id="@+id/LoginButton"
                 style="@android:style/Widget.Button"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="50dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="64dp"
                 android:layout_marginEnd="32dp"

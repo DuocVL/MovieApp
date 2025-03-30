@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -26,10 +25,10 @@ class LoginActivity : AppCompatActivity() {
         donHaveAccount = findViewById(R.id.donAccount)
         donHaveAccount.setOnClickListener{
             Toast.makeText(this,"da nhan",Toast.LENGTH_SHORT).show()
-            val intent = Intent(this,SignUpActivity::class.java)
+            val intent = Intent(this,SignupActivity::class.java)
             Toast.makeText(this,"da xong",Toast.LENGTH_SHORT).show()
             startActivity(intent)
-
+            finish()
         }
         loginButton.setOnClickListener {
             if(userEdt.text.toString().isEmpty() || passEdt.text.toString().isEmpty()){
