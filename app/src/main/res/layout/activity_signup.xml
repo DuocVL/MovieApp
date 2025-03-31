@@ -43,7 +43,7 @@
             android:textSize="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/header" />
+            app:layout_constraintTop_toBottomOf="@id/header" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -69,6 +69,7 @@
             android:inputType="textEmailAddress"
             android:padding="20dp"
             android:textColorHint="@color/white"
+            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -84,8 +85,9 @@
             android:layout_marginEnd="20dp"
             android:ems="10"
             android:inputType="textPassword"
-            android:hint="Mật khẩu"
+            android:hint="Mật khẩu gom it nhat 6 ky tu"
             android:textColorHint="@color/white"
+            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/editTextEmailAddress" />
@@ -103,6 +105,7 @@
             android:inputType="textPassword"
             android:hint="Nhập lại mật khẩu"
             android:textColorHint="@color/white"
+            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/editTextPassword" />
@@ -136,6 +139,6 @@
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signUp" />
+        app:layout_constraintTop_toBottomOf="@+id/signUp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

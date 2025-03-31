@@ -5,12 +5,7 @@ import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.movieapp.Adapters.ImagePagerAdapter
-import com.example.movieapp.R
 import com.example.movieapp.databinding.ActivityMainBinding
-import com.google.firebase.Firebase
-import com.google.firebase.FirebaseApp
-import com.google.firebase.database.database
-import com.google.firebase.firestore.FirebaseFirestore
 
 class MainActivity : AppCompatActivity() {
 

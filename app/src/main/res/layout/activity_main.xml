@@ -206,8 +206,7 @@
                 android:layout_height="24dp"
                 android:layout_margin="5dp"
                 android:layout_gravity="center"
-                app:tint="@color/white"
-                android:src="@drawable/btn_1" />
+                app:tint="@color/white" />
 
             <TextView
                 android:id="@+id/textView13"
@@ -229,8 +228,7 @@
                 android:layout_height="24dp"
                 android:layout_margin="5dp"
                 android:layout_gravity="center"
-                app:tint="@color/white"
-                android:src="@drawable/btn_2" />
+                app:tint="@color/white" />
 
             <TextView
                 android:id="@+id/textView14"
@@ -252,8 +250,7 @@
                 android:layout_height="24dp"
                 android:layout_margin="5dp"
                 android:layout_gravity="center"
-                app:tint="@color/white"
-                android:src="@drawable/btn_3" />
+                app:tint="@color/white" />
 
             <TextView
                 android:id="@+id/textView15"
@@ -275,8 +272,7 @@
                 android:layout_height="24dp"
                 android:layout_margin="5dp"
                 android:layout_gravity="center"
-                app:tint="@color/white"
-                android:src="@drawable/btn_4" />
+                app:tint="@color/white" />
 
             <TextView
                 android:id="@+id/textView16"
