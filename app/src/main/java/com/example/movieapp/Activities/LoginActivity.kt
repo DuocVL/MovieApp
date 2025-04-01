@@ -7,6 +7,7 @@ import android.util.Patterns
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.movieapp.R
+import com.example.movieapp.SessionManager
 import com.example.movieapp.databinding.ActivityLoginBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -16,40 +17,55 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 
 class LoginActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityLoginBinding
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var googleSignInClient : GoogleSignInClient
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Khoi tao binding
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Khoi tao firebaseAuth
         firebaseAuth = FirebaseAuth.getInstance()
 
+        // Khoi tao googleSignInClient
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
         googleSignInClient = GoogleSignIn.getClient(this,gso)
 
+        //Khoi tao sessionManager
+        sessionManager = SessionManager(application)
+
         binding.login.setOnClickListener {
+
             val email :String = binding.editTextEmailAddress.text.toString()
             val password :String = binding.editTextPassword.text.toString()
             if(email.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches() && password.isNotEmpty()){
                 firebaseAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener {
-                    if(it.isSuccessful){
-                        Toast.makeText(this,"Dang nhap thanh cong",Toast.LENGTH_SHORT).show()
-                        val intent = Intent(this,MainActivity::class.java)
-                        startActivity(intent)
-                        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
-                    }else{
-                        Toast.makeText(this,"Dang nhap loi",Toast.LENGTH_SHORT).show()
+                    val user = firebaseAuth.currentUser
+                    if (it.isSuccessful) {
+                        if (user != null && user.isEmailVerified) {
+                            Toast.makeText(this, "Dang nhap thanh cong", Toast.LENGTH_SHORT).show()
+                            assignSessionManager()
+                            val intent = Intent(this, MainActivity::class.java)
+                            startActivity(intent)
+                            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                        } else {
+                            Toast.makeText(this, "Email chua duoc xac minh", Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        Toast.makeText(this, "Dang nhap loi", Toast.LENGTH_SHORT).show()
                     }
                 }
             }else{
-                Toast.makeText(this,"Email hoac matkhau trong",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,"Nhap day du cac truong",Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -105,6 +121,7 @@ class LoginActivity : AppCompatActivity() {
                     val intent = Intent(this,MainActivity::class.java)
                     startActivity(intent)
                     overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
+                    finish()
                 } else {
                     Toast.makeText(this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show()
                 }
@@ -113,5 +130,13 @@ class LoginActivity : AppCompatActivity() {
 
     companion object {
         private const val RC_SIGN_IN = 9001
+    }
+
+    // Gan gia tri sessionManager
+    private fun assignSessionManager() {
+        val userId = firebaseAuth.currentUser?.uid
+        if(userId != null){
+            sessionManager.saveAuthToken(userId)
+        }
     }
 }

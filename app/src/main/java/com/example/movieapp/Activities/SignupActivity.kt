@@ -32,10 +32,17 @@ class SignupActivity : AppCompatActivity() {
                     if(password == confimPassword){
                         firebaseAuth.createUserWithEmailAndPassword(emailAddress,password).addOnCompleteListener {
                             if(it.isSuccessful){
-                                Toast.makeText(this,"Tao tai khaon thanh cong",Toast.LENGTH_SHORT).show()
-                                val intent = Intent(this,LoginActivity::class.java)
-                                startActivity(intent)
-                                overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
+                                val user = firebaseAuth.currentUser
+                                user?.sendEmailVerification()?.addOnCompleteListener {
+                                    if(it.isSuccessful){
+                                        Toast.makeText(this,"Gui email xac minh thanh cong!",Toast.LENGTH_SHORT).show()
+                                        val intent = Intent(this,LoginActivity::class.java)
+                                        startActivity(intent)
+                                        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
+                                    }else{
+                                        Toast.makeText(this,"Gui email xac minh khong thanh cong",Toast.LENGTH_SHORT).show()
+                                    }
+                                }
                             }else{
                                 Toast.makeText(this,"Tao tai khoan khong thanh cong",Toast.LENGTH_SHORT).show()
                             }
