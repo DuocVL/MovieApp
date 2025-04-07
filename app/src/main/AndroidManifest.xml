@@ -21,6 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
+
         </activity>
         <activity
             android:name=".Activities.MainActivity"
@@ -34,6 +35,12 @@
         <activity
             android:name=".Activities.IntroActivity"
             android:exported="false" />
+        <activity android:name=".Activities.PhoneNumberActivity"
+            android:exported="false">
+        </activity>
+        <activity android:name=".Activities.OTPActivity"
+            android:exported="false">
+        </activity>
     </application>
 
 </manifest>

@@ -152,17 +152,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/main_color"
-            app:srcCompat="@drawable/icon_facebook"
-            android:contentDescription="Đăng nhập với Facebook"/>
+            app:srcCompat="@drawable/phone_call_telephone_svgrepo_com"
+            android:contentDescription="Đăng nhập với SĐT"/>
 
-        <ImageButton
-            android:id="@+id/buttonApple"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/main_color"
-            app:srcCompat="@drawable/icon_apple"
-            android:contentDescription="Đăng nhập với Apple"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

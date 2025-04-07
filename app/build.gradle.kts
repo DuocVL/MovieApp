@@ -96,4 +96,5 @@ dependencies {
     implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
     implementation("com.google.android.gms:play-services-auth:21.3.0")
     implementation("androidx.security:security-crypto:1.1.0-alpha06")
+    implementation("io.github.chaosleung:pinview:1.4.4")
 }

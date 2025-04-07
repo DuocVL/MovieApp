@@ -206,13 +206,14 @@
                 android:layout_height="24dp"
                 android:layout_margin="5dp"
                 android:layout_gravity="center"
+                android:src="@drawable/icons_home"
                 app:tint="@color/white" />
 
             <TextView
                 android:id="@+id/textView13"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Explorer"
+                android:text="Trang chủ"
                 android:textAlignment="center"
                 android:textColor="@color/white" />
         </LinearLayout>
@@ -228,13 +229,14 @@
                 android:layout_height="24dp"
                 android:layout_margin="5dp"
                 android:layout_gravity="center"
-                app:tint="@color/white" />
+                app:tint="@color/white"
+                android:src="@drawable/icon_gridview"/>
 
             <TextView
                 android:id="@+id/textView14"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Favorite"
+                android:text="Danh mục"
                 android:textAlignment="center"
                 android:textColor="@color/white" />
         </LinearLayout>
@@ -250,13 +252,14 @@
                 android:layout_height="24dp"
                 android:layout_margin="5dp"
                 android:layout_gravity="center"
-                app:tint="@color/white" />
+                app:tint="@color/white"
+                android:src="@drawable/icon_dowload"/>
 
             <TextView
                 android:id="@+id/textView15"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Cart"
+                android:text="Tải xuống"
                 android:textAlignment="center"
                 android:textColor="@color/white" />
         </LinearLayout>
@@ -272,7 +275,8 @@
                 android:layout_height="24dp"
                 android:layout_margin="5dp"
                 android:layout_gravity="center"
-                app:tint="@color/white" />
+                app:tint="@color/white"
+                android:src="@drawable/icon_profile"/>
 
             <TextView
                 android:id="@+id/textView16"
