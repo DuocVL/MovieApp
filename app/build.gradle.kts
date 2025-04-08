@@ -5,6 +5,8 @@ plugins {
     id("com.google.gms.google-services")
 }
 
+
+
 android {
     namespace = "com.example.movieapp"
     compileSdk = 35
@@ -20,9 +22,17 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-    }
 
+    }
     buildTypes {
+        getByName("debug") {
+            buildConfigField("String", "TMDB_API_KEY", "\"${project.findProperty("TMDB_API_KEY") ?: "DEBUG_API_KEY"}\"")
+        }
+        getByName("release") {
+            isMinifyEnabled = true // Bật ProGuard/R8 để obfuscate code
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            buildConfigField("String", "TMDB_API_KEY", "\"${project.findProperty("TMDB_API_KEY") ?: "YOUR_RELEASE_API_KEY"}\"")
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -41,6 +51,7 @@ android {
     buildFeatures {
         compose = true
         viewBinding = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -52,6 +63,7 @@ android {
     }
 
 }
+
 
 dependencies {
 
@@ -97,4 +109,5 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth:21.3.0")
     implementation("androidx.security:security-crypto:1.1.0-alpha06")
     implementation("io.github.chaosleung:pinview:1.4.4")
+    implementation("com.google.android.material:material:1.12.0")
 }

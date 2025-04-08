@@ -12,20 +12,20 @@
         android:theme="@style/Theme.MovieApp"
         android:enableOnBackInvokedCallback="true">
 
+
         <activity
             android:name=".Activities.SplashActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".Activities.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.MovieApp">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-
         </activity>
-        <activity
-            android:name=".Activities.MainActivity"
-            android:exported="false" />
         <activity
             android:name=".Activities.LoginActivity"
             android:exported="false" />

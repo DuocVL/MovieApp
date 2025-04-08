@@ -1,15 +1,20 @@
 package com.example.movieapp.Activities
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.example.movieapp.Adapters.ImagePagerAdapter
+import androidx.fragment.app.Fragment
+import com.example.movieapp.Fragment.CategoryFragment
+import com.example.movieapp.Fragment.DowloadFragment
+import com.example.movieapp.Fragment.HomeFragment
+import com.example.movieapp.Fragment.ProfileFragment
+import com.example.movieapp.R
 import com.example.movieapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -17,15 +22,27 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Danh sách URL ảnh
-        val imageUrls = listOf(
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbEb5k7WIog4zOTAWbYbCDS-Uk85C5ure_4w&s",
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3WVixuBZeI8Dvzd3ebXQi-CqjXnOWgAjbxvmfgcLw9t9aVcRUbIpsLu-eaoYR7nJR41Q&usqp=CAU",
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGOTgdgRwO9O2FZaBoGpHUwZ2OODt87ON-CQDw-aQ7d8l-Ryvcx-iqSHdK8KfuJjD5Ako&usqp=CAU"
-        )
+        //Hiển thị giao diện HomeFragment mặc dịnh
+        loadFragment(HomeFragment())
 
-        // Thiết lập ViewPager2
-        val adapter = ImagePagerAdapter(imageUrls)
-        binding.viewPager.adapter = adapter
+        //Xử lý sự kiện khi chọn item trong BottomNavigationView
+        binding.bottomNavigation.setOnItemSelectedListener { item ->
+            when(item.itemId){
+                R.id.nav_home -> loadFragment(HomeFragment())
+                R.id.nav_category -> loadFragment(CategoryFragment())
+                R.id.nav_dowload -> loadFragment(DowloadFragment())
+                R.id.nav_profile -> loadFragment(ProfileFragment())
+            }
+            //Trả về true để hiển thị item được chọn
+            true
+        }
+
+    }
+
+    //Hiển th Fragment lên giao diện
+    private fun loadFragment(fragment: Fragment){
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container,fragment)
+            .commit()
     }
 }
