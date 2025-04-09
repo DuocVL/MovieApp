@@ -1,3 +1,13 @@
+import java.util.Properties
+// build.gradle.kts (app)
+
+val localProperties = Properties().apply {
+    val localPropsFile = rootProject.file("local.properties")
+    if (localPropsFile.exists()) {
+        load(localPropsFile.inputStream())
+    }
+}
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -25,14 +35,6 @@ android {
 
     }
     buildTypes {
-        getByName("debug") {
-            buildConfigField("String", "TMDB_API_KEY", "\"${project.findProperty("TMDB_API_KEY") ?: "DEBUG_API_KEY"}\"")
-        }
-        getByName("release") {
-            isMinifyEnabled = true // Bật ProGuard/R8 để obfuscate code
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            buildConfigField("String", "TMDB_API_KEY", "\"${project.findProperty("TMDB_API_KEY") ?: "YOUR_RELEASE_API_KEY"}\"")
-        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -63,6 +65,24 @@ android {
     }
 
 }
+
+
+
+android {
+    defaultConfig {
+        buildConfigField(
+            "String",
+            "TMDB_API_KEY",
+            "\"${localProperties["TMDB_API_KEY"]}\""
+        )
+        buildConfigField(
+            "String",
+            "URL_DB",
+            "\"${localProperties["URL_DB"]}\""
+        )
+    }
+}
+
 
 
 dependencies {
@@ -103,6 +123,7 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.11.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-database:21.0.0")
     implementation("androidx.credentials:credentials:1.5.0")
     implementation("androidx.credentials:credentials-play-services-auth:1.5.0")
     implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
@@ -110,4 +131,6 @@ dependencies {
     implementation("androidx.security:security-crypto:1.1.0-alpha06")
     implementation("io.github.chaosleung:pinview:1.4.4")
     implementation("com.google.android.material:material:1.12.0")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
 }
