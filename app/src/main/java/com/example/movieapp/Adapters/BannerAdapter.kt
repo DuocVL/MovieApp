@@ -6,7 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movieapp.databinding.ItemBannerBinding
 
-class BannerAdapter(private val banners: List<String>,) : RecyclerView.Adapter<BannerAdapter.BannerViewHolder>() {
+class BannerAdapter(private val banners: List<String>,
+                    private val movieIds: List<String>,
+                    private val onItemClick: (String) -> Unit)
+    : RecyclerView.Adapter<BannerAdapter.BannerViewHolder>() {
 
     inner class BannerViewHolder(val binding : ItemBannerBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -20,6 +23,10 @@ class BannerAdapter(private val banners: List<String>,) : RecyclerView.Adapter<B
         Glide.with(holder.itemView.context)
             .load(banners[position])// URL ảnh từ TMDB
             .into(holder.binding.imgBanner)
+
+        holder.itemView.setOnClickListener{
+            onItemClick(movieIds[position])
+        }
     }
 
     override fun getItemCount() = banners.size
