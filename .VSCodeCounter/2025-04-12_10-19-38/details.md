@@ -1,10 +1,10 @@
 # Details
 
-Date : 2025-04-11 11:09:38
+Date : 2025-04-12 10:19:38
 
 Directory c:\\Users\\Hi\\Coder\\MovieApp
 
-Total : 87 files,  2625 codes, 175 comments, 377 blanks, all 3177 lines
+Total : 93 files,  3041 codes, 220 comments, 455 blanks, all 3716 lines
 
 [Summary](results.md) / Details / [Diff Summary](diff.md) / [Diff Details](diff-details.md)
 
@@ -26,24 +26,28 @@ Total : 87 files,  2625 codes, 175 comments, 377 blanks, all 3177 lines
 | [app/build.gradle.kts](/app/build.gradle.kts) | Kotlinscript | 119 | 1 | 18 | 138 |
 | [app/google-services.json](/app/google-services.json) | JSON | 47 | 0 | 0 | 47 |
 | [app/src/androidTest/java/com/example/movieapp/ExampleInstrumentedTest.kt](/app/src/androidTest/java/com/example/movieapp/ExampleInstrumentedTest.kt) | Kotlin | 14 | 6 | 4 | 24 |
-| [app/src/main/AndroidManifest.xml](/app/src/main/AndroidManifest.xml) | XML | 45 | 0 | 3 | 48 |
+| [app/src/main/AndroidManifest.xml](/app/src/main/AndroidManifest.xml) | XML | 48 | 0 | 3 | 51 |
 | [app/src/main/java/com/example/movieapp/Activities/IntroActivity.kt](/app/src/main/java/com/example/movieapp/Activities/IntroActivity.kt) | Kotlin | 34 | 3 | 9 | 46 |
 | [app/src/main/java/com/example/movieapp/Activities/LoginActivity.kt](/app/src/main/java/com/example/movieapp/Activities/LoginActivity.kt) | Kotlin | 119 | 5 | 18 | 142 |
 | [app/src/main/java/com/example/movieapp/Activities/MainActivity.kt](/app/src/main/java/com/example/movieapp/Activities/MainActivity.kt) | Kotlin | 35 | 4 | 9 | 48 |
-| [app/src/main/java/com/example/movieapp/Activities/MovieDetailActivity.kt](/app/src/main/java/com/example/movieapp/Activities/MovieDetailActivity.kt) | Kotlin | 162 | 8 | 25 | 195 |
+| [app/src/main/java/com/example/movieapp/Activities/MovieDetailActivity.kt](/app/src/main/java/com/example/movieapp/Activities/MovieDetailActivity.kt) | Kotlin | 171 | 1 | 25 | 197 |
 | [app/src/main/java/com/example/movieapp/Activities/OTPActivity.kt](/app/src/main/java/com/example/movieapp/Activities/OTPActivity.kt) | Kotlin | 43 | 1 | 8 | 52 |
 | [app/src/main/java/com/example/movieapp/Activities/PhoneNumberActivity.kt](/app/src/main/java/com/example/movieapp/Activities/PhoneNumberActivity.kt) | Kotlin | 57 | 5 | 11 | 73 |
+| [app/src/main/java/com/example/movieapp/Activities/SearchActivity.kt](/app/src/main/java/com/example/movieapp/Activities/SearchActivity.kt) | Kotlin | 90 | 12 | 14 | 116 |
 | [app/src/main/java/com/example/movieapp/Activities/SignupActivity.kt](/app/src/main/java/com/example/movieapp/Activities/SignupActivity.kt) | Kotlin | 57 | 0 | 10 | 67 |
 | [app/src/main/java/com/example/movieapp/Activities/SplashActivity.kt](/app/src/main/java/com/example/movieapp/Activities/SplashActivity.kt) | Kotlin | 33 | 9 | 8 | 50 |
 | [app/src/main/java/com/example/movieapp/Adapters/BannerAdapter.kt](/app/src/main/java/com/example/movieapp/Adapters/BannerAdapter.kt) | Kotlin | 25 | 1 | 7 | 33 |
-| [app/src/main/java/com/example/movieapp/Adapters/PersonAdapter.kt](/app/src/main/java/com/example/movieapp/Adapters/PersonAdapter.kt) | Kotlin | 3 | 0 | 1 | 4 |
+| [app/src/main/java/com/example/movieapp/Adapters/MovieAdapter.kt](/app/src/main/java/com/example/movieapp/Adapters/MovieAdapter.kt) | Kotlin | 32 | 0 | 5 | 37 |
+| [app/src/main/java/com/example/movieapp/Adapters/MovieSearchAdapter.kt](/app/src/main/java/com/example/movieapp/Adapters/MovieSearchAdapter.kt) | Kotlin | 32 | 0 | 6 | 38 |
+| [app/src/main/java/com/example/movieapp/Adapters/PersonAdapter.kt](/app/src/main/java/com/example/movieapp/Adapters/PersonAdapter.kt) | Kotlin | 28 | 0 | 7 | 35 |
 | [app/src/main/java/com/example/movieapp/Dataclass/Actor.kt](/app/src/main/java/com/example/movieapp/Dataclass/Actor.kt) | Kotlin | 6 | 0 | 2 | 8 |
 | [app/src/main/java/com/example/movieapp/Dataclass/Director.kt](/app/src/main/java/com/example/movieapp/Dataclass/Director.kt) | Kotlin | 5 | 0 | 2 | 7 |
-| [app/src/main/java/com/example/movieapp/Dataclass/Movie.kt](/app/src/main/java/com/example/movieapp/Dataclass/Movie.kt) | Kotlin | 16 | 0 | 2 | 18 |
+| [app/src/main/java/com/example/movieapp/Dataclass/ItemMovie.kt](/app/src/main/java/com/example/movieapp/Dataclass/ItemMovie.kt) | Kotlin | 9 | 0 | 2 | 11 |
+| [app/src/main/java/com/example/movieapp/Dataclass/Movie.kt](/app/src/main/java/com/example/movieapp/Dataclass/Movie.kt) | Kotlin | 18 | 0 | 2 | 20 |
 | [app/src/main/java/com/example/movieapp/Dataclass/ItemPerson.kt](/app/src/main/java/com/example/movieapp/Dataclass/ItemPerson.kt) | Kotlin | 6 | 0 | 3 | 9 |
 | [app/src/main/java/com/example/movieapp/Fragment/CategoryFragment.kt](/app/src/main/java/com/example/movieapp/Fragment/CategoryFragment.kt) | Kotlin | 4 | 0 | 2 | 6 |
 | [app/src/main/java/com/example/movieapp/Fragment/DowloadFragment.kt](/app/src/main/java/com/example/movieapp/Fragment/DowloadFragment.kt) | Kotlin | 4 | 0 | 2 | 6 |
-| [app/src/main/java/com/example/movieapp/Fragment/HomeFragment.kt](/app/src/main/java/com/example/movieapp/Fragment/HomeFragment.kt) | Kotlin | 107 | 14 | 18 | 139 |
+| [app/src/main/java/com/example/movieapp/Fragment/HomeFragment.kt](/app/src/main/java/com/example/movieapp/Fragment/HomeFragment.kt) | Kotlin | 189 | 40 | 38 | 267 |
 | [app/src/main/java/com/example/movieapp/Fragment/ProfileFragment.kt](/app/src/main/java/com/example/movieapp/Fragment/ProfileFragment.kt) | Kotlin | 4 | 0 | 2 | 6 |
 | [app/src/main/java/com/example/movieapp/SessionManager.kt](/app/src/main/java/com/example/movieapp/SessionManager.kt) | Kotlin | 39 | 6 | 9 | 54 |
 | [app/src/main/java/com/example/movieapp/ui/theme/Color.kt](/app/src/main/java/com/example/movieapp/ui/theme/Color.kt) | Kotlin | 8 | 0 | 3 | 11 |
@@ -69,20 +73,22 @@ Total : 87 files,  2625 codes, 175 comments, 377 blanks, all 3177 lines
 | [app/src/main/res/drawable/icons\_home.xml](/app/src/main/res/drawable/icons_home.xml) | XML | 9 | 0 | 1 | 10 |
 | [app/src/main/res/drawable/orange\_button\_background.xml](/app/src/main/res/drawable/orange_button_background.xml) | XML | 9 | 0 | 0 | 9 |
 | [app/src/main/res/drawable/phone\_call\_telephone\_svgrepo\_com.xml](/app/src/main/res/drawable/phone_call_telephone_svgrepo_com.xml) | XML | 6 | 0 | 6 | 12 |
-| [app/src/main/res/drawable/tab\_selector.xml](/app/src/main/res/drawable/tab_selector.xml) | XML | 13 | 0 | 0 | 13 |
 | [app/src/main/res/layout/activity\_intro.xml](/app/src/main/res/layout/activity_intro.xml) | XML | 85 | 0 | 17 | 102 |
 | [app/src/main/res/layout/activity\_login.xml](/app/src/main/res/layout/activity_login.xml) | XML | 144 | 3 | 13 | 160 |
 | [app/src/main/res/layout/activity\_main.xml](/app/src/main/res/layout/activity_main.xml) | XML | 29 | 0 | 3 | 32 |
-| [app/src/main/res/layout/activity\_movie\_detail.xml](/app/src/main/res/layout/activity_movie_detail.xml) | XML | 261 | 0 | 39 | 300 |
+| [app/src/main/res/layout/activity\_movie\_detail.xml](/app/src/main/res/layout/activity_movie_detail.xml) | XML | 265 | 0 | 40 | 305 |
 | [app/src/main/res/layout/activity\_otp.xml](/app/src/main/res/layout/activity_otp.xml) | XML | 88 | 0 | 7 | 95 |
 | [app/src/main/res/layout/activity\_phonenumber.xml](/app/src/main/res/layout/activity_phonenumber.xml) | XML | 66 | 0 | 2 | 68 |
+| [app/src/main/res/layout/activity\_search.xml](/app/src/main/res/layout/activity_search.xml) | XML | 45 | 2 | 7 | 54 |
 | [app/src/main/res/layout/activity\_signup.xml](/app/src/main/res/layout/activity_signup.xml) | XML | 133 | 0 | 11 | 144 |
 | [app/src/main/res/layout/fragment\_category.xml](/app/src/main/res/layout/fragment_category.xml) | XML | 13 | 0 | 1 | 14 |
 | [app/src/main/res/layout/fragment\_dowload.xml](/app/src/main/res/layout/fragment_dowload.xml) | XML | 13 | 0 | 1 | 14 |
-| [app/src/main/res/layout/fragment\_home.xml](/app/src/main/res/layout/fragment_home.xml) | XML | 156 | 0 | 20 | 176 |
+| [app/src/main/res/layout/fragment\_home.xml](/app/src/main/res/layout/fragment_home.xml) | XML | 94 | 5 | 14 | 113 |
 | [app/src/main/res/layout/fragment\_profile.xml](/app/src/main/res/layout/fragment_profile.xml) | XML | 13 | 0 | 1 | 14 |
 | [app/src/main/res/layout/item\_banner.xml](/app/src/main/res/layout/item_banner.xml) | XML | 10 | 0 | 1 | 11 |
-| [app/src/main/res/layout/item\_movie.xml](/app/src/main/res/layout/item_movie.xml) | XML | 21 | 0 | 3 | 24 |
+| [app/src/main/res/layout/item\_movie.xml](/app/src/main/res/layout/item_movie.xml) | XML | 72 | 7 | 11 | 90 |
+| [app/src/main/res/layout/item\_movie\_search.xml](/app/src/main/res/layout/item_movie_search.xml) | XML | 76 | 0 | 11 | 87 |
+| [app/src/main/res/layout/item\_person.xml](/app/src/main/res/layout/item_person.xml) | XML | 31 | 0 | 4 | 35 |
 | [app/src/main/res/menu/bottom\_menu.xml](/app/src/main/res/menu/bottom_menu.xml) | XML | 19 | 0 | 1 | 20 |
 | [app/src/main/res/mipmap-anydpi-v26/ic\_launcher.xml](/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml) | XML | 5 | 0 | 0 | 5 |
 | [app/src/main/res/mipmap-anydpi-v26/ic\_launcher\_round.xml](/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml) | XML | 5 | 0 | 0 | 5 |

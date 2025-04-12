@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieapp.Activities.MovieDetailActivity
+import com.example.movieapp.Activities.SearchActivity
 import com.example.movieapp.Adapters.BannerAdapter
 import com.example.movieapp.Adapters.MovieAdapter
 import com.example.movieapp.databinding.FragmentHomeBinding
@@ -65,6 +66,16 @@ class HomeFragment : Fragment() {
         database = FirebaseDatabase.getInstance(URL_DB)
         databaseReference = database.reference
         getBannerMovie()
+
+        binding.editTextSearch.setOnTouchListener { v,event ->
+            if(event.action == android.view.MotionEvent.ACTION_DOWN){
+                val intent = Intent(requireContext(), SearchActivity::class.java)
+                startActivity(intent)
+                true
+            }else{
+                false
+            }
+        }
     }
 
 //    //Được gọi khi View của Fragment bị hủy.
@@ -146,13 +157,11 @@ class HomeFragment : Fragment() {
                     val id = item.getInt("id")
                     val title = item.getString("title")
                     val posterPath = item.getString("poster_path")
-                    val fullPosterUrl = if (posterPath != null) "https://image.tmdb.org/t/p/w780$posterPath" else null
+                    val fullPosterUrl = if (posterPath != null) "https://image.tmdb.org/t/p/w500$posterPath" else null
                     val releaseDate = item.getString("release_date")
                     val voteAverage = item.getDouble("vote_average")
-                    //val runtime = item.getInt("runtime")
-                    val runtime = 120
 
-                    movies.add(ItemMovie(id,title,"movie",runtime,releaseDate,voteAverage,fullPosterUrl))
+                    movies.add(ItemMovie(id,title,"movie",releaseDate,voteAverage,fullPosterUrl))
                 }
                 activity?.runOnUiThread {
                     callback(movies)
@@ -178,12 +187,11 @@ class HomeFragment : Fragment() {
                     val id = item.getInt("id")
                     val name = item.getString("name") // khác với movie: dùng name thay vì title
                     val posterPath = item.optString("poster_path", null)
-                    val fullPosterUrl = if (posterPath != null) "https://image.tmdb.org/t/p/w780$posterPath" else null
+                    val fullPosterUrl = if (posterPath != null) "https://image.tmdb.org/t/p/w500$posterPath" else null
                     val firstAirDate = item.optString("first_air_date", "")
                     val voteAverage = item.getDouble("vote_average")
-                    val runtime = 0 // không có runtime từ API này
 
-                    tvShows.add(ItemMovie(id, name,"tv" ,runtime, firstAirDate, voteAverage, fullPosterUrl))
+                    tvShows.add(ItemMovie(id, name,"tv", firstAirDate, voteAverage, fullPosterUrl))
                 }
                 activity?.runOnUiThread {
                     callback(tvShows)

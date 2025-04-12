@@ -16,19 +16,19 @@
             android:orientation="vertical"
             android:paddingBottom="16dp">
 
+
             <!-- Search Bar -->
             <EditText
-                android:id="@+id/editTextText"
+                android:id="@+id/editTextSearch"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_margin="16dp"
                 android:background="@drawable/edittext_background"
-                android:drawableStart="@drawable/search"
-                android:drawableEnd="@drawable/microphone"
+                android:drawableEnd="@drawable/search"
                 android:drawablePadding="8dp"
-                android:hint="Search Movie ..."
+                android:hint="Tìm kiếm ..."
                 android:inputType="text"
-                android:padding="12dp"
+                android:padding="16dp"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white" />
 

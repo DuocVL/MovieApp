@@ -29,6 +29,9 @@
             android:exported="false">
         </activity>
         <activity
+            android:name=".Activities.SearchActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.LoginActivity"
             android:exported="false" />
         <activity
@@ -41,6 +44,9 @@
             android:exported="false">
         </activity>
         <activity android:name=".Activities.OTPActivity"
+            android:exported="false">
+        </activity>
+        <activity android:name=".Activities.PersonActivity"
             android:exported="false">
         </activity>
     </application>

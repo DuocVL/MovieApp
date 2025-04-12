@@ -23,12 +23,11 @@ class MovieAdapter(private val movies : List<ItemMovie>, private val onMovieClic
                 .load(movie.posterUrl)
                 .into(holder.binding.posterImage)
             Log.d("MovieAdapter", "Poster URL: ${movie.posterUrl}")
-
         }
         holder.binding.movieTitle.text = movie.title
         holder.binding.rating.text = movie.rating.toString()
-        holder.binding.runtime.text = movie.runtime.toString() + " phút"
         holder.binding.releaseYear.text = movie.releaseDate
+        holder.binding.movieType.text = if (movie.type == "movie") "Phim lẻ" else "TV"
 
         holder.itemView.setOnClickListener {
             onMovieClick(movie)

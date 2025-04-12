@@ -4,11 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.movieapp.Dataclass.Person
+import com.example.movieapp.Dataclass.ItemPerson
 import com.example.movieapp.R
 import com.example.movieapp.databinding.ItemPersonBinding
 
-class PersonAdapter(private val people: List<Person>) : RecyclerView.Adapter<PersonAdapter.PersonViewHolder>() {
+class PersonAdapter(private val people: List<ItemPerson>, private var onPersonClick: (ItemPerson) -> Unit) : RecyclerView.Adapter<PersonAdapter.PersonViewHolder>() {
     inner class PersonViewHolder(val binding: ItemPersonBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonViewHolder {
@@ -29,6 +29,9 @@ class PersonAdapter(private val people: List<Person>) : RecyclerView.Adapter<Per
                 .into(holder.binding.image)
         }
 
+        holder.itemView.setOnClickListener {
+            onPersonClick(person)
+        }
     }
 
     override fun getItemCount(): Int = people.size

@@ -34,7 +34,7 @@ Total : 53 files,  921 codes, 79 comments, 132 blanks, all 1132 lines
 | [app/src/main/java/com/example/movieapp/Dataclass/Actor.kt](/app/src/main/java/com/example/movieapp/Dataclass/Actor.kt) | Kotlin | 6 | 0 | 2 | 8 |
 | [app/src/main/java/com/example/movieapp/Dataclass/Director.kt](/app/src/main/java/com/example/movieapp/Dataclass/Director.kt) | Kotlin | 5 | 0 | 2 | 7 |
 | [app/src/main/java/com/example/movieapp/Dataclass/Movie.kt](/app/src/main/java/com/example/movieapp/Dataclass/Movie.kt) | Kotlin | 16 | 0 | 2 | 18 |
-| [app/src/main/java/com/example/movieapp/Dataclass/Person.kt](/app/src/main/java/com/example/movieapp/Dataclass/Person.kt) | Kotlin | 6 | 0 | 3 | 9 |
+| [app/src/main/java/com/example/movieapp/Dataclass/ItemPerson.kt](/app/src/main/java/com/example/movieapp/Dataclass/ItemPerson.kt) | Kotlin | 6 | 0 | 3 | 9 |
 | [app/src/main/java/com/example/movieapp/Domain/SliderItems.kt](/app/src/main/java/com/example/movieapp/Domain/SliderItems.kt) | Kotlin | -8 | 0 | -3 | -11 |
 | [app/src/main/java/com/example/movieapp/Fragment/CategoryFragment.kt](/app/src/main/java/com/example/movieapp/Fragment/CategoryFragment.kt) | Kotlin | 4 | 0 | 2 | 6 |
 | [app/src/main/java/com/example/movieapp/Fragment/DowloadFragment.kt](/app/src/main/java/com/example/movieapp/Fragment/DowloadFragment.kt) | Kotlin | 4 | 0 | 2 | 6 |
