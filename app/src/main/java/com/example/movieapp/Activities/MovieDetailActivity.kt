@@ -168,7 +168,6 @@ class MovieDetailActivity : AppCompatActivity() {
                 val baseImageUrl = "https://image.tmdb.org/t/p/w185"
                 val actors = mutableListOf<Actor>()
                 val directors = mutableListOf<Director>()
-
                 val castArray = json.getJSONArray("cast")
                 val crewArray = json.getJSONArray("crew")
 
