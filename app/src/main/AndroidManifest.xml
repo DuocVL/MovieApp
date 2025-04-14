@@ -20,6 +20,7 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity android:name=".Activities.MovieDetailActivity"
             android:exported="false"/>
@@ -49,6 +50,13 @@
         <activity android:name=".Activities.PersonActivity"
             android:exported="false">
         </activity>
+        <activity android:name=".Activities.WatchMovieActivity"
+            android:exported="false"
+
+            android:configChanges="orientation|screenSize">
+
+        </activity>
+
     </application>
 
 </manifest>

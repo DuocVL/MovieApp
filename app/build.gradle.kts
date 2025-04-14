@@ -11,10 +11,10 @@ val localProperties = Properties().apply {
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("org.jetbrains.kotlin.plugin.parcelize") version "2.1.20"
     alias(libs.plugins.kotlin.compose)
     id("com.google.gms.google-services")
 }
-
 
 
 android {
@@ -80,6 +80,16 @@ android {
             "URL_DB",
             "\"${localProperties["URL_DB"]}\""
         )
+        buildConfigField(
+            "String",
+            "CLOUD_NAME",
+            "\"${localProperties["CLOUD_NAME"]}\""
+        )
+        buildConfigField(
+            "String",
+            "CLOUD_API_KEY",
+            "\"${localProperties["CLOUD_API_KEY"]}\""
+        )
     }
 }
 
@@ -124,6 +134,7 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-database:21.0.0")
+    implementation("com.google.firebase:firebase-firestore-ktx:25.1.3")
     implementation("androidx.credentials:credentials:1.5.0")
     implementation("androidx.credentials:credentials-play-services-auth:1.5.0")
     implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
@@ -134,4 +145,10 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("com.google.android.flexbox:flexbox:3.0.0")
+    implementation("com.google.android.exoplayer:exoplayer:2.19.1")
+    implementation("androidx.media3:media3-exoplayer:1.6.0")
+    implementation("androidx.media3:media3-ui:1.6.0")
+    implementation("androidx.media3:media3-exoplayer-hls:1.6.0")
+    implementation("androidx.media3:media3-exoplayer-dash:1.6.0")
+    implementation("com.cloudinary:cloudinary-android:3.0.2") // Sử dụng phiên bản mới nhất
 }

@@ -1,7 +1,9 @@
 package com.example.movieapp.Dataclass
 
-import java.io.Serializable
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Movie(
     val id: Int,
     val title: String,
@@ -18,4 +20,4 @@ data class Movie(
     val keyVideo: String?,
     val actors: List<Actor>,
     val directors: List<Director>
-) : Serializable
+):Parcelable

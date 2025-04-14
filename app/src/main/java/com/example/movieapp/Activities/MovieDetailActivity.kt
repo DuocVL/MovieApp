@@ -7,7 +7,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.OptIn
 import androidx.appcompat.app.AppCompatActivity
+import androidx.media3.common.util.UnstableApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.movieapp.Adapters.PersonAdapter
@@ -34,6 +36,7 @@ class MovieDetailActivity : AppCompatActivity() {
     private var type: String = "movie" // Gán mặc định là "movie"
     private val TMDB_API_KEY = BuildConfig.TMDB_API_KEY
 
+    @OptIn(UnstableApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMovieDetailBinding.inflate(layoutInflater)
