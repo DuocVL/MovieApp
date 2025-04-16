@@ -65,7 +65,7 @@ class HomeFragment : Fragment() {
         val URL_DB = BuildConfig.URL_DB
         database = FirebaseDatabase.getInstance(URL_DB)
         databaseReference = database.reference
-        getBannerMovie()
+        //getBannerMovie()
 
         binding.editTextSearch.setOnTouchListener { v,event ->
             if(event.action == android.view.MotionEvent.ACTION_DOWN){

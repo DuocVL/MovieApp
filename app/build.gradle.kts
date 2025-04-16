@@ -115,6 +115,8 @@ dependencies {
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.googleid)
+    implementation(libs.androidx.room.common.jvm)
+    implementation(libs.androidx.room.runtime.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -151,4 +153,8 @@ dependencies {
     implementation("androidx.media3:media3-exoplayer-hls:1.6.0")
     implementation("androidx.media3:media3-exoplayer-dash:1.6.0")
     implementation("com.cloudinary:cloudinary-android:3.0.2") // Sử dụng phiên bản mới nhất
+    implementation("androidx.fragment:fragment-ktx:1.8.6")
+    implementation("androidx.room:room-runtime:2.7.0")
+    annotationProcessor("androidx.room:room-runtime:2.7.0")
+    implementation("androidx.room:room-ktx:2.7.0")
 }

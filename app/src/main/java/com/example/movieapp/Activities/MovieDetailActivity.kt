@@ -18,7 +18,6 @@ import com.example.movieapp.Dataclass.Actor
 import com.example.movieapp.Dataclass.Director
 import com.example.movieapp.Dataclass.Movie
 import com.example.movieapp.Dataclass.ItemPerson
-import com.example.movieapp.R
 import com.example.movieapp.databinding.ActivityMovieDetailBinding
 import okhttp3.Call
 import okhttp3.Callback
@@ -70,7 +69,6 @@ class MovieDetailActivity : AppCompatActivity() {
             val intent = Intent(this, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
             startActivity(intent)
-            overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
             finish()
         }
     }

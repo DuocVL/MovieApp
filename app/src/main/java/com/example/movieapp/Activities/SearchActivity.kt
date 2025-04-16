@@ -41,6 +41,7 @@ class SearchActivity : AppCompatActivity() {
                 // Ẩn bàn phím
                 val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(v.windowToken, 0)
+
                 val keyword = v.text.toString().trim()
                 if (keyword.isNotEmpty()) {
                     // Gọi tìm kiếm hoặc chuyển màn
