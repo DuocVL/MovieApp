@@ -1,0 +1,37 @@
+# Diff Summary
+
+Date : 2025-04-18 20:51:14
+
+Directory c:\\Users\\Hi\\Coder\\MovieApp
+
+Total : 11 files,  328 codes, -41 comments, 46 blanks, all 333 lines
+
+[Summary](results.md) / [Details](details.md) / Diff Summary / [Diff Details](diff-details.md)
+
+## Languages
+| language | files | code | comment | blank | total |
+| :--- | ---: | ---: | ---: | ---: | ---: |
+| Kotlin | 7 | 216 | -41 | 32 | 207 |
+| XML | 4 | 112 | 0 | 14 | 126 |
+
+## Directories
+| path | files | code | comment | blank | total |
+| :--- | ---: | ---: | ---: | ---: | ---: |
+| . | 11 | 328 | -41 | 46 | 333 |
+| app | 11 | 328 | -41 | 46 | 333 |
+| app\\src | 11 | 328 | -41 | 46 | 333 |
+| app\\src\\main | 11 | 328 | -41 | 46 | 333 |
+| app\\src\\main (Files) | 1 | 4 | 0 | 0 | 4 |
+| app\\src\\main\\java | 7 | 216 | -41 | 32 | 207 |
+| app\\src\\main\\java\\com | 7 | 216 | -41 | 32 | 207 |
+| app\\src\\main\\java\\com\\example | 7 | 216 | -41 | 32 | 207 |
+| app\\src\\main\\java\\com\\example\\movieapp | 7 | 216 | -41 | 32 | 207 |
+| app\\src\\main\\java\\com\\example\\movieapp (Files) | 1 | 2 | 0 | 2 | 4 |
+| app\\src\\main\\java\\com\\example\\movieapp\\Activities | 3 | 193 | -41 | 27 | 179 |
+| app\\src\\main\\java\\com\\example\\movieapp\\Adapters | 1 | 10 | 0 | 0 | 10 |
+| app\\src\\main\\java\\com\\example\\movieapp\\Dataclass | 1 | -1 | 0 | 0 | -1 |
+| app\\src\\main\\java\\com\\example\\movieapp\\Fragment | 1 | 12 | 0 | 3 | 15 |
+| app\\src\\main\\res | 3 | 108 | 0 | 14 | 122 |
+| app\\src\\main\\res\\layout | 3 | 108 | 0 | 14 | 122 |
+
+[Summary](results.md) / [Details](details.md) / Diff Summary / [Diff Details](diff-details.md)

@@ -60,6 +60,10 @@
         <activity android:name=".Activities.SavedMovieListActivity"
             android:exported="false">
         </activity>
+        <activity android:name=".Activities.WatchMovieDowloadActivity"
+            android:exported="false"
+            android:configChanges="orientation|screenSize">
+        </activity>
 
     </application>
 

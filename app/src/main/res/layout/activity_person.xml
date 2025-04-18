@@ -58,7 +58,8 @@
             android:layout_height="wrap_content"
             android:text="Ngày mất: -"
             android:textColor="@android:color/darker_gray"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/place_of_birth"

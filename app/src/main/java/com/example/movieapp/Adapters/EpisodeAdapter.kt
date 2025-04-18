@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.movieapp.Dataclass.Episode
 import com.example.movieapp.databinding.ItemEpisodeBinding
 
-class EpisodeAdapter(private val episodes : List<Episode>,private val onItemClick : (String) -> Unit) :RecyclerView.Adapter<EpisodeAdapter.EpisodeViewHolder>() {
+class EpisodeAdapter(private val episodes : List<Episode>,private val onItemClick : (String,Int) -> Unit) :RecyclerView.Adapter<EpisodeAdapter.EpisodeViewHolder>() {
     inner class EpisodeViewHolder(val binding: ItemEpisodeBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EpisodeViewHolder {
@@ -17,7 +17,7 @@ class EpisodeAdapter(private val episodes : List<Episode>,private val onItemClic
     override fun onBindViewHolder(holder: EpisodeViewHolder, position: Int) {
         holder.binding.episodeButton.setText("Tập ${position+1}")
         holder.binding.episodeButton.setOnClickListener {
-            onItemClick(episodes[position].url)
+            onItemClick(episodes[position].url,position+1)
         }
     }
 

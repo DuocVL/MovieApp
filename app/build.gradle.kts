@@ -14,6 +14,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.parcelize") version "2.1.20"
     alias(libs.plugins.kotlin.compose)
     id("com.google.gms.google-services")
+    kotlin("kapt") version "2.1.20"
 }
 
 
@@ -154,7 +155,13 @@ dependencies {
     implementation("androidx.media3:media3-exoplayer-dash:1.6.0")
     implementation("com.cloudinary:cloudinary-android:3.0.2") // Sử dụng phiên bản mới nhất
     implementation("androidx.fragment:fragment-ktx:1.8.6")
+
+
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
+
+    kapt("androidx.room:room-compiler:2.7.0")
     implementation("androidx.room:room-runtime:2.7.0")
-    annotationProcessor("androidx.room:room-runtime:2.7.0")
+    annotationProcessor("androidx.room:room-compiler:2.7.0")
     implementation("androidx.room:room-ktx:2.7.0")
 }

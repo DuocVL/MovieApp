@@ -3,6 +3,7 @@ package com.example.movieapp.Activities
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -44,7 +45,12 @@ class PersonActivity : AppCompatActivity() {
         getPersonDetails(id!!) { person ->
             binding.Name.text = person.name
             binding.birthday.text = person.birthday
-            binding.deathday.text = if (person.deathday != null) person.deathday else "-"
+            if(person.deathday.isNullOrEmpty() || person.deathday == "null"){
+                binding.deathday.visibility = View.GONE
+            }else{
+                binding.deathday.visibility = View.VISIBLE
+                binding.deathday.text = person.deathday
+            }
             binding.placeOfBirth.text = person.place_of_birth
             binding.knownForDepartment.text = person.known_for_department
             binding.alsoKnownAs.text = person.also_known_as.joinToString(", ")
