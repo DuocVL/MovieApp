@@ -1,0 +1,13 @@
+"filename", "language", "XML", "Kotlin", "comment", "blank", "total"
+"c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Activities\WatchMovieActivity.kt", "Kotlin", 0, 26, 2, 6, 34
+"c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Dataclass\Rating.kt", "Kotlin", 0, 5, 0, 2, 7
+"c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Fragment\DowloadFragment.kt", "Kotlin", 0, 16, 0, 4, 20
+"c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Fragment\RatingFragment.kt", "Kotlin", 0, 203, 3, 25, 231
+"c:\Users\Hi\Coder\MovieApp\app\src\main\res\drawable\account.xml", "XML", 9, 0, 0, 1, 10
+"c:\Users\Hi\Coder\MovieApp\app\src\main\res\drawable\close.xml", "XML", 9, 0, 0, 1, 10
+"c:\Users\Hi\Coder\MovieApp\app\src\main\res\drawable\progress_bar_rating.xml", "XML", 15, 0, 0, 0, 15
+"c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\fragment_rating.xml", "XML", 110, 0, 5, 19, 134
+"c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\item_comment.xml", "XML", 53, 0, 0, 11, 64
+"c:\Users\Hi\Coder\MovieApp\app\src\main\res\values\styles.xml", "XML", 10, 0, 1, 1, 12
+"c:\Users\Hi\Coder\MovieApp\app\src\main\res\values\themes.xml", "XML", 1, 0, 0, 1, 2
+"Total", "-", 207, 250, 11, 71, 539
