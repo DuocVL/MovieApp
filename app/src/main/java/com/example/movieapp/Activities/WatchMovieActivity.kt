@@ -23,6 +23,8 @@ import androidx.media3.common.MediaItem
 import com.example.movieapp.databinding.ActivityWatchMovieBinding
 import androidx.media3.ui.PlayerView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.util.UnstableApi
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,6 +36,7 @@ import com.example.movieapp.Dataclass.DownloadedVideo
 import com.example.movieapp.Dataclass.Episode
 import com.example.movieapp.Dataclass.ItemMovie
 import com.example.movieapp.Dataclass.WatchLaterMovie
+import com.example.movieapp.Fragment.RatingFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
@@ -71,7 +74,7 @@ class WatchMovieActivity : AppCompatActivity() {
     private var saveStatus : Boolean = false
     private var downloadStatus : Boolean = false
     private var videoUrl :String? = null
-    private var listEpisode : MutableList<Episode> = mutableListOf()
+    private var listEpisode : MutableList<Episode>? = null
     private var episode : Int = 1
 
     private lateinit var binding: ActivityWatchMovieBinding
@@ -107,13 +110,16 @@ class WatchMovieActivity : AppCompatActivity() {
         }
         getVideoUrlFromFirestore(callback = { list ->
             listEpisode = list
-            if(listEpisode.isEmpty()){
+            if(listEpisode.isNullOrEmpty()){
                 Log.e("WatchMovieActivity", "Video URL list is null or empty")
                 Toast.makeText(this,"Video URL list is null or empty",Toast.LENGTH_SHORT).show()
             }else{
-                videoUrl = listEpisode[0].url
-                episode = 1
-                setupVideoPlayer(videoUrl)
+                listEpisode?.let { list ->
+                    videoUrl = list[0].url
+                    episode = 1
+                    setupVideoPlayer(videoUrl)
+                    setEpisode()
+                }
             }
         })
 
@@ -129,31 +135,50 @@ class WatchMovieActivity : AppCompatActivity() {
             saveWatchLater(movie!!)
         }
 
+        //Click favorit de danh gia phim
+        binding.favoriteButton.setOnClickListener {
+            val ratingFragment = RatingFragment()
+            val bundle = Bundle()
+            bundle.putString("movieId", movie?.id.toString())
+            // Bạn có thể put các kiểu dữ liệu khác nhau vào Bundle
+
+            ratingFragment.arguments = bundle
+            ratingFragment.show(supportFragmentManager, "RatingFragment")
+
+        }
+
         //Click tai xuong để tải xuống
         binding.dowloadButton.setOnClickListener {
             if(movie == null){
                 Log.e("WatchMovieActivity", "Movie is null, unable to load video.")
             }
-            if(downloadStatus){
-                deleteMovie(movie?.id.toString())
+            if(videoUrl == null){
+                Log.e("WatchMovieActivity", "Video URL is null")
+                Toast.makeText(this,"Video URL is null",Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }else{
-                val movieId = movie?.id.toString()
-                binding.downloadProgressBar.visibility = View.VISIBLE
-                binding.dowloadButton.visibility = View.GONE
-                dowloadVideo(this,videoUrl!!,"${movieId}_${episode}"){ filePath ->
-                    lifecycleScope.launch {
-                        val movieDatabase = AppDatabase.getDatabase(this@WatchMovieActivity).downloadedVideoDao().getById(movieId)
-                        if(movieDatabase != null){
-                            val posterPath = movieDatabase.localPosterPath
-                            insertDownloadedMovie(filePath,posterPath)
-                        }else{
-                            dowloadImage(this@WatchMovieActivity,movie?.posterPath!!,"${movieId}_poster"){  posterPath ->
+                if(downloadStatus){
+                    deleteMovie(movie?.id.toString())
+                }else{
+                    val movieId = movie?.id.toString()
+                    binding.downloadProgressBar.visibility = View.VISIBLE
+                    binding.dowloadButton.visibility = View.GONE
+                    dowloadVideo(this,videoUrl!!,"${movieId}_${episode}"){ filePath ->
+                        lifecycleScope.launch {
+                            val movieDatabase = AppDatabase.getDatabase(this@WatchMovieActivity).downloadedVideoDao().getById(movieId)
+                            if(movieDatabase != null){
+                                val posterPath = movieDatabase.localPosterPath
                                 insertDownloadedMovie(filePath,posterPath)
+                            }else{
+                                dowloadImage(this@WatchMovieActivity,movie?.posterPath!!,"${movieId}_poster"){  posterPath ->
+                                    insertDownloadedMovie(filePath,posterPath)
+                                }
                             }
                         }
                     }
                 }
             }
+
         }
     }
     private fun insertDownloadedMovie(videoPath:String,posterPath:String){
@@ -282,14 +307,7 @@ class WatchMovieActivity : AppCompatActivity() {
         })
 
 
-        val adapter = EpisodeAdapter(listEpisode.toList()) { url,episode ->
-            setupVideoPlayer(url)
-            videoUrl = url
-            this.episode = episode
-            checkIfMovieDowload()
-        }
-        binding.episodes.adapter = adapter
-        binding.episodes.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false)
+
 
         getRecomentMovie(movie.id.toString(),movie.type,callback = { movies ->
             val adapter = MovieAdapter(movies) { movie ->
@@ -302,6 +320,17 @@ class WatchMovieActivity : AppCompatActivity() {
             binding.recommentmovie.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false)
 
         })
+    }
+
+    private fun setEpisode(){
+        val adapter = EpisodeAdapter(listEpisode!!.toList()) { url,episode ->
+            setupVideoPlayer(url)
+            videoUrl = url
+            this.episode = episode
+            checkIfMovieDowload()
+        }
+        binding.episodes.adapter = adapter
+        binding.episodes.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false)
     }
 
     //Ham chuyen doi mo rong va thu nho
@@ -348,12 +377,13 @@ class WatchMovieActivity : AppCompatActivity() {
         })
     }
 
-    private fun getVideoUrlFromFirestore(callback: (MutableList<Episode>) -> Unit) {
+    private fun getVideoUrlFromFirestore(callback: (MutableList<Episode>?) -> Unit) {
         val firestore = FirebaseFirestore.getInstance()
         val movieId = movie?.id.toString()
         if(movieId == null){
             Log.e("WatchMovieActivity", "Movie ID is null")
             Toast.makeText(this,"Movie ID is null",Toast.LENGTH_SHORT).show()
+            callback(null)
         }
         firestore.collection("movie")
             .document("$movieId")
@@ -374,7 +404,7 @@ class WatchMovieActivity : AppCompatActivity() {
                 }else{
                     Log.e("WatchMovieActivity", "No such document")
                     Toast.makeText(this,"No such document",Toast.LENGTH_SHORT).show()
-                    callback(mutableListOf())
+                    callback(null)
                 }
             }
             .addOnFailureListener {

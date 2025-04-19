@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="GreenStars" parent="Theme.AppCompat">
+        <item name="colorControlActivated">#4CAF50</item>
+    </style>
+    <!-- res/values/styles.xml -->
+    <style name="CustomDialogTheme" parent="Theme.MaterialComponents.DayNight.Dialog.MinWidth.Bridge">
+        <item name="cornerRadius">24dp</item>
+        <item name="android:windowMinWidthMajor">90%</item>
+    </style>
+
+</resources>

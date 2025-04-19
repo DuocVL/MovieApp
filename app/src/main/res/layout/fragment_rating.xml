@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/background_dark">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/ratingTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đánh giá"
+                android:textColor="@android:color/white"
+                android:textSize="30sp"/>
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <ImageButton
+                android:id="@+id/closeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/close"
+
+                android:contentDescription="Button close"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/ratingScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="9.8"
+            android:textColor="@android:color/white"
+            android:textSize="40sp"
+            android:textStyle="bold" />
+
+        <RatingBar
+            android:id="@+id/ratingBarStatic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:stepSize="0.1"
+            android:rating="5"
+            android:isIndicator="true"
+            android:layout_marginBottom="12dp"
+            android:theme="@style/GreenStars" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="12dp">
+
+            <!-- 5 sao -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="4dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="5★ " android:textColor="@android:color/white" />
+                <ProgressBar android:id="@+id/progressBar5" android:layout_width="0dp" android:layout_weight="1" android:layout_height="10dp" style="?android:attr/progressBarStyleHorizontal" android:progress="90" android:max="100" android:progressDrawable="@drawable/progress_bar_rating" android:layout_gravity="center"/>
+            </LinearLayout>
+
+            <!-- 4 sao -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="4dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="4★ " android:textColor="@android:color/white" />
+                <ProgressBar android:id="@+id/progressBar4" android:layout_width="0dp" android:layout_weight="1" android:layout_height="10dp" style="?android:attr/progressBarStyleHorizontal" android:progress="50" android:max="100" android:progressDrawable="@drawable/progress_bar_rating" android:layout_gravity="center" />
+            </LinearLayout>
+
+            <!-- 3 sao -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="4dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="3★ " android:textColor="@android:color/white" />
+                <ProgressBar android:id="@+id/progressBar3" android:layout_width="0dp" android:layout_weight="1" android:layout_height="10dp" style="?android:attr/progressBarStyleHorizontal" android:progress="20" android:max="100" android:progressDrawable="@drawable/progress_bar_rating" android:layout_gravity="center"/>
+            </LinearLayout>
+
+            <!-- 2 sao -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="4dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="2★ " android:textColor="@android:color/white" />
+                <ProgressBar android:id="@+id/progressBar2" android:layout_width="0dp" android:layout_weight="1" android:layout_height="10dp" style="?android:attr/progressBarStyleHorizontal" android:progress="10" android:max="100" android:progressDrawable="@drawable/progress_bar_rating" android:layout_gravity="center" />
+            </LinearLayout>
+
+            <!-- 1 sao -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="8dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="1★ " android:textColor="@android:color/white" />
+                <ProgressBar android:id="@+id/progressBar1" android:layout_width="0dp" android:layout_weight="1" android:layout_height="10dp" style="?android:attr/progressBarStyleHorizontal" android:progress="5" android:max="100" android:progressDrawable="@drawable/progress_bar_rating" android:layout_gravity="center" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/totalReviews"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5903 người đã đánh giá"
+            android:textColor="@android:color/white"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nhấn chọn xếp hạng"
+            android:textColor="@android:color/white"
+            android:layout_marginBottom="8dp" />
+
+        <RatingBar
+            android:id="@+id/ratingBarUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:stepSize="1.0"
+            android:isIndicator="false"
+            android:theme="@style/GreenStars" />
+
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Gửi đi"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@android:color/holo_green_dark"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
+</ScrollView>
