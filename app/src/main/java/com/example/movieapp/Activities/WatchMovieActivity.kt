@@ -3,6 +3,7 @@ package com.example.movieapp.Activities
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
+import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
@@ -13,7 +14,9 @@ import android.view.View
 import android.view.ViewTreeObserver
 import android.view.WindowInsets
 import android.view.WindowManager
+import android.widget.FrameLayout
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.media3.exoplayer.ExoPlayer
@@ -23,8 +26,7 @@ import androidx.media3.common.MediaItem
 import com.example.movieapp.databinding.ActivityWatchMovieBinding
 import androidx.media3.ui.PlayerView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
+import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.util.UnstableApi
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,12 +34,15 @@ import com.example.movieapp.Adapters.EpisodeAdapter
 import com.example.movieapp.Adapters.MovieAdapter
 import com.example.movieapp.AppDatabase
 import com.example.movieapp.BuildConfig
+import com.example.movieapp.Dataclass.Comment
 import com.example.movieapp.Dataclass.DownloadedVideo
 import com.example.movieapp.Dataclass.Episode
 import com.example.movieapp.Dataclass.ItemMovie
 import com.example.movieapp.Dataclass.WatchLaterMovie
+import com.example.movieapp.Fragment.CommentFragment
 import com.example.movieapp.Fragment.RatingFragment
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -56,10 +61,14 @@ import java.io.IOException
 @UnstableApi
 class WatchMovieActivity : AppCompatActivity() {
 
+    private lateinit var scrollView: NestedScrollView
     private lateinit var playerView: PlayerView
     private lateinit var exoPlayer: ExoPlayer
     private lateinit var controlsLayout: ConstraintLayout
     private lateinit var fullscreenButton: ImageButton
+    private lateinit var commentLayout: FrameLayout
+    private lateinit var commentInputLayout : LinearLayout
+    private lateinit var sendButton : ImageButton
 
     private val auth = FirebaseAuth.getInstance()
     private val firestore = FirebaseFirestore.getInstance()
@@ -82,9 +91,8 @@ class WatchMovieActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityWatchMovieBinding.inflate(layoutInflater)
-
-
         setContentView(binding.root)
+
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             movie = intent.getParcelableExtra("movie",Movie::class.java)
         }else{
@@ -92,9 +100,26 @@ class WatchMovieActivity : AppCompatActivity() {
         }
         Toast.makeText(this,"${movie?.id}",Toast.LENGTH_SHORT).show()
 
+        scrollView = binding.nestedScrollView
         playerView = binding.playerView
         controlsLayout = binding.playerView.findViewById(R.id.watchMovieControls)
         fullscreenButton = controlsLayout.findViewById(R.id.btnFullscreen)
+        commentLayout = binding.commentLayout
+        commentInputLayout = binding.commentInputLayout
+        sendButton = binding.sendButton
+
+        // Ẩn commentInputLayout ban đầu
+        commentInputLayout.visibility = View.GONE
+
+        //Kiem tra xem commentLayout co hien thi hay khong
+        scrollView.viewTreeObserver.addOnScrollChangedListener {
+            val rect = Rect()
+            val isVisible = commentLayout.getGlobalVisibleRect(rect) &&
+                    rect.height() > 0 &&
+                    rect.top >= 0 &&
+                    rect.bottom <= scrollView.height + scrollView.scrollY
+            commentInputLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
+        }
 
         // khởi tạo và Gán ExoPlayer cho PlayerView
         exoPlayer = ExoPlayer.Builder(this).build()
@@ -136,15 +161,27 @@ class WatchMovieActivity : AppCompatActivity() {
         }
 
         //Click favorit de danh gia phim
-        binding.favoriteButton.setOnClickListener {
+        binding.rating.setOnClickListener {
             val ratingFragment = RatingFragment()
             val bundle = Bundle()
             bundle.putString("movieId", movie?.id.toString())
             // Bạn có thể put các kiểu dữ liệu khác nhau vào Bundle
-
             ratingFragment.arguments = bundle
             ratingFragment.show(supportFragmentManager, "RatingFragment")
+        }
 
+        //Click senButton de gui binh luan
+        sendButton.setOnClickListener {
+            val content = binding.commentEditText.text.toString()
+            if(content.isNullOrEmpty()){
+                Toast.makeText(this,"Vui lòng nhập bình luận",Toast.LENGTH_SHORT).show()
+            }else{
+                addCommentMovie(movie?.id.toString(),currentUser?.uid.toString(),currentUser?.displayName.toString(),content){ comment ->
+                    Log.d("WatchMovieActivity", "Comment added: $comment")
+                    val comment = Comment(comment,currentUser?.uid.toString(),currentUser?.displayName.toString(),movie?.id.toString(),content,FieldValue.serverTimestamp())
+                    addCommentUser(comment)
+                }
+            }
         }
 
         //Click tai xuong để tải xuống
@@ -181,6 +218,67 @@ class WatchMovieActivity : AppCompatActivity() {
 
         }
     }
+
+    fun addCommentMovie(movieId: String, userId: String, userName: String, content: String, callback: (String) -> Unit)  {
+        val movieRef = firestore.collection("movie").document(movieId)
+        val commentsCollectionRef = movieRef.collection("comments")
+        val comment = hashMapOf(
+            "userId" to userId,
+            "userName" to userName,
+            "content" to content,
+            "timestamp" to FieldValue.serverTimestamp()
+        )
+        movieRef.get()
+            .addOnSuccessListener { movieSnapshot ->
+                if (!movieSnapshot.exists()) {
+                    // Document movieId tồn tại, tiến hành thêm comment
+                    movieRef.set(hashMapOf("exists" to true)) // Thêm một trường đơn giản để đánh dấu sự tồn tại
+                        .addOnSuccessListener {
+                            Log.d("Firestore", "Movie $movieId created. Now adding comment.")
+                            commentsCollectionRef.add(comment)
+                                .addOnSuccessListener { commentRef ->
+                                    val commentId = commentRef.id
+                                    callback(commentId)
+                                }
+                                .addOnFailureListener { e ->
+                                    Log.e("Firestore", "Error adding comment to movie $movieId", e)
+                                    // Xử lý lỗi thêm comment
+                                }
+
+                        }
+                        .addOnFailureListener { e ->
+                            Log.e("Firestore", "Error creating movie $movieId", e)
+                            // Xử lý lỗi tạo movie
+                        }
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.e("Firestore", "Error checking movie existence", e)
+                // Xử lý lỗi khi kiểm tra sự tồn tại của movie
+            }
+    }
+
+    fun addCommentUser(comment: Comment){
+        val userRef = firestore.collection("users").document("${comment.userId}")
+        val commentRef = userRef.collection("comments").document("${comment.commentId}")
+        userRef.get()
+            .addOnSuccessListener { userSnapshot ->
+                if (!userSnapshot.exists()) {
+                    // Document movieId tồn tại, tiến hành thêm comment
+                    userRef.set(hashMapOf("exists" to true)) // Thêm một trường đơn giản để đánh dấu sự tồn tại
+                }
+                commentRef.set(comment)
+                    .addOnSuccessListener {
+                        Log.d("Firestore", "Comment added to user ${comment.userId}")
+                    }
+                    .addOnFailureListener { e->
+                        Log.e("Firestore", "Error adding comment to user ${comment.userId}", e)
+                        // Xử lý lỗi thêm comment
+                    }
+            }
+    }
+
+
     private fun insertDownloadedMovie(videoPath:String,posterPath:String){
         val downloadedVideo = DownloadedVideo(movie?.id.toString(),movie?.title!!,movie?.type!!,episode,posterPath,videoPath)
         lifecycleScope.launch {
@@ -285,10 +383,22 @@ class WatchMovieActivity : AppCompatActivity() {
         }
     }
 
+    private fun setDetailComment(){
+        val commentFragment = CommentFragment()
+        val bundle = Bundle()
+        bundle.putString("movieId", movie?.id.toString())
+        // Bạn có thể put các kiểu dữ liệu khác nhau vào Bundle
+
+        commentFragment.arguments = bundle
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.commentLayout,commentFragment)
+            .commit()
+    }
 
 
     private fun setDeailMovie(movie : Movie){
 
+        binding.ratingButton.rating = movie.voteAverage.toFloat()/10
         binding.Title.setText(movie.title)
         binding.overview.setText(movie.overview)
         binding.overview.maxLines = initialMaxLines
@@ -306,9 +416,6 @@ class WatchMovieActivity : AppCompatActivity() {
             }
         })
 
-
-
-
         getRecomentMovie(movie.id.toString(),movie.type,callback = { movies ->
             val adapter = MovieAdapter(movies) { movie ->
                 val intent = Intent(this, MovieDetailActivity::class.java)
@@ -320,6 +427,7 @@ class WatchMovieActivity : AppCompatActivity() {
             binding.recommentmovie.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false)
 
         })
+        setDetailComment()
     }
 
     private fun setEpisode(){

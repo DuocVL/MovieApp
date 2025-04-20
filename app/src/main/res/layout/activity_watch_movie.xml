@@ -80,24 +80,27 @@
                     android:layout_weight="1" />
 
                 <LinearLayout
+                    android:id="@+id/rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <ImageButton
-                        android:id="@+id/favoriteButton"
+                    <RatingBar
+                        android:id="@+id/ratingButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="Favorite"
-                        app:srcCompat="@drawable/favorite" />
+                        android:numStars="1"
+                        android:stepSize="0.1"
+                        android:isIndicator="true"
+                        android:layout_marginBottom="12dp"
+                        android:theme="@style/GreenStars"/>
 
                     <TextView
-                        android:id="@+id/favoriteTitle"
+                        android:id="@+id/ratingTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Yêu thích "
+                        android:text="Đánh giá"
                         android:textColor="@color/white"
                         android:textSize="14sp"/>
                 </LinearLayout>
@@ -237,13 +240,67 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/recommenTitle" />
 
+
+            <FrameLayout
+                android:id="@+id/commentLayout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/recommentmovie" />
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
+    <LinearLayout
+        android:id="@+id/commentInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/main_color"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:visibility="gone" app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/imageAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            app:srcCompat="@drawable/account" />
+
+        <EditText
+            android:id="@+id/commentEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:background="@android:drawable/editbox_dropdown_dark_frame"
+            android:hint="Viết bình luận..."
+            android:padding="10dp"
+            android:textColor="@color/black"
+            android:textColorHint="#aaa"
+            android:textSize="22sp" />
+
+        <ImageButton
+            android:id="@+id/sendButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:background="@null"
+            android:contentDescription="Gửi bình luận"
+            app:srcCompat="@drawable/send" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
