@@ -37,6 +37,10 @@ class SavedMovieListActivity : AppCompatActivity() {
         binding = ActivitySavedMovieListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.backButton.setOnClickListener {
+            finish()
+        }
+
         fetchSavedMovies(callback = { savedMovies ->
             runOnUiThread {
                 val adapter = MovieSearchAdapter(savedMovies) { movie ->

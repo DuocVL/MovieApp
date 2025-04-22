@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
@@ -21,7 +22,8 @@
             android:layout_marginBottom="12dp"
             android:src="@drawable/icon_profile"
             android:scaleType="centerCrop"
-            android:padding="8dp" />
+            android:background="@drawable/circle_background"
+            android:contentDescription="Profile Image" />
 
         <TextView
             android:id="@+id/nameUser"
@@ -33,60 +35,88 @@
             android:textStyle="bold"
             android:layout_marginBottom="32dp" />
 
-        <!-- List items -->
+        <!-- Movie rating list -->
         <LinearLayout
-            android:id="@+id/listFavorite"
+            android:id="@+id/listMovieRatingButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:layout_marginBottom="12dp">
 
             <ImageView
                 android:id="@+id/imageFavorite"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/favorite" />
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/favorite"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="12dp" />
 
             <TextView
                 android:id="@+id/favoriteTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Phim yêu thích" />
+                android:text="Danh sách phim đã được đánh giá"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:layout_gravity="center_vertical" />
         </LinearLayout>
 
+        <!-- Saved movie list -->
         <LinearLayout
-            android:id="@+id/listSave"
+            android:id="@+id/listSavedMovieButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:layout_marginBottom="12dp">
 
             <ImageView
                 android:id="@+id/imageSave"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/bookmark_border" />
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/bookmark_border"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="12dp" />
 
             <TextView
                 android:id="@+id/saveTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Phim đã lưu" />
+                android:text="Danh sách phim đã lưu"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:layout_gravity="center_vertical" />
         </LinearLayout>
 
+        <!-- Logout section -->
         <LinearLayout
-            android:id="@+id/logoutButton"
+            android:id="@+id/logOutButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp">
 
             <ImageView
                 android:id="@+id/imageLogout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/logout" />
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/logout"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="12dp"
+                app:tint="@color/red" />
 
             <TextView
                 android:id="@+id/logoutTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Đăng xuất" />
+                android:text="Đăng xuất"
+                android:textColor="@color/red"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:layout_gravity="center_vertical" />
         </LinearLayout>
 
     </LinearLayout>

@@ -28,7 +28,7 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.logoutButton.setOnClickListener {
+        binding.logOutButton.setOnClickListener {
             val sessionManager = SessionManager(requireContext())
             sessionManager.clearSession()
 
@@ -36,7 +36,7 @@ class ProfileFragment : Fragment() {
             startActivity(intent)
             requireActivity().finish()
         }
-        binding.listSave.setOnClickListener {
+        binding.listSavedMovieButton.setOnClickListener {
             val intent = Intent(requireContext(), SavedMovieListActivity::class.java)
             startActivity(intent)
         }
