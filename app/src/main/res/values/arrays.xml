@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="country_array">
+        <item>Tất cả</item>
+        <item>Việt Nam</item>
+        <item>Hoa Kỳ</item>
+        <item>Trung Quốc</item>
+        <item>Hàn Quốc</item>
+        <item>Nhật Bản</item>
+    </string-array>
+
+    <string-array name="genre_array">
+        <item>Tất cả</item>
+        <item>Hành động</item>
+        <item>Phiêu lưu</item>
+        <item>Kinh dị</item>
+        <item>Hài</item>
+        <item>Tình cảm</item>
+    </string-array>
+
+    <string-array name="age_array">
+        <item>Mọi lứa tuổi</item>
+        <item>13+</item>
+        <item>16+</item>
+        <item>18+</item>
+    </string-array>
+
+    <string-array name="fees_array">
+        <item>Tất cả</item>
+        <item>Miễn phí</item>
+        <item>Có phí</item>
+    </string-array>
+
+    <string-array name="sort_array">
+        <item>Mặc định</item>
+        <item>Nhiều người đánh giá</item>
+        <item>Phổ biến nhất</item>
+        <item>Đánh giá cao nhất</item>
+        <item>Mới nhất</item>
+        <item>Cũ nhất</item>
+    </string-array>
+</resources>

@@ -363,7 +363,7 @@ class WatchMovieActivity : AppCompatActivity() {
         })
 
         getRecomentMovie(movie.id.toString(),movie.type,callback = { movies ->
-            val adapter = MovieAdapter(movies) { movie ->
+            val adapter = MovieAdapter(movies.toMutableList()) { movie ->
                 val intent = Intent(this, MovieDetailActivity::class.java)
                 intent.putExtra("movieId", movie.id.toString())
                 intent.putExtra("type", movie.type)

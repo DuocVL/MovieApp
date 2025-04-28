@@ -64,6 +64,13 @@
             android:exported="false"
             android:configChanges="orientation|screenSize">
         </activity>
+        <activity android:name=".Activities.RatingMovieListActivity"
+            android:exported="false">
+        </activity>
+
+        <activity android:name=".Activities.PackagePaymentActivity"
+            android:exported="false">
+        </activity>
 
     </application>
 

@@ -1,5 +1,6 @@
 package com.example.movieapp.Adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -7,7 +8,10 @@ import com.bumptech.glide.Glide
 import com.example.movieapp.Dataclass.Movie
 import com.example.movieapp.databinding.ItemMovieSearchBinding
 
-class MovieSearchAdapter(private val movies: List<Movie>, private val onMovieClick: (Movie) -> Unit) : RecyclerView.Adapter<MovieSearchAdapter.MovieSearchViewHolder>() {
+class MovieSearchAdapter(
+    private val movies: List<Movie>,
+    private val onMovieClick: (Movie) -> Unit
+) : RecyclerView.Adapter<MovieSearchAdapter.MovieSearchViewHolder>() {
 
     inner class MovieSearchViewHolder(val binding: ItemMovieSearchBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -17,8 +21,10 @@ class MovieSearchAdapter(private val movies: List<Movie>, private val onMovieCli
     }
 
     override fun onBindViewHolder(holder: MovieSearchViewHolder, position: Int) {
+        Log.d("MovieSearchAdapter", "Binding position: $position")
         val item = movies[position]
-        if(!item.posterPath.isNullOrEmpty() && item.posterPath != "null"){
+        Log.d("MovieSearchAdapter", "Binding item: $item")
+        if (!item.posterPath.isNullOrBlank() && item.posterPath != "null") {
             Glide.with(holder.itemView.context)
                 .load(item.posterPath)
                 .into(holder.binding.posterMovie)
@@ -35,5 +41,5 @@ class MovieSearchAdapter(private val movies: List<Movie>, private val onMovieCli
         }
     }
 
-    override fun getItemCount() = movies.size
+    override fun getItemCount(): Int = movies.size
 }

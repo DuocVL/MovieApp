@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide
 import com.example.movieapp.Dataclass.ItemMovie
 import com.example.movieapp.databinding.ItemMovieBinding
 
-class MovieAdapter(private val movies : List<ItemMovie>, private val onMovieClick : (ItemMovie) -> Unit) :RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
+class MovieAdapter(private val movies : MutableList<ItemMovie>, private val onMovieClick : (ItemMovie) -> Unit) :RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
     inner class MovieViewHolder(val binding : ItemMovieBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
@@ -22,7 +22,6 @@ class MovieAdapter(private val movies : List<ItemMovie>, private val onMovieClic
             Glide.with(holder.itemView.context)
                 .load(movie.posterUrl)
                 .into(holder.binding.posterImage)
-            Log.d("MovieAdapter", "Poster URL: ${movie.posterUrl}")
         }
         holder.binding.movieTitle.text = movie.title
         holder.binding.rating.text = movie.rating.toString()
@@ -34,4 +33,10 @@ class MovieAdapter(private val movies : List<ItemMovie>, private val onMovieClic
         }
     }
     override fun getItemCount(): Int = movies.size
+    fun addMovies(newItems: List<ItemMovie>) {
+        val start = movies.size
+        movies.addAll(start, newItems)
+        Log.d("MovieAdapter","${movies.size}")
+        notifyItemRangeInserted(start, newItems.size)
+    }
 }

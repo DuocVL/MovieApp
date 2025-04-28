@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieapp.Activities.MovieDetailActivity
 import com.example.movieapp.Activities.SearchActivity
@@ -218,13 +219,16 @@ class HomeFragment : Fragment() {
         val URL_TopRate = "https://api.themoviedb.org/3/movie/top_rated?api_key=$TMDB_API_KEY&language=vi-VN&page=1"
         fetchTopRatedMovies(URL_TopRate) { movies ->
             activity?.runOnUiThread {
-                val adapterTopRated = MovieAdapter(movies){movie ->
+                val adapterTopRated = MovieAdapter(movies.toMutableList()){movie ->
                     val intent = Intent(requireContext(), MovieDetailActivity::class.java)
                     intent.putExtra("movieId", movie.id.toString())
                     intent.putExtra("type", movie.type) // truyền thêm loại
                     startActivity(intent)
                 }
-                binding.bestMovie.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                // Tạo LayoutManager với số cột là 3
+                val layoutManager = GridLayoutManager(requireContext(), 3)
+                binding.bestMovie.layoutManager = layoutManager
+               // binding.bestMovie.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                 binding.bestMovie.adapter = adapterTopRated
 
             }
@@ -234,7 +238,7 @@ class HomeFragment : Fragment() {
         val URL_Action = "https://api.themoviedb.org/3/discover/movie?api_key=$TMDB_API_KEY&language=vi-VN&sort_by=vote_average.desc&include_adult=false&include_video=false&page=1&with_genres=28&vote_count.gte=5000"
         fetchTopRatedMovies(URL_Action){movies ->
             activity?.runOnUiThread {
-                val adapterAction = MovieAdapter(movies) { movie ->
+                val adapterAction = MovieAdapter(movies.toMutableList()) { movie ->
                     val intent = Intent(requireContext(), MovieDetailActivity::class.java)
                     intent.putExtra("movieId", movie.id.toString())
                     intent.putExtra("type", movie.type) // truyền thêm loại
@@ -249,7 +253,7 @@ class HomeFragment : Fragment() {
         val URL_Long = "https://api.themoviedb.org/3/tv/top_rated?api_key=$TMDB_API_KEY&language=vi-VN&page=1"
         fetchTopRatedTVShows(URL_Long) { shows ->
             activity?.runOnUiThread {
-                val adapterLong = MovieAdapter(shows) { show ->
+                val adapterLong = MovieAdapter(shows.toMutableList()) { show ->
                     val intent = Intent(requireContext(), MovieDetailActivity::class.java)
                     intent.putExtra("movieId", show.id.toString())
                     intent.putExtra("type", show.type) // truyền thêm loại

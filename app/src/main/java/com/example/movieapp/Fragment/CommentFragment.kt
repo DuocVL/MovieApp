@@ -120,6 +120,8 @@ class CommentFragment : Fragment() {
                     }else{
                         callback(false)
                     }
+                }else{
+                    callback(false)
                 }
             }
             .addOnFailureListener {

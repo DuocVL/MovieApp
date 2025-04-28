@@ -60,7 +60,7 @@ class PersonActivity : AppCompatActivity() {
                     .load(person.profile_path)
                     .into(binding.imageProfile)
             }
-            val adapter = MovieAdapter(person.movies){ movie ->
+            val adapter = MovieAdapter(person.movies.toMutableList()){ movie ->
                 val intent = Intent(this, MovieDetailActivity::class.java)
                 intent.putExtra("movieId", movie.id.toString())
                 intent.putExtra("type", movie.type)

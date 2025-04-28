@@ -7,11 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.movieapp.Activities.LoginActivity
+import com.example.movieapp.Activities.PackagePaymentActivity
+import com.example.movieapp.Activities.RatingMovieListActivity
 import com.example.movieapp.Activities.SavedMovieListActivity
-import com.example.movieapp.R
 import com.example.movieapp.SessionManager
 import com.example.movieapp.databinding.FragmentProfileBinding
-import com.google.firebase.auth.FirebaseAuth
 
 class ProfileFragment : Fragment() {
 
@@ -38,6 +38,15 @@ class ProfileFragment : Fragment() {
         }
         binding.listSavedMovieButton.setOnClickListener {
             val intent = Intent(requireContext(), SavedMovieListActivity::class.java)
+            startActivity(intent)
+        }
+        binding.listMovieRatingButton.setOnClickListener {
+            val intent = Intent(requireContext(), RatingMovieListActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.buttonPay.setOnClickListener {
+            val intent = Intent(requireContext(), PackagePaymentActivity::class.java)
             startActivity(intent)
         }
     }

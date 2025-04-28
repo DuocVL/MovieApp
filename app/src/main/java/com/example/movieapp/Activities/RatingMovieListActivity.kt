@@ -19,7 +19,7 @@ import okhttp3.Response
 import org.json.JSONObject
 import java.io.IOException
 
-class SavedMovieListActivity : AppCompatActivity() {
+class RatingMovieListActivity : AppCompatActivity() {
 
     private lateinit var  binding : ActivityMovieListBinding
 
@@ -35,14 +35,15 @@ class SavedMovieListActivity : AppCompatActivity() {
         binding = ActivityMovieListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.savedListTitle.text = "Danh sách phim đã lưu"
+        binding.savedListTitle.text = "Danh sách phim đã được đánh giá"
+
         binding.backButton.setOnClickListener {
             finish()
         }
 
         fetchSavedMovies(callback = { savedMovies ->
             runOnUiThread {
-                Log.d("SavedMovieListActivity", "Number of saved movies: ${savedMovies}")
+                Log.d("RatingMovieListActivity", "Number of saved movies: ${savedMovies}")
                 val adapter = MovieSearchAdapter(savedMovies) { movie ->
                     val intent = Intent(this, MovieDetailActivity::class.java)
                     intent.putExtra("movieId", movie.id.toString())
@@ -51,28 +52,28 @@ class SavedMovieListActivity : AppCompatActivity() {
                 }
                 binding.listSaveMovie.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
                 binding.listSaveMovie.adapter = adapter
-                Log.d("SavedMovieListActivity", "Number of saved movies: ${savedMovies.size}")
+                Log.d("RatingMovieListActivity", "Number of saved movies: ${savedMovies.size}")
             }
         })
     }
 
     fun fetchSavedMovies(callback: (List<Movie>) -> Unit) {
-        Log.d("SavedMovieListActivity", "Fetching saved movies...")
+        Log.d("RatingMovieListActivity", "Fetching saved movies...")
         currentUser?.uid?.let { userId ->
             firestore.collection("users")
                 .document("$userId")
-                .collection("watchLater")
+                .collection("ratings")
                 .get()
                 .addOnSuccessListener { documents ->
                     if (documents != null) {
-                        val savedMovies = mutableListOf<Movie>()
+                        val ratingMovies = mutableListOf<Movie>()
                         for (document in documents) {
                             val movieId = document.id
                             val type = document.getString("type")
                             getDetailMovie(movieId,type!!) { movie ->
-                                movie?.let { savedMovies.add(it) }
-                                if (savedMovies.size == documents.size()) {
-                                    callback(savedMovies)
+                                movie?.let { ratingMovies.add(it) }
+                                if (ratingMovies.size == documents.size()) {
+                                    callback(ratingMovies)
                                 }
                             }
                         }
@@ -80,7 +81,7 @@ class SavedMovieListActivity : AppCompatActivity() {
                 }
                 .addOnFailureListener { exception ->
                     // Xử lý lỗi
-                    Log.e("SavedMovieListActivity", "Error fetching saved movies: $exception")
+                    Log.e("RatingMovieListActivity", "Error fetching saved movies: $exception")
                     callback(emptyList())
                 }
         }
