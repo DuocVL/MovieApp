@@ -9,18 +9,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.media3.common.util.UnstableApi
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieapp.Activities.MovieDetailActivity
+import com.example.movieapp.Activities.NotificationActivity
+import com.example.movieapp.Activities.PackagePaymentActivity
 import com.example.movieapp.Activities.SearchActivity
+import com.example.movieapp.Activities.WatchMovieActivity
 import com.example.movieapp.Adapters.BannerAdapter
 import com.example.movieapp.Adapters.MovieAdapter
+import com.example.movieapp.Adapters.MovieWatchingAdapter
+import com.example.movieapp.AppSessionViewModel
 import com.example.movieapp.databinding.FragmentHomeBinding
 import com.google.firebase.database.FirebaseDatabase
 import com.example.movieapp.BuildConfig
+import com.example.movieapp.Dataclass.Actor
+import com.example.movieapp.Dataclass.Director
 import com.example.movieapp.Dataclass.ItemMovie
 import com.example.movieapp.Dataclass.Movie
+import com.example.movieapp.Dataclass.MovieWatching
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.firestore.FirebaseFirestore
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.OkHttpClient
@@ -39,7 +49,12 @@ class HomeFragment : Fragment() {
     private var currentPage = 0
     private val delay: Long = 10000 // 10 giây
     private val sliderHandler = Handler(Looper.getMainLooper())
-    val TMDB_API_KEY = BuildConfig.TMDB_API_KEY
+    private val TMDB_API_KEY = BuildConfig.TMDB_API_KEY
+    private lateinit var userId : String
+    private lateinit var appSessionViewModel: AppSessionViewModel
+    private lateinit var firebaseFirestore: FirebaseFirestore
+    private lateinit var listMovieWatching: List<MovieWatching>
+    private lateinit var listMovie : MutableMap<String,Movie>
 
 
 
@@ -61,38 +76,46 @@ class HomeFragment : Fragment() {
     }
 
     //Hàm xử lý sau khi Fragment đã tạo xong view
+    @UnstableApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val URL_DB = BuildConfig.URL_DB
         database = FirebaseDatabase.getInstance(URL_DB)
         databaseReference = database.reference
-        //getBannerMovie()
+        appSessionViewModel = AppSessionViewModel(requireActivity().application)
+        userId = appSessionViewModel.getUserId()
+        firebaseFirestore = FirebaseFirestore.getInstance()
+        listMovie = mutableMapOf()
+        getMovieWatching { list ->
+            activity?.runOnUiThread {
+                listMovieWatching = list
 
-        binding.editTextSearch.setOnTouchListener { v,event ->
-            if(event.action == android.view.MotionEvent.ACTION_DOWN){
-                val intent = Intent(requireContext(), SearchActivity::class.java)
-                startActivity(intent)
-                true
-            }else{
-                false
+                val adapter = MovieWatchingAdapter(listMovieWatching){movie ->
+                    val intent = Intent(requireContext(), WatchMovieActivity::class.java)
+                    intent.putExtra("movie",listMovie[movie.movieId])
+                    startActivity(intent)
+                }
+                binding.movieWatching.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                binding.movieWatching.adapter = adapter
             }
         }
-    }
+        getBannerMovie()
 
-//    //Được gọi khi View của Fragment bị hủy.
-//    override fun onDestroyView() {
-//        super.onDestroyView()
-//        _binding = null
-//        sliderHandler.removeCallbacks(sliderRunnable)
-//    }
-//    override fun onResume() {
-//        super.onResume()
-//        sliderHandler.postDelayed(sliderRunnable, delay)
-//    }
-//    override fun onPause() {
-//        super.onPause()
-//        sliderHandler.removeCallbacks(sliderRunnable)
-//    }
+        binding.buyPackageButton.setOnClickListener {
+            val intent = Intent(requireContext(),PackagePaymentActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.searchButton.setOnClickListener {
+            val intent = Intent(requireContext(),SearchActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.notificationButton.setOnClickListener {
+            val intent = Intent(requireContext(), NotificationActivity::class.java)
+            startActivity(intent)
+        }
+    }
 
     // Hàm này lấy danh sách ID phim từ Firebase Realtime Database
     private fun getBannerMovie(){
@@ -225,10 +248,8 @@ class HomeFragment : Fragment() {
                     intent.putExtra("type", movie.type) // truyền thêm loại
                     startActivity(intent)
                 }
-                // Tạo LayoutManager với số cột là 3
-                val layoutManager = GridLayoutManager(requireContext(), 3)
-                binding.bestMovie.layoutManager = layoutManager
-               // binding.bestMovie.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+                binding.bestMovie.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                 binding.bestMovie.adapter = adapterTopRated
 
             }
@@ -266,6 +287,196 @@ class HomeFragment : Fragment() {
 
         // Bắt đầu chạy tự động
         //sliderHandler.postDelayed(sliderRunnable, delay)
+    }
+
+    private fun getMovieWatching(callback: (List<MovieWatching>) -> Unit){
+        firebaseFirestore.collection("users")
+            .document(userId)
+            .collection("movieProgress")
+            .get()
+            .addOnSuccessListener { documents ->
+                val listMovieWatching = mutableListOf<MovieWatching>()
+                for(document in documents){
+                    val movieId = document.id
+                    val episode = document.getLong("episode")?.toInt() ?: 0
+                    val duration = document.getLong("duration") ?: 0
+                    val progress = document.getLong("progress") ?: 0
+                    val type = document.getString("type") ?: "movie"
+                    getBannerMovie(movieId,type) { bannerUrl ->
+                        listMovieWatching.add(MovieWatching(movieId,type, progress,duration,episode,bannerUrl ))
+                        getMovieDetails(movieId,type){ movie->
+                            listMovie[movieId] = movie
+                            if(listMovieWatching.size == documents.size()){
+                                activity?.runOnUiThread {
+                                    callback(listMovieWatching)
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+        return
+    }
+
+    //Hàm lay bannerMovie
+    private fun getBannerMovie(movieId: String,type: String ,callback: (String) -> Unit) {
+        val url = "https://api.themoviedb.org/3/$type/$movieId?api_key=$TMDB_API_KEY&language=vi-VN"
+        val request = Request.Builder().url(url).build()
+        OkHttpClient().newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e("TMDB", "Failed to fetch", e)
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                val json = JSONObject(response.body!!.string())
+                val backdropPath = json.optString("backdrop_path", "")
+                val fullBackdropUrl = "https://image.tmdb.org/t/p/w780$backdropPath"
+                activity?.runOnUiThread {
+                    callback(fullBackdropUrl)
+                }
+            }
+        })
+        return
+    }
+
+    private fun getMovieDetails(movieId: String,type: String,callback: (Movie) -> Unit) {
+        val url = "https://api.themoviedb.org/3/$type/$movieId?api_key=$TMDB_API_KEY&language=vi-VN"
+
+        val request = Request.Builder().url(url).build()
+        val client = OkHttpClient()
+        client.newCall(request).enqueue(object : Callback {
+            override fun onResponse(call: Call, response: Response) {
+                val json = JSONObject(response.body!!.string())
+
+                val id = json.getInt("id")
+                val title = json.optString("title", json.optString("name", ""))
+                val runtime = if(type.equals("movie")) json.optInt("runtime", 0) else json.optInt("number_of_episodes", 0)
+                val releaseDate = json.optString("release_date", json.optString("first_air_date", ""))
+                val genres = json.getJSONArray("genres").let {
+                    List(it.length()) { index -> it.getJSONObject(index).getString("name") }
+                }
+                val countries = json.getJSONArray("production_countries")
+                val country = if (countries.length() > 0) {
+                    countries.getJSONObject(0).getString("name")
+                } else {
+                    "Thế giới"
+                }
+
+                val overview = json.optString("overview")
+                val posterPath = json.optString("poster_path", "")
+                val fullPosterUrl = "https://image.tmdb.org/t/p/w780$posterPath"
+                val backdropPath = json.optString("backdrop_path", "")
+                val fullBackdropUrl = "https://image.tmdb.org/t/p/w780$backdropPath"
+                val voteAverage = json.optDouble("vote_average", 0.0)
+                val voteCount = json.optInt("vote_count", 0)
+                fetchCredits(movieId,type) { actors, directors ->
+                    fetchVideoKey(movieId,type) { keyVideo ->
+                        val movie = Movie(
+                            id,
+                            title,
+                            type,
+                            runtime,
+                            country,
+                            releaseDate,
+                            genres,
+                            overview,
+                            fullPosterUrl,
+                            fullBackdropUrl,
+                            voteAverage,
+                            voteCount,
+                            keyVideo,
+                            actors,
+                            directors
+                        )
+                        activity?.runOnUiThread {
+                            callback(movie)
+                        }
+                    }
+                }
+            }
+
+
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e("TMDB", "Failed to fetch movie details", e)
+            }
+        })
+    }
+
+    private fun fetchCredits(movieId: String,type: String, callback: (List<Actor>, List<Director>) -> Unit) {
+        val url = "https://api.themoviedb.org/3/$type/$movieId/credits?api_key=$TMDB_API_KEY&language=vi-VN"
+        val request = Request.Builder().url(url).build()
+        OkHttpClient().newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e("TMDB", "Failed to fetch credits", e)
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                val json = JSONObject(response.body!!.string())
+                val baseImageUrl = "https://image.tmdb.org/t/p/w185"
+                val actors = mutableListOf<Actor>()
+                val directors = mutableListOf<Director>()
+                val castArray = json.getJSONArray("cast")
+                val crewArray = json.getJSONArray("crew")
+
+                for (i in 0 until minOf(10, castArray.length())) {
+                    val item = castArray.getJSONObject(i)
+                    val id = item.optInt("id")
+                    val name = item.optString("name")
+                    val character = item.optString("character")
+                    val profilePathRaw = item.optString("profile_path", null)
+                    val profilePath = if (profilePathRaw != null) "$baseImageUrl$profilePathRaw" else null
+                    actors.add(Actor(id,name, character, profilePath))
+                }
+
+                for (i in 0 until  crewArray.length()) {
+                    val item = crewArray.getJSONObject(i)
+                    if (item.optString("job") == "Director") {
+                        val name = item.optString("name")
+                        val id = item.optInt("id")
+                        val profilePathRaw = item.optString("profile_path", null)
+                        val profilePath = if (profilePathRaw != null && profilePathRaw != "null") "$baseImageUrl$profilePathRaw" else null
+                        directors.add(Director(id,name, profilePath))
+                    }
+                }
+                activity?.runOnUiThread {
+                    callback(actors, directors)
+                }
+            }
+        })
+    }
+
+    private fun fetchVideoKey(movieId: String, type: String, callback: (String?) -> Unit) {
+        val url = "https://api.themoviedb.org/3/$type/$movieId/videos?api_key=$TMDB_API_KEY"
+        val request = Request.Builder().url(url).build()
+        OkHttpClient().newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e("TMDB", "Failed to fetch video key", e)
+                activity?.runOnUiThread { callback(null) }
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                val json = JSONObject(response.body!!.string())
+                val key = getBestVideoKey(json)
+               activity?.runOnUiThread { callback(key) }
+            }
+        })
+    }
+    private fun getBestVideoKey(json: JSONObject): String? {
+        val results = json.optJSONArray("results") ?: return null
+        for (i in 0 until results.length()) {
+            val video = results.getJSONObject(i)
+            if (video.optString("type") == "Trailer" && video.optBoolean("official", false)) {
+                return video.optString("key")
+            }
+        }
+        for (i in 0 until results.length()) {
+            val video = results.getJSONObject(i)
+            if (video.optString("type") == "Trailer") {
+                return video.optString("key")
+            }
+        }
+        return if (results.length() > 0) results.getJSONObject(0).optString("key") else null
     }
 
 }

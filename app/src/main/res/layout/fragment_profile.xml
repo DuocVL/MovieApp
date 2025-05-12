@@ -68,11 +68,33 @@
 
         <!-- Saved movie list -->
 
-        <Button
-            android:id="@+id/buttonPay"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/paymentButton"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Thanh toán" />
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:layout_marginBottom="12dp">
+
+            <ImageView
+                android:id="@+id/imagePayment"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_payment"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="12dp" />
+
+            <TextView
+                android:id="@+id/paymentTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gói thue bao"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:layout_gravity="center_vertical" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/listSavedMovieButton"

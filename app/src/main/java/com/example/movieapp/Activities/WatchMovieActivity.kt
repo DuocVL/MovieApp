@@ -18,7 +18,6 @@ import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.media3.exoplayer.ExoPlayer
 import com.example.movieapp.Dataclass.Movie
@@ -38,6 +37,7 @@ import com.example.movieapp.BuildConfig
 import com.example.movieapp.Dataclass.DownloadedVideo
 import com.example.movieapp.Dataclass.Episode
 import com.example.movieapp.Dataclass.ItemMovie
+import com.example.movieapp.Dataclass.MovieWatching
 import com.example.movieapp.Dataclass.WatchLaterMovie
 import com.example.movieapp.Fragment.CommentFragment
 import com.example.movieapp.Fragment.RatingFragment
@@ -78,6 +78,7 @@ class WatchMovieActivity : AppCompatActivity() {
     private var isFullscreen = false
     private var isExpanded = false //Mo rong hay khong
     private var initialMaxLines = 3 // Số dòng tối đa ban đầu
+    private val userId = currentUser?.uid
 
 
     private var saveStatus : Boolean = false
@@ -85,6 +86,7 @@ class WatchMovieActivity : AppCompatActivity() {
     private var videoUrl :String? = null
     private var listEpisode : MutableList<Episode>? = null
     private var episode : Int = 1
+    private var progress : Long = 0
 
     private lateinit var binding: ActivityWatchMovieBinding
 
@@ -145,9 +147,9 @@ class WatchMovieActivity : AppCompatActivity() {
                 Toast.makeText(this,"Video URL list is null or empty",Toast.LENGTH_SHORT).show()
             }else{
                 listEpisode?.let { list ->
-                    videoUrl = list[0].url
-                    episode = 1
-                    setupVideoPlayer(videoUrl)
+                    Log.d("WatchMovieActivity", "Video URL list: ${listEpisode}")
+                    getMovieProgress()
+                    //setupVideoPlayer(videoUrl)
                     setEpisode()
                 }
             }
@@ -222,7 +224,39 @@ class WatchMovieActivity : AppCompatActivity() {
         }
     }
 
+    private fun getMovieProgress(){
+        firestore.collection("users")
+            .document(userId!!)
+            .collection("movieProgress")
+            .document(movie?.id.toString())
+            .get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    progress = document.getLong("progress") ?: 0
+                    episode = document.getLong("episode")?.toInt() ?: 1
+                    videoUrl = listEpisode!![episode - 1].url
+                    Log.d("WatchMovieActivity", "videoUrl: $videoUrl, episode: $episode, progress: $progress")
+                    val mediaItem = MediaItem.fromUri(videoUrl!!)
 
+                    exoPlayer.setMediaItem(mediaItem)
+
+                    // Phát video
+                    exoPlayer.prepare()
+                    exoPlayer.seekTo(progress)
+                    exoPlayer.play()
+                } else {
+                    Log.d("WatchMovieActivity", "No such document")
+                }
+            }
+            .addOnFailureListener {
+                Log.d("WatchMovieActivity", "get failed with ", it)
+                progress = 0
+                episode = 1
+                videoUrl = listEpisode!![episode - 1].url
+            }
+
+        return
+    }
 
 
     private fun insertDownloadedMovie(videoPath:String,posterPath:String){
@@ -306,6 +340,7 @@ class WatchMovieActivity : AppCompatActivity() {
         }
     }
 
+    //Cập nhật trạng thái của nút bookmark
     private fun updateFavoriteButtonState() {
         if (saveStatus) {
             binding.bookmarkButton.setImageResource(R.drawable.bookmark) // Icon đã lưu
@@ -341,9 +376,8 @@ class WatchMovieActivity : AppCompatActivity() {
             .commit()
     }
 
-
+    //Ham hien thi thong tin phim
     private fun setDeailMovie(movie : Movie){
-
         binding.ratingButton.rating = movie.voteAverage.toFloat()/10
         binding.Title.setText(movie.title)
         binding.overview.setText(movie.overview)
@@ -376,6 +410,7 @@ class WatchMovieActivity : AppCompatActivity() {
         setDetailComment()
     }
 
+    //Ham hien thi danh sach cac tap
     private fun setEpisode(){
         val adapter = EpisodeAdapter(listEpisode!!.toList()) { url,episode ->
             setupVideoPlayer(url)
@@ -399,6 +434,7 @@ class WatchMovieActivity : AppCompatActivity() {
         }
     }
 
+    //Ham lay danh sach phim lien quan
     private fun getRecomentMovie(movieId : String,type : String,callback: (List<ItemMovie>) -> Unit){
         val url = "https://api.themoviedb.org/3/$type/$movieId/recommendations?api_key=${BuildConfig.TMDB_API_KEY}&language=vi-VN&page=1"
         val request = Request.Builder().url(url).build()
@@ -431,6 +467,7 @@ class WatchMovieActivity : AppCompatActivity() {
         })
     }
 
+    //Ham lay video url tu firestore
     private fun getVideoUrlFromFirestore(callback: (MutableList<Episode>?) -> Unit) {
         val firestore = FirebaseFirestore.getInstance()
         val movieId = movie?.id.toString()
@@ -467,6 +504,7 @@ class WatchMovieActivity : AppCompatActivity() {
 
     }
 
+    //Ham khoi tao ExoPlayer
     private fun setupVideoPlayer(videoUrl: String?) {
         videoUrl?.let {
             // Tạo MediaItem từ URL video
@@ -483,6 +521,7 @@ class WatchMovieActivity : AppCompatActivity() {
         }
     }
 
+    //Ham chuyen doi che do fullscreen
     private fun toggleFullscreen(){
         if(isFullscreen){
             exitFullscreen()
@@ -493,6 +532,7 @@ class WatchMovieActivity : AppCompatActivity() {
         }
     }
 
+    //Ham bat dau che do fullscreen
     private fun enterFullscreen(){
         isFullscreen = true
         // 1. Ẩn nội dung dưới video
@@ -513,6 +553,7 @@ class WatchMovieActivity : AppCompatActivity() {
         playerView.layoutParams = params
     }
 
+    //Ham thoat khoi che do fullscreen
     private fun exitFullscreen(){
         isFullscreen = false
         // 1. Hiện lại layout
@@ -532,6 +573,7 @@ class WatchMovieActivity : AppCompatActivity() {
         binding.playerView.layoutParams = params
     }
 
+    //Ham kiem tra xem phim da tai xuong chua
     private fun checkIfMovieDowload(){
         lifecycleScope.launch {
             val movieId = movie?.id.toString()
@@ -554,6 +596,7 @@ class WatchMovieActivity : AppCompatActivity() {
     }
 
 
+    //Ham xoa phim
     private fun deleteMovie(movieId: String){
         lifecycleScope.launch {
             val downloadedVideo = AppDatabase.getDatabase(this@WatchMovieActivity).downloadedVideoDao().getById(movieId,episode)
@@ -570,6 +613,7 @@ class WatchMovieActivity : AppCompatActivity() {
         }
     }
 
+    //Haàm tải xuống video
     private fun dowloadVideo(context: Context,videoUrl: String,fileName: String,onDownloaded: (filePath: String) -> Unit){
         val directory = context.getExternalFilesDir(Environment.DIRECTORY_MOVIES)
         if(!directory!!.exists()) directory.mkdirs() //Neu khong ton tai thi tao thu muc
@@ -617,6 +661,7 @@ class WatchMovieActivity : AppCompatActivity() {
 
     }
 
+    //Ham download anh
     private fun dowloadImage(context: Context,imageUrl: String,fileName: String,onDownloaded: (filePath: String) -> Unit){
         val directory = context.getExternalFilesDir(Environment.DIRECTORY_MOVIES)
         if(!directory!!.exists()) directory.mkdirs() // Tao thu muc neu chua co
@@ -652,10 +697,49 @@ class WatchMovieActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         exoPlayer.pause() // Dừng ExoPlayer khi activity bị pause
+        Log.d("WatchMovieActivity", "onPause() called")
+        val position = exoPlayer.currentPosition
+        val length = exoPlayer.duration
+        Log.d("WatchMovieActivity", "Current position: $position")
+        if(userId.isNullOrEmpty()){
+            Log.e("WatchMovieActivity","User ID is null or empty")
+        }else{
+            firestore.collection("users")
+                .document(userId)
+                .collection("movieProgress")
+                .document(movie?.id.toString())
+                .set(MovieWatching(movie?.id.toString(),movie?.type!!,position,length,episode))
+                .addOnSuccessListener {
+                    Log.d("WatchMovieActivity","Movie progress updated successfully")
+                }
+                .addOnFailureListener {
+                    Log.e("WatchMovieActivity","Failed to update movie progress",it)
+                }
+        }
+
     }
 
     override fun onDestroy() {
         super.onDestroy()
         exoPlayer.release() // Giải phóng tài nguyên của ExoPlayer khi activity bị destroy
+        Log.d("WatchMovieActivity", "onDestroy() called")
+        val position = exoPlayer.currentPosition
+        val length = exoPlayer.duration
+        Log.d("WatchMovieActivity", "Current position: $position, length: $length")
+        if(userId.isNullOrEmpty()){
+            Log.e("WatchMovieActivity","User ID is null or empty")
+        }else{
+            firestore.collection("users")
+                .document(userId)
+                .collection("movieProgress")
+                .document(movie?.id.toString())
+                .set(MovieWatching(movie?.id.toString(),movie?.type!!,position,length,episode))
+                .addOnSuccessListener {
+                    Log.d("WatchMovieActivity","Movie progress updated successfully")
+                }
+                .addOnFailureListener {
+                    Log.e("WatchMovieActivity","Failed to update movie progress",it)
+                }
+        }
     }
 }

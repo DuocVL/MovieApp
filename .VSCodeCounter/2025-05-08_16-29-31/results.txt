@@ -1,13 +1,13 @@
-Date : 2025-04-19 23:20:25
+Date : 2025-05-08 16:29:31
 Directory : c:\Users\Hi\Coder\MovieApp
-Total : 139 files,  5759 codes, 276 comments, 839 blanks, all 6874 lines
+Total : 166 files,  7786 codes, 300 comments, 1123 blanks, all 9209 lines
 
 Languages
 +--------------+------------+------------+------------+------------+------------+
 | language     | files      | code       | comment    | blank      | total      |
 +--------------+------------+------------+------------+------------+------------+
-| XML          |         87 |      2,809 |         60 |        340 |      3,209 |
-| Kotlin       |         44 |      2,681 |        165 |        452 |      3,298 |
+| Kotlin       |         58 |      4,001 |        187 |        641 |      4,829 |
+| XML          |        100 |      3,516 |         62 |        435 |      4,013 |
 | Kotlinscript |          3 |        173 |          2 |         23 |        198 |
 | JSON         |          1 |         47 |          0 |          0 |         47 |
 | Batch        |          1 |         39 |         29 |         22 |         90 |
@@ -19,40 +19,40 @@ Directories
 +-----------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
 | path                                                                                                      | files      | code       | comment    | blank      | total      |
 +-----------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
-| .                                                                                                         |        139 |      5,759 |        276 |        839 |      6,874 |
+| .                                                                                                         |        166 |      7,786 |        300 |      1,123 |      9,209 |
 | . (Files)                                                                                                 |          5 |         70 |         49 |         26 |        145 |
 | .idea                                                                                                     |         10 |        177 |          0 |          0 |        177 |
 | .idea (Files)                                                                                             |          9 |        124 |          0 |          0 |        124 |
 | .idea\inspectionProfiles                                                                                  |          1 |         53 |          0 |          0 |         53 |
-| app                                                                                                       |        123 |      5,507 |        226 |        812 |      6,545 |
+| app                                                                                                       |        150 |      7,534 |        250 |      1,096 |      8,880 |
 | app (Files)                                                                                               |          2 |        194 |          1 |         20 |        215 |
-| app\src                                                                                                   |        121 |      5,313 |        225 |        792 |      6,330 |
+| app\src                                                                                                   |        148 |      7,340 |        249 |      1,076 |      8,665 |
 | app\src\androidTest                                                                                       |          1 |         14 |          6 |          4 |         24 |
 | app\src\androidTest\java                                                                                  |          1 |         14 |          6 |          4 |         24 |
 | app\src\androidTest\java\com                                                                              |          1 |         14 |          6 |          4 |         24 |
 | app\src\androidTest\java\com\example                                                                      |          1 |         14 |          6 |          4 |         24 |
 | app\src\androidTest\java\com\example\movieapp                                                             |          1 |         14 |          6 |          4 |         24 |
-| app\src\main                                                                                              |        119 |      5,290 |        214 |        785 |      6,289 |
-| app\src\main (Files)                                                                                      |          1 |         64 |          0 |          6 |         70 |
-| app\src\main\java                                                                                         |         42 |      2,658 |        154 |        445 |      3,257 |
-| app\src\main\java\com                                                                                     |         42 |      2,658 |        154 |        445 |      3,257 |
-| app\src\main\java\com\example                                                                             |         42 |      2,658 |        154 |        445 |      3,257 |
-| app\src\main\java\com\example\movieapp                                                                    |         42 |      2,658 |        154 |        445 |      3,257 |
-| app\src\main\java\com\example\movieapp (Files)                                                            |          5 |        135 |         18 |         37 |        190 |
-| app\src\main\java\com\example\movieapp\Activities                                                         |         13 |      1,693 |         64 |        246 |      2,003 |
-| app\src\main\java\com\example\movieapp\Adapters                                                           |          6 |        169 |          1 |         37 |        207 |
-| app\src\main\java\com\example\movieapp\Dataclass                                                          |         10 |         96 |          0 |         26 |        122 |
-| app\src\main\java\com\example\movieapp\Fragment                                                           |          5 |        501 |         44 |         87 |        632 |
+| app\src\main                                                                                              |        146 |      7,317 |        238 |      1,069 |      8,624 |
+| app\src\main (Files)                                                                                      |          1 |         70 |          0 |          7 |         77 |
+| app\src\main\java                                                                                         |         56 |      3,978 |        176 |        634 |      4,788 |
+| app\src\main\java\com                                                                                     |         56 |      3,978 |        176 |        634 |      4,788 |
+| app\src\main\java\com\example                                                                             |         56 |      3,978 |        176 |        634 |      4,788 |
+| app\src\main\java\com\example\movieapp                                                                    |         56 |      3,978 |        176 |        634 |      4,788 |
+| app\src\main\java\com\example\movieapp (Files)                                                            |          4 |         88 |          6 |         25 |        119 |
+| app\src\main\java\com\example\movieapp\Activities                                                         |         15 |      1,942 |         70 |        282 |      2,294 |
+| app\src\main\java\com\example\movieapp\Adapters                                                           |         11 |        476 |          8 |         80 |        564 |
+| app\src\main\java\com\example\movieapp\Dataclass                                                          |         13 |        125 |          0 |         34 |        159 |
+| app\src\main\java\com\example\movieapp\Fragment                                                           |         10 |      1,283 |         65 |        201 |      1,549 |
 | app\src\main\java\com\example\movieapp\ui                                                                 |          3 |         64 |         27 |         12 |        103 |
 | app\src\main\java\com\example\movieapp\ui\theme                                                           |          3 |         64 |         27 |         12 |        103 |
-| app\src\main\res                                                                                          |         76 |      2,568 |         60 |        334 |      2,962 |
+| app\src\main\res                                                                                          |         89 |      3,269 |         62 |        428 |      3,759 |
 | app\src\main\res\anim                                                                                     |          2 |         10 |          0 |          2 |         12 |
 | app\src\main\res\color                                                                                    |          1 |          5 |          0 |          0 |          5 |
-| app\src\main\res\drawable                                                                                 |         38 |        421 |          3 |         58 |        482 |
-| app\src\main\res\layout                                                                                   |         25 |      2,054 |         32 |        268 |      2,354 |
+| app\src\main\res\drawable                                                                                 |         40 |        439 |          3 |         59 |        501 |
+| app\src\main\res\layout                                                                                   |         35 |      2,696 |         34 |        357 |      3,087 |
 | app\src\main\res\menu                                                                                     |          1 |         19 |          0 |          1 |         20 |
 | app\src\main\res\mipmap-anydpi-v26                                                                        |          2 |         10 |          0 |          0 |         10 |
-| app\src\main\res\values                                                                                   |          5 |         41 |          1 |          5 |         47 |
+| app\src\main\res\values                                                                                   |          6 |         82 |          1 |          9 |         92 |
 | app\src\main\res\xml                                                                                      |          2 |          8 |         24 |          0 |         32 |
 | app\src\test                                                                                              |          1 |          9 |          5 |          3 |         17 |
 | app\src\test\java                                                                                         |          1 |          9 |          5 |          3 |         17 |
@@ -81,45 +81,59 @@ Files
 | c:\Users\Hi\Coder\MovieApp\app\build.gradle.kts                                                           | Kotlinscript |        147 |          1 |         20 |        168 |
 | c:\Users\Hi\Coder\MovieApp\app\google-services.json                                                       | JSON         |         47 |          0 |          0 |         47 |
 | c:\Users\Hi\Coder\MovieApp\app\src\androidTest\java\com\example\movieapp\ExampleInstrumentedTest.kt       | Kotlin       |         14 |          6 |          4 |         24 |
-| c:\Users\Hi\Coder\MovieApp\app\src\main\AndroidManifest.xml                                               | XML          |         64 |          0 |          6 |         70 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\AndroidManifest.xml                                               | XML          |         70 |          0 |          7 |         77 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Activities\IntroActivity.kt             | Kotlin       |         34 |          3 |          9 |         46 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Activities\LoginActivity.kt             | Kotlin       |        119 |          5 |         18 |        142 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Activities\MainActivity.kt              | Kotlin       |         35 |          4 |          9 |         48 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Activities\MovieDetailActivity.kt       | Kotlin       |        222 |          3 |         29 |        254 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Activities\OTPActivity.kt               | Kotlin       |         43 |          1 |          8 |         52 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Activities\PackagePaymentActivity.kt    | Kotlin       |         57 |          0 |         15 |         72 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Activities\PersonActivity.kt            | Kotlin       |        160 |          2 |         14 |        176 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Activities\PhoneNumberActivity.kt       | Kotlin       |         57 |          5 |         11 |         73 |
-| c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Activities\SavedMovieListActivity.kt    | Kotlin       |        134 |          1 |         13 |        148 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Activities\RatingMovieListActivity.kt   | Kotlin       |        141 |          1 |         15 |        157 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Activities\SavedMovieListActivity.kt    | Kotlin       |        141 |          1 |         14 |        156 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Activities\SearchActivity.kt            | Kotlin       |        137 |          3 |         16 |        156 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Activities\SignupActivity.kt            | Kotlin       |         57 |          0 |         10 |         67 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Activities\SplashActivity.kt            | Kotlin       |         33 |          9 |          8 |         50 |
-| c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Activities\WatchMovieActivity.kt        | Kotlin       |        515 |         18 |         75 |        608 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Activities\WatchMovieActivity.kt        | Kotlin       |        559 |         23 |         80 |        662 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Activities\WatchMovieDowloadActivity.kt | Kotlin       |        147 |         10 |         26 |        183 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Adapters\BannerAdapter.kt               | Kotlin       |         25 |          1 |          7 |         33 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Adapters\CommentAdapter.kt              | Kotlin       |        194 |          6 |         18 |        218 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Adapters\DownloadedVideoAdapter.kt      | Kotlin       |         29 |          0 |          6 |         35 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Adapters\EpisodeAdapter.kt              | Kotlin       |         20 |          0 |          5 |         25 |
-| c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Adapters\MovieAdapter.kt                | Kotlin       |         32 |          0 |          5 |         37 |
-| c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Adapters\MovieSearchAdapter.kt          | Kotlin       |         32 |          0 |          7 |         39 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Adapters\FragmentMovieAdapter.kt        | Kotlin       |         12 |          0 |          5 |         17 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Adapters\MovieAdapter.kt                | Kotlin       |         37 |          0 |          5 |         42 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Adapters\MovieSearchAdapter.kt          | Kotlin       |         38 |          0 |          7 |         45 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Adapters\PackageAdapter.kt              | Kotlin       |         28 |          0 |          8 |         36 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Adapters\PackagePagerAdapter.kt         | Kotlin       |         17 |          0 |          3 |         20 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Adapters\PersonAdapter.kt               | Kotlin       |         31 |          0 |          7 |         38 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Adapters\ReplyAdapter.kt                | Kotlin       |         45 |          1 |          9 |         55 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\AppDatabase.kt                          | Kotlin       |         22 |          0 |          5 |         27 |
-| c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\AppViewModel.kt                         | Kotlin       |         45 |         12 |         10 |         67 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\AppSessionViewModel.kt                  | Kotlin       |         11 |          0 |          3 |         14 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Dataclass\Actor.kt                      | Kotlin       |         10 |          0 |          3 |         13 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Dataclass\Comment.kt                    | Kotlin       |         11 |          0 |          3 |         14 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Dataclass\Director.kt                   | Kotlin       |          9 |          0 |          3 |         12 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Dataclass\DownloadedVideo.kt            | Kotlin       |         11 |          0 |          4 |         15 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Dataclass\Episode.kt                    | Kotlin       |          5 |          0 |          2 |          7 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Dataclass\ItemMovie.kt                  | Kotlin       |          9 |          0 |          2 |         11 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Dataclass\ItemPerson.kt                 | Kotlin       |          7 |          0 |          3 |         10 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Dataclass\Movie.kt                      | Kotlin       |         21 |          0 |          3 |         24 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Dataclass\PackagePayment.kt             | Kotlin       |          7 |          0 |          2 |          9 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Dataclass\Person.kt                     | Kotlin       |         13 |          0 |          2 |         15 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Dataclass\Rating.kt                     | Kotlin       |          5 |          0 |          2 |          7 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Dataclass\Reply.kt                      | Kotlin       |         11 |          0 |          3 |         14 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Dataclass\WatchLaterMovie.kt            | Kotlin       |          6 |          0 |          2 |          8 |
-| c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\DownloadViewModel.kt                    | Kotlin       |         13 |          0 |          5 |         18 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\DownloadedVideoDao.kt                   | Kotlin       |         16 |          0 |          8 |         24 |
-| c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Fragment\CategoryFragment.kt            | Kotlin       |          4 |          0 |          2 |          6 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Fragment\CategoryFragment.kt            | Kotlin       |         50 |          3 |         12 |         65 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Fragment\CommentFragment.kt             | Kotlin       |        254 |          8 |         23 |        285 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Fragment\DowloadFragment.kt             | Kotlin       |         71 |          0 |         12 |         83 |
-| c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Fragment\HomeFragment.kt                | Kotlin       |        188 |         41 |         38 |        267 |
-| c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Fragment\ProfileFragment.kt             | Kotlin       |         35 |          0 |         10 |         45 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Fragment\HomeFragment.kt                | Kotlin       |        190 |         43 |         38 |        271 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Fragment\MovieTabLayoutFragment.kt      | Kotlin       |        288 |          7 |         47 |        342 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Fragment\PaymentFragment.kt             | Kotlin       |        116 |          1 |         23 |        140 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Fragment\ProfileFragment.kt             | Kotlin       |         43 |          0 |         11 |         54 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Fragment\RatingFragment.kt              | Kotlin       |        203 |          3 |         25 |        231 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Fragment\ResultFragment.kt              | Kotlin       |         24 |          0 |          5 |         29 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\Fragment\SelectPackageFragment.kt       | Kotlin       |         44 |          0 |          5 |         49 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\SessionManager.kt                       | Kotlin       |         39 |          6 |          9 |         54 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\ui\theme\Color.kt                       | Kotlin       |          8 |          0 |          3 |         11 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\java\com\example\movieapp\ui\theme\Theme.kt                       | Kotlin       |         41 |         10 |          7 |         58 |
@@ -140,6 +154,7 @@ Files
 | c:\Users\Hi\Coder\MovieApp\app\src\main\res\drawable\downloading.xml                                      | XML          |          9 |          0 |          1 |         10 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\res\drawable\edittext_background.xml                              | XML          |          9 |          0 |          0 |          9 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\res\drawable\favorite.xml                                         | XML          |          9 |          0 |          1 |         10 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\res\drawable\favorite_red.xml                                     | XML          |          9 |          0 |          0 |          9 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\res\drawable\forward_10second.xml                                 | XML          |          9 |          0 |          1 |         10 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\res\drawable\full_screen.xml                                      | XML          |         22 |          0 |          1 |         23 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\res\drawable\gradient_background.xml                              | XML          |         11 |          0 |          0 |         11 |
@@ -162,6 +177,7 @@ Files
 | c:\Users\Hi\Coder\MovieApp\app\src\main\res\drawable\progress_bar_rating.xml                              | XML          |         15 |          0 |          0 |         15 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\res\drawable\replay_10second.xml                                  | XML          |          9 |          0 |          1 |         10 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\res\drawable\second.xml                                           | XML          |          9 |          0 |          1 |         10 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\res\drawable\send.xml                                             | XML          |          9 |          0 |          1 |         10 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\res\drawable\settings.xml                                         | XML          |         14 |          0 |          1 |         15 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\res\drawable\small_screen.xml                                     | XML          |         22 |          0 |          1 |         23 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\res\drawable\subtitle_square.xml                                  | XML          |         18 |          0 |          1 |         19 |
@@ -169,31 +185,42 @@ Files
 | c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\activity_login.xml                                     | XML          |        144 |          3 |         13 |        160 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\activity_main.xml                                      | XML          |         29 |          0 |          3 |         32 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\activity_movie_detail.xml                              | XML          |        265 |          0 |         39 |        304 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\activity_movie_list.xml                                | XML          |         44 |          2 |          6 |         52 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\activity_otp.xml                                       | XML          |         88 |          0 |          7 |         95 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\activity_package_payment.xml                           | XML          |         60 |          0 |          6 |         66 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\activity_person.xml                                    | XML          |        103 |          5 |         13 |        121 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\activity_phonenumber.xml                               | XML          |         66 |          0 |          2 |         68 |
-| c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\activity_saved_movie_list.xml                          | XML          |         39 |          2 |          6 |         47 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\activity_search.xml                                    | XML          |         72 |          3 |          9 |         84 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\activity_signup.xml                                    | XML          |        133 |          0 |         11 |        144 |
-| c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\activity_watch_movie.xml                               | XML          |        218 |          0 |         31 |        249 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\activity_watch_movie.xml                               | XML          |        269 |          0 |         37 |        306 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\activity_watch_movie_dowload.xml                       | XML          |         76 |          0 |          8 |         84 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\custom_exo_player_controls.xml                         | XML          |        106 |          0 |         13 |        119 |
-| c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\fragment_category.xml                                  | XML          |         13 |          0 |          1 |         14 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\fragment_category.xml                                  | XML          |         62 |          0 |          9 |         71 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\fragment_comment.xml                                   | XML          |         48 |          0 |          9 |         57 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\fragment_dowload.xml                                   | XML          |         23 |          0 |          1 |         24 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\fragment_home.xml                                      | XML          |         94 |          5 |         14 |        113 |
-| c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\fragment_profile.xml                                   | XML          |         78 |          2 |         14 |         94 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\fragment_payment.xml                                   | XML          |         10 |          0 |          2 |         12 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\fragment_profile.xml                                   | XML          |        112 |          4 |         17 |        133 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\fragment_rating.xml                                    | XML          |        110 |          5 |         19 |        134 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\fragment_result.xml                                    | XML          |         15 |          0 |          2 |         17 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\fragment_select_package.xml                            | XML          |          7 |          0 |          0 |          7 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\fragment_tablayout_movie.xml                           | XML          |        149 |          0 |         23 |        172 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\item_banner.xml                                        | XML          |         10 |          0 |          1 |         11 |
-| c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\item_comment.xml                                       | XML          |         53 |          0 |         11 |         64 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\item_comment.xml                                       | XML          |        117 |          0 |         17 |        134 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\item_downloaded_video.xml                              | XML          |         44 |          0 |          8 |         52 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\item_episode.xml                                       | XML          |         11 |          0 |          1 |         12 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\item_movie.xml                                         | XML          |         72 |          7 |         11 |         90 |
-| c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\item_movie_search.xml                                  | XML          |         91 |          0 |         11 |        102 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\item_movie_search.xml                                  | XML          |         90 |          0 |         11 |        101 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\item_package.xml                                       | XML          |         54 |          0 |          9 |         63 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\item_person.xml                                        | XML          |         31 |          0 |          4 |         35 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\item_reply.xml                                         | XML          |         79 |          0 |         13 |         92 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\spinner_dropdown_item.xml                              | XML          |          9 |          0 |          1 |         10 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\res\layout\spinner_item.xml                                       | XML          |          9 |          0 |          1 |         10 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\res\menu\bottom_menu.xml                                          | XML          |         19 |          0 |          1 |         20 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\res\mipmap-anydpi-v26\ic_launcher.xml                             | XML          |          5 |          0 |          0 |          5 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\res\mipmap-anydpi-v26\ic_launcher_round.xml                       | XML          |          5 |          0 |          0 |          5 |
-| c:\Users\Hi\Coder\MovieApp\app\src\main\res\values\colors.xml                                             | XML          |         19 |          0 |          1 |         20 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\res\values\arrays.xml                                             | XML          |         38 |          0 |          4 |         42 |
+| c:\Users\Hi\Coder\MovieApp\app\src\main\res\values\colors.xml                                             | XML          |         22 |          0 |          1 |         23 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\res\values\ic_launcher_background.xml                             | XML          |          4 |          0 |          0 |          4 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\res\values\strings.xml                                            | XML          |          3 |          0 |          0 |          3 |
 | c:\Users\Hi\Coder\MovieApp\app\src\main\res\values\styles.xml                                             | XML          |         10 |          1 |          1 |         12 |
@@ -206,5 +233,5 @@ Files
 | c:\Users\Hi\Coder\MovieApp\gradle\wrapper\gradle-wrapper.properties                                       | Properties   |          5 |          1 |          1 |          7 |
 | c:\Users\Hi\Coder\MovieApp\gradlew.bat                                                                    | Batch        |         39 |         29 |         22 |         90 |
 | c:\Users\Hi\Coder\MovieApp\settings.gradle.kts                                                            | Kotlinscript |         22 |          0 |          2 |         24 |
-| Total                                                                                                     |              |      5,759 |        276 |        839 |      6,874 |
+| Total                                                                                                     |              |      7,786 |        300 |      1,123 |      9,209 |
 +-----------------------------------------------------------------------------------------------------------+--------------+------------+------------+------------+------------+

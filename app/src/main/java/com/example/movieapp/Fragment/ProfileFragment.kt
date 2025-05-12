@@ -45,7 +45,7 @@ class ProfileFragment : Fragment() {
             startActivity(intent)
         }
 
-        binding.buttonPay.setOnClickListener {
+        binding.paymentButton.setOnClickListener {
             val intent = Intent(requireContext(), PackagePaymentActivity::class.java)
             startActivity(intent)
         }
