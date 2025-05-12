@@ -1,14 +1,19 @@
 package com.example.movieapp.Adapters
 
+import android.content.Intent
 import android.text.format.DateUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.movieapp.Activities.LoginActivity
+import com.example.movieapp.AppSessionViewModel
 import com.example.movieapp.Dataclass.Comment
 import com.example.movieapp.Dataclass.Reply
 import com.example.movieapp.R
+import com.example.movieapp.SessionManager
 import com.example.movieapp.databinding.ItemCommentBinding
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
@@ -25,10 +30,14 @@ class CommentAdapter(
     private val firebaseFirestore : FirebaseFirestore = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
     private val currentUser = auth.currentUser
+    private lateinit var appSessionViewModel: AppSessionViewModel
+    private lateinit var sessionManager: SessionManager
 
     inner class CommentViewHolder(val binding: ItemCommentBinding) : RecyclerView.ViewHolder(binding.root) {
         val replyAdapter = ReplyAdapter(mutableListOf()) // Mỗi ViewHolder có adapter riêng cho reply
         init {
+            sessionManager = SessionManager(itemView.context)
+            appSessionViewModel = AppSessionViewModel(itemView.context.applicationContext as android.app.Application)
             binding.listReply.adapter = replyAdapter
             binding.listReply.layoutManager = LinearLayoutManager(itemView.context, LinearLayoutManager.VERTICAL, false)
         }
@@ -81,6 +90,23 @@ class CommentAdapter(
             onReplyClick(comment.commentId ?: "", comment.username ?: "")
         }
         holder.binding.btnLike.setOnClickListener {
+            if(appSessionViewModel.isAnonymous()){
+                val dialog = AlertDialog.Builder(holder.itemView.context)
+                    .setTitle("Thông báo")
+                    .setMessage("Bạn cần đăng nhập để mua gói ?")
+                    .setIcon(R.drawable.ic_help)
+                    .setPositiveButton("Đăng nhập") { _, _ ->
+                        sessionManager.clearSession()
+                        val intent = Intent(holder.itemView.context, LoginActivity::class.java)
+                        holder.itemView.context.startActivity(intent)
+                        (holder.itemView.context as? android.app.Activity)?.finish()
+                    }
+                    .setNegativeButton("Hủy"){ _, _ ->
+                        // Không làm gì khi người dùng chọn hủy
+                    }
+                dialog.show()
+                return@setOnClickListener
+            }
             addLike(position){ status ->
                 if(status){
                     addLikeUser(position){ it ->
@@ -111,7 +137,7 @@ class CommentAdapter(
         }
     }
 
-    fun addLike(position: Int,callback: (Boolean) -> Unit){
+    private fun addLike(position: Int,callback: (Boolean) -> Unit){
         Log.e("CommentAdapter", "addLike called for position: $position")
         //Thêm lươợt thích vào comment
         val movieId = list[position].movieId
@@ -132,7 +158,7 @@ class CommentAdapter(
     }
 
     //Them vao  danh sach like cua comment
-    fun addLikeUser(position: Int,callback: (Boolean) -> Unit){
+    private fun addLikeUser(position: Int,callback: (Boolean) -> Unit){
         Log.e("CommentAdapter", "addLikeUser called for position: $position")
         val movieId = list[position].movieId
         val commentId = list[position].commentId
@@ -156,7 +182,7 @@ class CommentAdapter(
 
 
     // Sử dụng thư viện DateUtils của Android (nếu bạn đang trong môi trường Android)
-    fun formatTimeDifferenceAndroid(timestamp: Timestamp, context: android.content.Context): CharSequence {
+    private fun formatTimeDifferenceAndroid(timestamp: Timestamp, context: android.content.Context): CharSequence {
         return DateUtils.getRelativeTimeSpanString(
             timestamp.toDate().time,
             System.currentTimeMillis(),
@@ -183,7 +209,7 @@ class CommentAdapter(
         }
     }
 
-    fun getRepliesForComment(commentId: String, callback: (List<Reply>) -> Unit) {
+    private fun getRepliesForComment(commentId: String, callback: (List<Reply>) -> Unit) {
         firebaseFirestore.collection("movie")
             .document(movieId)
             .collection("comments")

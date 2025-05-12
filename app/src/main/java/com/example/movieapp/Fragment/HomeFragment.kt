@@ -8,10 +8,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.media3.common.util.UnstableApi
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.movieapp.Activities.LoginActivity
 import com.example.movieapp.Activities.MovieDetailActivity
 import com.example.movieapp.Activities.NotificationActivity
 import com.example.movieapp.Activities.PackagePaymentActivity
@@ -29,6 +30,8 @@ import com.example.movieapp.Dataclass.Director
 import com.example.movieapp.Dataclass.ItemMovie
 import com.example.movieapp.Dataclass.Movie
 import com.example.movieapp.Dataclass.MovieWatching
+import com.example.movieapp.R
+import com.example.movieapp.SessionManager
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.firestore.FirebaseFirestore
 import okhttp3.Call
@@ -55,6 +58,7 @@ class HomeFragment : Fragment() {
     private lateinit var firebaseFirestore: FirebaseFirestore
     private lateinit var listMovieWatching: List<MovieWatching>
     private lateinit var listMovie : MutableMap<String,Movie>
+    private lateinit var sessionManager: SessionManager
 
 
 
@@ -100,10 +104,28 @@ class HomeFragment : Fragment() {
             }
         }
         getBannerMovie()
-
+        sessionManager = SessionManager(requireContext())
         binding.buyPackageButton.setOnClickListener {
-            val intent = Intent(requireContext(),PackagePaymentActivity::class.java)
-            startActivity(intent)
+            if(appSessionViewModel.isAnonymous()){
+                val dialog = AlertDialog.Builder(requireContext())
+                    .setTitle("Thông báo")
+                    .setMessage("Bạn cần đăng nhập để mua gói ?")
+                    .setIcon(R.drawable.ic_help)
+                    .setPositiveButton("Đăng nhập") { _, _ ->
+                        sessionManager.clearSession()
+                        val intent = Intent(requireContext(), LoginActivity::class.java)
+                        startActivity(intent)
+                        activity?.finish()
+                    }
+                    .setNegativeButton("Hủy"){ _, _ ->
+                        // Không làm gì khi người dùng chọn hủy
+                    }
+                dialog.show()
+            }
+            else{
+                val intent = Intent(requireContext(),PackagePaymentActivity::class.java)
+                startActivity(intent)
+            }
         }
 
         binding.searchButton.setOnClickListener {

@@ -12,6 +12,9 @@ import com.example.movieapp.databinding.FragmentResultBinding
 class ResultFragment : Fragment(){
     private var _binding: FragmentResultBinding? = null
     private val binding get() = _binding!!
+    private var packagePaymentActivity: PackagePaymentActivity? = null
+    private var statusPayment = false
+    private var orderId = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,9 +28,9 @@ class ResultFragment : Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d("ResultFragment", "onViewCreated called")
-        val packagePaymentActivity = activity as? PackagePaymentActivity
-        val statusPayment = packagePaymentActivity?.getStatusPayment() ?: false
-        val orderId = packagePaymentActivity?.getOrderId() ?: ""
+        packagePaymentActivity = activity as? PackagePaymentActivity
+        statusPayment = packagePaymentActivity?.getStatusPayment() ?: false
+        orderId = packagePaymentActivity?.getOrderId() ?: ""
 
         if (statusPayment) {
             binding.statusPayment.text = "Thanh toán thành công với mã đơn hàng: $orderId"
@@ -44,4 +47,16 @@ class ResultFragment : Fragment(){
         }
     }
 
+
+
+    override fun onResume() {
+        super.onResume()
+        val statusPayment = packagePaymentActivity?.getStatusPayment() ?: false
+        val orderId = packagePaymentActivity?.getOrderId() ?: ""
+        if (statusPayment) {
+            binding.statusPayment.text = "Thanh toán thành công với mã đơn hàng: $orderId"
+        } else {
+            binding.statusPayment.text = "Thanh toán thất bại"
+        }
+    }
 }

@@ -1,9 +1,11 @@
 package com.example.movieapp.Activities
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.movieapp.AppSessionViewModel
 import com.example.movieapp.Fragment.CategoryFragment
 import com.example.movieapp.Fragment.DowloadFragment
 import com.example.movieapp.Fragment.HomeFragment
@@ -14,6 +16,7 @@ import com.example.movieapp.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var appSessionViewModel: AppSessionViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +27,10 @@ class MainActivity : AppCompatActivity() {
 
         //Hiển thị giao diện HomeFragment mặc dịnh
         loadFragment(HomeFragment())
+        appSessionViewModel = AppSessionViewModel(application)
+        val userId = appSessionViewModel.getUserId()
+        val isAnonymous = appSessionViewModel.isAnonymous()
+        Log.d("AppSessionViewModel", "User ID: $userId, Anonymous: $isAnonymous")
 
         //Xử lý sự kiện khi chọn item trong BottomNavigationView
         binding.bottomNavigation.setOnItemSelectedListener { item ->

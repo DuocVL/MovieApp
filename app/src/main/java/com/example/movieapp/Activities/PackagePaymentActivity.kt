@@ -17,6 +17,7 @@ import com.example.movieapp.databinding.ActivityPackagePaymentBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.firestore.FirebaseFirestore
+import java.util.Date
 
 class PackagePaymentActivity : AppCompatActivity() {
 
@@ -26,7 +27,7 @@ class PackagePaymentActivity : AppCompatActivity() {
     private lateinit var firestore: FirebaseFirestore
     private lateinit var appSessionViewModel: AppSessionViewModel
 
-    private lateinit var namePackageText: TextView
+    private lateinit var statusPackage: TextView
     private lateinit var timeStartText: TextView
     private lateinit var timeEndText: TextView
 
@@ -43,16 +44,21 @@ class PackagePaymentActivity : AppCompatActivity() {
         appSessionViewModel = AppSessionViewModel(application)
         tabLayout = binding.tabLayout
         viewPager = binding.viewPager
-        namePackageText = binding.namePackage
+        statusPackage = binding.statusPayment
         timeStartText = binding.timeStart
         timeEndText = binding.timeEnd
 
         showPackageStatusUI()
 
+        binding.backButton.setOnClickListener {
+            finish()
+        }
+
         binding.buttonBuy.setOnClickListener {
             binding.resultPayment.visibility = View.GONE
             binding.tabLayout.visibility = View.VISIBLE
             binding.viewPager.visibility = View.VISIBLE
+
         }
 
         viewPager.adapter = PackagePagerAdapter(this)
@@ -79,8 +85,8 @@ class PackagePaymentActivity : AppCompatActivity() {
         binding.resultPayment.visibility = View.VISIBLE
         binding.tabLayout.visibility = View.GONE
         binding.viewPager.visibility = View.GONE
-        //val userId = appSessionViewModel.getUserId()
-        val userId = "2"
+        val userId = appSessionViewModel.getUserId()
+        //val userId = "2"
         firestore.collection("users")
             .document(userId)
             .collection("payments")
@@ -102,17 +108,21 @@ class PackagePaymentActivity : AppCompatActivity() {
                     val startDate = java.text.SimpleDateFormat("dd/MM/yyyy HH:mm").format(java.util.Date(startTime))
                     val endDate = java.text.SimpleDateFormat("dd/MM/yyyy HH:mm").format(java.util.Date(endTime))
 
-                    namePackageText.text = "Loại gói: $packageName"
+                    if(Date().time > endTime){
+                        statusPackage.text = "Gói đã hết hạn"
+                    }else{
+                        statusPackage.text = "Gói đang hoạt động"
+                    }
                     timeStartText.text = "Thời gian bắt đầu: $startDate"
                     timeEndText.text = "Thời gian kết thúc: $endDate"
                 } else {
-                    namePackageText.text = "Chưa có gói hoạt động"
+                    statusPackage.text = "Bạn chưa mua gói nào"
                     timeStartText.text = ""
                     timeEndText.text = ""
                 }
             }
             .addOnFailureListener {
-                namePackageText.text = "Bạn chưa mua gói thue bao nao"
+                statusPackage.text = "Bạn chưa mua gói thue bao nao"
                 timeStartText.text = ""
                 timeEndText.text = ""
                 Log.e("PackagePaymentActivity", "Lỗi đọc Firestore: ${it.message}")
@@ -147,10 +157,12 @@ class PackagePaymentActivity : AppCompatActivity() {
     }
 
     fun setStatusPayment(status: Boolean){
+        Log.d("PackagePaymentActivity", "setStatusPayment called with status: $status")
         statusPayment = status
     }
 
     fun getStatusPayment(): Boolean{
+        Log.d("PackagePaymentActivity", "getStatusPayment called with status: $statusPayment")
         return statusPayment
     }
 

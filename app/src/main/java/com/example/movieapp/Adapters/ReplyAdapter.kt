@@ -23,7 +23,6 @@ class ReplyAdapter(private val replyList: MutableList<Reply>) : RecyclerView.Ada
         holder.binding.username.text = replyList[position].usernameReply // Sử dụng usernameReply
         holder.binding.commentText.setText(replyList[position].content)
         holder.binding.time.setText(formatTimeDifferenceAndroid(replyList[position].timestamp, holder.itemView.context))
-        holder.binding.likeCount.setText("0")
     }
 
     // Sử dụng thư viện DateUtils của Android (nếu bạn đang trong môi trường Android)

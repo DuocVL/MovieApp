@@ -1,15 +1,21 @@
 package com.example.movieapp.Fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.movieapp.Activities.LoginActivity
 import com.example.movieapp.Adapters.CommentAdapter
+import com.example.movieapp.AppSessionViewModel
 import com.example.movieapp.Dataclass.Comment
 import com.example.movieapp.Dataclass.Reply
+import com.example.movieapp.R
+import com.example.movieapp.SessionManager
 import com.example.movieapp.databinding.FragmentCommentBinding
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
@@ -35,6 +41,9 @@ class CommentFragment : Fragment() {
     private var statusReply : Boolean = false
     private var replyCommentId : String? = null
     private var replyUserName : String? = null
+    private lateinit var appSessionViewModel: AppSessionViewModel
+    private lateinit var sessionManager: SessionManager
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,6 +60,8 @@ class CommentFragment : Fragment() {
         movieId = arguments?.getString("movieId")
         Log.e("CommentFragment", "movieId: $movieId")
 
+        appSessionViewModel = AppSessionViewModel(requireActivity().application)
+        sessionManager = SessionManager(requireContext())
 
         getDetailFirebase(movieId!!){ list,userLike ->
             listComment = list
@@ -58,6 +69,10 @@ class CommentFragment : Fragment() {
             Log.e("CommentFragment", "listComment: $listComment")
             binding.commentTitle.setText("${listComment.size} bình luận")
             adapter = CommentAdapter(movieId!!,listComment.toMutableList(),userLike.toMutableList()){ commentId,username ->
+                if(appSessionViewModel.isAnonymous()){
+                    showDiaLog()
+                    return@CommentAdapter
+                }
                 statusReply = true
                 replyCommentId = commentId
                 replyUserName = username
@@ -66,6 +81,23 @@ class CommentFragment : Fragment() {
             binding.listComment.adapter = adapter
             binding.listComment.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
         }
+    }
+
+    private fun showDiaLog(){
+        val dialog = AlertDialog.Builder(requireContext())
+            .setTitle("Thông báo")
+            .setMessage("Bạn cần đăng nhập để mua gói ?")
+            .setIcon(R.drawable.ic_help)
+            .setPositiveButton("Đăng nhập") { _, _ ->
+                sessionManager.clearSession()
+                val intent = Intent(requireContext(), LoginActivity::class.java)
+                startActivity(intent)
+                activity?.finish()
+            }
+            .setNegativeButton("Hủy"){ _, _ ->
+                // Không làm gì khi người dùng chọn hủy
+            }
+        dialog.show()
     }
 
 
@@ -107,7 +139,7 @@ class CommentFragment : Fragment() {
             }
     }
 
-    fun checkLikeComment(document : QueryDocumentSnapshot,callback: (Boolean) -> Unit){
+    private fun checkLikeComment(document : QueryDocumentSnapshot,callback: (Boolean) -> Unit){
         document.reference
             .collection("userLike")
             .document("${currentUser?.uid}")
@@ -147,7 +179,7 @@ class CommentFragment : Fragment() {
     }
 
     //Cap nhat danh sach binh luan
-    fun addCommentList(comment: Comment){
+    private fun addCommentList(comment: Comment){
         Log.e("CommentFragment", "addCommentList called before add: ${listComment.size}")
         listComment.add(comment)
         binding.commentTitle.setText("${listComment.size} bình luận")
@@ -155,7 +187,7 @@ class CommentFragment : Fragment() {
         adapter?.addComment(comment)
     }
 
-    fun addCommentMovie(movieId: String, userId: String, userName: String, content: String, callback: (String?, Timestamp?) -> Unit)  {
+    private fun addCommentMovie(movieId: String, userId: String, userName: String, content: String, callback: (String?, Timestamp?) -> Unit)  {
         Log.d("CommentFragment", "addCommentMovie called")
 
         val movieRef = firestore.collection("movie").document(movieId)
@@ -228,7 +260,7 @@ class CommentFragment : Fragment() {
             }
     }
 
-    fun addCommentUser(commentId: String,movieId: String,userId: String,userName: String,content: String,timestamp: Timestamp){
+    private fun addCommentUser(commentId: String,movieId: String,userId: String,userName: String,content: String,timestamp: Timestamp){
         Log.d("CommentFragment", "addCommentUser called")
         val comment : HashMap<String,Any>
         if(statusReply && replyCommentId != null){
@@ -278,7 +310,7 @@ class CommentFragment : Fragment() {
             }
     }
 
-    fun addReplyComment(reply: Reply){
+    private fun addReplyComment(reply: Reply){
         Log.e("CommentFragment", "addReplyComment called")
         adapter?.addReply(replyCommentId!!,reply)
     }

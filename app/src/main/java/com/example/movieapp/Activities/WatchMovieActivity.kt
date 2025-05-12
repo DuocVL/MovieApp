@@ -18,6 +18,7 @@ import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.media3.exoplayer.ExoPlayer
 import com.example.movieapp.Dataclass.Movie
@@ -33,6 +34,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieapp.Adapters.EpisodeAdapter
 import com.example.movieapp.Adapters.MovieAdapter
 import com.example.movieapp.AppDatabase
+import com.example.movieapp.AppSessionViewModel
 import com.example.movieapp.BuildConfig
 import com.example.movieapp.Dataclass.DownloadedVideo
 import com.example.movieapp.Dataclass.Episode
@@ -41,6 +43,7 @@ import com.example.movieapp.Dataclass.MovieWatching
 import com.example.movieapp.Dataclass.WatchLaterMovie
 import com.example.movieapp.Fragment.CommentFragment
 import com.example.movieapp.Fragment.RatingFragment
+import com.example.movieapp.SessionManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
@@ -87,6 +90,8 @@ class WatchMovieActivity : AppCompatActivity() {
     private var listEpisode : MutableList<Episode>? = null
     private var episode : Int = 1
     private var progress : Long = 0
+    private lateinit var appSessionViewModel: AppSessionViewModel
+    private lateinit var sessionManager: SessionManager
 
     private lateinit var binding: ActivityWatchMovieBinding
 
@@ -109,6 +114,9 @@ class WatchMovieActivity : AppCompatActivity() {
         commentLayout = binding.commentLayout
         commentInputLayout = binding.commentInputLayout
         sendButton = binding.sendButton
+
+        appSessionViewModel = AppSessionViewModel(application)
+        sessionManager = SessionManager(this)
 
 
         // Ẩn commentInputLayout ban đầu
@@ -136,20 +144,31 @@ class WatchMovieActivity : AppCompatActivity() {
         if(movie != null && currentUser != null){
             checkIfMovieSaved()
             checkIfMovieDowload()
-            setDeailMovie(movie!!)
+            setDetailMovie(movie!!)
         }else{
             Log.e("WatchMovieActivity", "Movie is null, unable to load video.")
         }
         getVideoUrlFromFirestore(callback = { list ->
             listEpisode = list
+            if(movie?.type.equals("movie")){
+                binding.episodes.setText("1/1 tập")
+            }else{
+                binding.episodes.setText("${listEpisode?.size}/${movie?.runtime} tập")
+            }
             if(listEpisode.isNullOrEmpty()){
                 Log.e("WatchMovieActivity", "Video URL list is null or empty")
                 Toast.makeText(this,"Video URL list is null or empty",Toast.LENGTH_SHORT).show()
             }else{
                 listEpisode?.let { list ->
                     Log.d("WatchMovieActivity", "Video URL list: ${listEpisode}")
-                    getMovieProgress()
-                    //setupVideoPlayer(videoUrl)
+                    if(appSessionViewModel.isAnonymous()){
+                        this.videoUrl = list[0].url
+                        episode = 1
+                        setTitle()
+                        setupVideoPlayer(videoUrl)
+                    }else{
+                        getMovieProgress()
+                    }
                     setEpisode()
                 }
             }
@@ -165,7 +184,12 @@ class WatchMovieActivity : AppCompatActivity() {
         //Click bookmark để lưu vào danh sách xem sau
         binding.bookmarkButton.setOnClickListener {
             // Thực hiện hành động lưu vào danh sách xem sau
-            saveWatchLater(movie!!)
+            if(appSessionViewModel.isAnonymous()){
+                showDiaLog()
+                return@setOnClickListener
+            }else{
+                saveWatchLater(movie!!)
+            }
         }
 
         //Click favorit de danh gia phim
@@ -180,17 +204,26 @@ class WatchMovieActivity : AppCompatActivity() {
 
         //Click senButton de gui binh luan
         sendButton.setOnClickListener {
-            val content = binding.commentEditText.text.toString().trim()
-            if(content.isNullOrEmpty()){
-                Toast.makeText(this,"Vui lòng nhập bình luận",Toast.LENGTH_SHORT).show()
+            if(appSessionViewModel.isAnonymous()){
+                showDiaLog()
+                return@setOnClickListener
             }else{
-                commentFragment.addComment(content)
-                binding.commentEditText.setText("")
+                val content = binding.commentEditText.text.toString().trim()
+                if(content.isNullOrEmpty()){
+                    Toast.makeText(this,"Vui lòng nhập bình luận",Toast.LENGTH_SHORT).show()
+                }else{
+                    commentFragment.addComment(content)
+                    binding.commentEditText.setText("")
+                }
             }
         }
 
         //Click tai xuong để tải xuống
         binding.dowloadButton.setOnClickListener {
+            if(appSessionViewModel.isAnonymous()){
+                showDiaLog()
+                return@setOnClickListener
+            }
             if(movie == null){
                 Log.e("WatchMovieActivity", "Movie is null, unable to load video.")
             }
@@ -224,6 +257,31 @@ class WatchMovieActivity : AppCompatActivity() {
         }
     }
 
+    private fun setTitle(){
+        if (movie?.type.equals("movie")){
+            binding.Title.setText(movie?.title)
+        }else{
+            binding.Title.setText("${movie?.title} - Tập ${episode}")
+        }
+    }
+
+    private fun showDiaLog(){
+        val dialog = AlertDialog.Builder(this)
+            .setTitle("Thông báo")
+            .setMessage("Bạn cần đăng nhập để mua gói ?")
+            .setIcon(R.drawable.ic_help)
+            .setPositiveButton("Đăng nhập") { _, _ ->
+                sessionManager.clearSession()
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+            .setNegativeButton("Hủy"){ _, _ ->
+                // Không làm gì khi người dùng chọn hủy
+            }
+        dialog.show()
+    }
+
     private fun getMovieProgress(){
         firestore.collection("users")
             .document(userId!!)
@@ -235,11 +293,10 @@ class WatchMovieActivity : AppCompatActivity() {
                     progress = document.getLong("progress") ?: 0
                     episode = document.getLong("episode")?.toInt() ?: 1
                     videoUrl = listEpisode!![episode - 1].url
+                    setTitle()
                     Log.d("WatchMovieActivity", "videoUrl: $videoUrl, episode: $episode, progress: $progress")
                     val mediaItem = MediaItem.fromUri(videoUrl!!)
-
                     exoPlayer.setMediaItem(mediaItem)
-
                     // Phát video
                     exoPlayer.prepare()
                     exoPlayer.seekTo(progress)
@@ -277,20 +334,32 @@ class WatchMovieActivity : AppCompatActivity() {
 
     private fun saveWatchLater(movie: Movie){
         if(saveStatus){
-            currentUser?.uid?.let { userId ->
-                movie?.id?.let { movieId ->
-                    firestore.collection("users")
-                        .document(userId)
-                        .collection("watchLater")
-                        .document(movieId.toString())
-                        .delete()
-                        .addOnSuccessListener {
-                            saveStatus = false
-                            updateFavoriteButtonState()
+            val dialog = AlertDialog.Builder(this)
+                .setTitle("Thông báo")
+                .setIcon(R.drawable.ic_help)
+                .setMessage("Bạn có muốn xóa phim khỏi danh sách xem sau ?")
+                .setPositiveButton("Xóa") { _, _ ->
+                    currentUser?.uid?.let { userId ->
+                        movie?.id?.let { movieId ->
+                            firestore.collection("users")
+                                .document(userId)
+                                .collection("watchLater")
+                                .document(movieId.toString())
+                                .delete()
+                                .addOnSuccessListener {
+                                    saveStatus = false
+                                    updateFavoriteButtonState()
+                                }
+                                .addOnFailureListener {
+                                    Log.e("WatchMovieActivity", "Error deleting movie from watch later", it)
+                                }
                         }
-
+                    }
                 }
-            }
+                .setNegativeButton("Hủy") { _, _ ->
+                    // Không làm gì khi người dùng chọn hủy
+                }
+
         }else{
             currentUser?.uid?.let { userId ->
                 movie?.id?.let { movieId ->
@@ -377,9 +446,10 @@ class WatchMovieActivity : AppCompatActivity() {
     }
 
     //Ham hien thi thong tin phim
-    private fun setDeailMovie(movie : Movie){
+    private fun setDetailMovie(movie : Movie){
         binding.ratingButton.rating = movie.voteAverage.toFloat()/10
         binding.Title.setText(movie.title)
+
         binding.overview.setText(movie.overview)
         binding.overview.maxLines = initialMaxLines
         //Kiem tra xem overview có nhiều dòng không
@@ -416,10 +486,11 @@ class WatchMovieActivity : AppCompatActivity() {
             setupVideoPlayer(url)
             videoUrl = url
             this.episode = episode
+            setTitle()
             checkIfMovieDowload()
         }
-        binding.episodes.adapter = adapter
-        binding.episodes.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false)
+        binding.episodesList.adapter = adapter
+        binding.episodesList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false)
     }
 
     //Ham chuyen doi mo rong va thu nho

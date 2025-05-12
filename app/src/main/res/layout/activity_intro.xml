@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_color"
+    android:background="@android:color/black"
     android:fitsSystemWindows="true">
 
     <ScrollView
@@ -19,33 +19,31 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
                 <ImageView
                     android:id="@+id/imageView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:contentDescription="@null"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:src="@drawable/intro_pic"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:src="@drawable/intro_pic" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
                     android:id="@+id/imageView2"
                     android:layout_width="0dp"
                     android:layout_height="100dp"
+                    android:src="@drawable/gradient_background"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:src="@drawable/gradient_background" />
-
-
+                    app:layout_constraintEnd_toEndOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="24dp"
@@ -55,44 +53,43 @@
                     android:id="@+id/textView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Discovoer Your"
+                    android:text="Khám phá những"
                     android:textColor="@color/white"
-                    android:textSize="27sp"/>
+                    android:textSize="27sp" />
 
                 <TextView
                     android:id="@+id/textView2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Favorite Show"
+                    android:text="Bộ phim yêu thích"
                     android:textColor="@color/orange"
-                    android:textSize="27sp"/>
+                    android:textSize="27sp" />
 
                 <TextView
                     android:id="@+id/textView3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Watch Now or Watch Later" />
+                    android:text="Xem ngay hoặc xem sau"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
 
                 <TextView
                     android:id="@+id/textView4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="you can browse movies and shows by
-genre, search for specific title, or check out our recommendation for you"
+                    android:text="Bạn có thể duyệt phim và chương trình theo thể loại, tìm kiếm tiêu đề cụ thể hoặc xem gợi ý dành riêng cho bạn"
                     android:textSize="17sp"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/getStartBt"
-                    style="@android:style/Widget.Button"
                     android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:text="Get Started"
-                    android:background="@drawable/orange_button_background"
+                    android:text="Bắt đầu"
+                    android:backgroundTint="@android:color/holo_green_dark"
                     android:textColor="@color/white"
-                    android:textSize="18sp"/>
-
+                    android:textSize="18sp" />
             </LinearLayout>
 
         </LinearLayout>

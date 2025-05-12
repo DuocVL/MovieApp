@@ -1,15 +1,20 @@
 package com.example.movieapp.Fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
+import com.example.movieapp.Activities.LoginActivity
+import com.example.movieapp.AppSessionViewModel
 import com.example.movieapp.Dataclass.Rating
 import com.example.movieapp.R
+import com.example.movieapp.SessionManager
 import com.example.movieapp.databinding.FragmentRatingBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -32,6 +37,10 @@ class RatingFragment : DialogFragment() {
     private var rating : Int = 0
     private var ratingStatus = false
 
+    private lateinit var appSessionViewModel: AppSessionViewModel
+    private lateinit var sessionManager: SessionManager
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -52,6 +61,8 @@ class RatingFragment : DialogFragment() {
         firebaseAuth = FirebaseAuth.getInstance()
         currentUser = FirebaseAuth.getInstance()
         userId = currentUser.currentUser?.uid ?: ""
+        appSessionViewModel = AppSessionViewModel(requireActivity().application)
+        sessionManager = SessionManager(requireContext())
 
         getRatingFirestore(callback = { list: List<Rating>?,totalVotes: Int,totalScore : Float ->
             this.list = list
@@ -74,9 +85,30 @@ class RatingFragment : DialogFragment() {
         }
 
         binding.btnSubmit.setOnClickListener {
-            val ratingNew = binding.ratingBarUser.rating.toInt()
-            addRatingFirestore(ratingNew)
+            if(appSessionViewModel.isAnonymous()){
+                showDiaLog()
+            }else{
+                val ratingNew = binding.ratingBarUser.rating.toInt()
+                addRatingFirestore(ratingNew)
+            }
         }
+    }
+
+    private fun showDiaLog(){
+        val dialog = AlertDialog.Builder(requireContext())
+            .setTitle("Thông báo")
+            .setMessage("Bạn cần đăng nhập để mua gói ?")
+            .setIcon(R.drawable.ic_help)
+            .setPositiveButton("Đăng nhập") { _, _ ->
+                sessionManager.clearSession()
+                val intent = Intent(requireContext(), LoginActivity::class.java)
+                startActivity(intent)
+                activity?.finish()
+            }
+            .setNegativeButton("Hủy"){ _, _ ->
+                // Không làm gì khi người dùng chọn hủy
+            }
+        dialog.show()
     }
 
     private fun loadDetail(){

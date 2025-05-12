@@ -78,6 +78,7 @@ class PaymentFragment : Fragment() {
                         if(cancel == "false"){
                             if(status == "PAID"){
                                 Toast.makeText(requireContext(), "✅ Thanh toán thành công! Mã đơn hàng: $orderCode", Toast.LENGTH_SHORT).show()
+                                Log.d("PaymentFragment", "Thanh toán thành công! Mã đơn hàng: $orderCode")
                                 showPaymentResult(true, orderCode)
                             }else if(status == "PENDING"){
                                 Toast.makeText(requireContext(), "Đang chờ thanh toán", Toast.LENGTH_SHORT).show()

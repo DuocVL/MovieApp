@@ -3,11 +3,14 @@ package com.example.movieapp.Activities
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieapp.Adapters.MovieSearchAdapter
+import com.example.movieapp.AppSessionViewModel
 import com.example.movieapp.BuildConfig
 import com.example.movieapp.Dataclass.Movie
+import com.example.movieapp.SessionManager
 import com.example.movieapp.databinding.ActivityMovieListBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -27,7 +30,8 @@ class RatingMovieListActivity : AppCompatActivity() {
     private val currentUser = auth.currentUser
     private val firestore = FirebaseFirestore.getInstance()
     private val TMDB_API_KEY = BuildConfig.TMDB_API_KEY
-
+    private lateinit var appSessionViewModel: AppSessionViewModel
+    private lateinit var sessionManager: SessionManager
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +43,21 @@ class RatingMovieListActivity : AppCompatActivity() {
 
         binding.backButton.setOnClickListener {
             finish()
+        }
+
+        appSessionViewModel = AppSessionViewModel(application)
+        sessionManager = SessionManager(this)
+        if(appSessionViewModel.isAnonymous()){
+            binding.loginButton.visibility = View.VISIBLE
+            binding.statusNotification.visibility = View.VISIBLE
+            binding.listSaveMovie.visibility = View.GONE
+            binding.statusNotification.text = "Không có thông báo nào"
+            binding.loginButton.setOnClickListener {
+                sessionManager.clearSession()
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
         }
 
         fetchSavedMovies(callback = { savedMovies ->

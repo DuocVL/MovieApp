@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.movieapp.SessionManager
 
@@ -17,6 +19,7 @@ class SplashActivity : AppCompatActivity(){
 
     //Luu thong tin dang nhap
     private lateinit var sessionManager: SessionManager
+    private var loginAnonymous: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

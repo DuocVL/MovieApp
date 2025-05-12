@@ -43,8 +43,30 @@ class LoginActivity : AppCompatActivity() {
         //Khoi tao sessionManager
         sessionManager = SessionManager(application)
 
-        binding.login.setOnClickListener {
+        binding.anonymousButton.setOnClickListener {
+            firebaseAuth.signInAnonymously()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val user = firebaseAuth.currentUser
+                        Toast.makeText(this, "Dang nhap thanh cong", Toast.LENGTH_SHORT).show()
+                        Log.d("Auth", "Đăng nhập ẩn danh thành công: ${user?.uid}")
+                        assignSessionManager()
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                    }
+                    else {
+                        Toast.makeText(this, "Dang nhap loi", Toast.LENGTH_SHORT).show()
+                        Log.e("Login", "Đăng nhập thất bại", task.exception)
+                    }
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Dang nhap loi", Toast.LENGTH_SHORT).show()
+                    Log.e("Login", "Đăng nhập thất bại", e)
+                }
+        }
 
+        binding.login.setOnClickListener {
             val email :String = binding.editTextEmailAddress.text.toString()
             val password :String = binding.editTextPassword.text.toString()
             if(email.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches() && password.isNotEmpty()){
@@ -134,9 +156,11 @@ class LoginActivity : AppCompatActivity() {
 
     // Gan gia tri sessionManager
     private fun assignSessionManager() {
-        val userId = firebaseAuth.currentUser?.uid
+        val user = firebaseAuth.currentUser
+        val userId = user?.uid
         if(userId != null){
-            sessionManager.saveAuthToken(userId)
+            Log.d("Auth", "User ID: $userId, anonymous: ${user.isAnonymous}")
+            sessionManager.saveAuthToken(userId,user.isAnonymous)
         }
     }
 }

@@ -13,6 +13,8 @@ class SessionManager(context: Context) {
         private const val KEY_IS_LOGGED_IN = "isLoggedIn" //Trang thai dang nhap
     }
 
+    private var isAnonymous = true
+
     // Tạo Master Key ma hóa
     private val masterKey = MasterKey.Builder(context)
         .setKeyScheme(MasterKey.KeyScheme.AES256_GCM).build()
@@ -27,7 +29,8 @@ class SessionManager(context: Context) {
     )
 
     //Luu thong tin dang nhap sau khi login thanh cong
-    fun saveAuthToken( userId: String){
+    fun saveAuthToken( userId: String,isAnonymous : Boolean){
+        this.isAnonymous = isAnonymous
         val editor = sharedPreferences.edit()
         editor.putString(KEY_USER_ID,userId)
         editor.putBoolean(KEY_IS_LOGGED_IN,true)
@@ -49,6 +52,7 @@ class SessionManager(context: Context) {
         editor.remove(KEY_USER_ID)
         editor.putBoolean(KEY_IS_LOGGED_IN,false)
         editor.apply()
+
     }
 
 }

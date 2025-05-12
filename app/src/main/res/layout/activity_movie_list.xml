@@ -41,6 +41,29 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <TextView
+        android:id="@+id/statusNotification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:text="Không có thông báo nào"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/loginButton"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/orange_button_background"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:text="Đăng nhập"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:textAllCaps="false" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listSaveMovie"
         android:layout_width="match_parent"

@@ -19,14 +19,15 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp">
 
                 <TextView
                     android:id="@+id/nameApp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Movie app"
-                    android:textColor="@color/white"
+                    android:textColor="@android:color/holo_green_dark"
                     android:textSize="25sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -40,6 +41,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
+                    android:backgroundTint="@android:color/holo_red_dark"
                     android:text="Mua gói"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
@@ -104,7 +106,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/movieWatching"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:paddingHorizontal="12dp"
                 android:clipToPadding="false"/>
 
