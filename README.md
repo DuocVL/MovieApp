@@ -34,6 +34,11 @@
 ---
 
 ## 📸 Giao diện (Screenshots)
-<img src="https://github.com/user-attachments/assets/8618963b-8983-46cf-a58c-73e4a80a24a1" alt = "Home" width="300"/>
+<img src="https://github.com/user-attachments/assets/8618963b-8983-46cf-a58c-73e4a80a24a1" alt = "Home" width="200"/>
+<img src="https://github.com/user-attachments/assets/8ca3ab97-b1c9-4c3e-9123-bb28fa942a49" alt = "Danh mục" width="200"/>
+<img src="https://github.com/user-attachments/assets/8c567907-96c7-4344-a9b2-7f45576c2921" alt = "watchMovie" width="200"/>
+<img src="https://github.com/user-attachments/assets/f083967b-5f95-49ba-bf58-e3978eb5408c" alt = "Detail" width="200"/>
+
+
 
 
