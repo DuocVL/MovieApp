@@ -34,6 +34,6 @@
 ---
 
 ## 📸 Giao diện (Screenshots)
-![Screenshot_20250529_004046](https://github.com/user-attachments/assets/8618963b-8983-46cf-a58c-73e4a80a24a1)
+<img src="https://github.com/user-attachments/assets/8618963b-8983-46cf-a58c-73e4a80a24a1" alt = "Home" width="300"/>
 
 
