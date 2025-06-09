@@ -7,4 +7,5 @@ data class MovieWatching(
     val duration: Long,
     val episode: Int,
     val bannerUrl: String? = null,
+    val vip: Boolean
 )

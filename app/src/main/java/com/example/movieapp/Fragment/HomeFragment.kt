@@ -49,9 +49,6 @@ class HomeFragment : Fragment() {
     private lateinit var database: FirebaseDatabase
     private lateinit var databaseReference: DatabaseReference
     // 👇 Đặt các biến auto slide ở đây (ngoài hàm onCreateView/onViewCreated)
-    private var currentPage = 0
-    private val delay: Long = 10000 // 10 giây
-    private val sliderHandler = Handler(Looper.getMainLooper())
     private val TMDB_API_KEY = BuildConfig.TMDB_API_KEY
     private lateinit var userId : String
     private lateinit var appSessionViewModel: AppSessionViewModel
@@ -60,18 +57,6 @@ class HomeFragment : Fragment() {
     private lateinit var listMovie : MutableMap<String,Movie>
     private lateinit var sessionManager: SessionManager
 
-
-
-//    private val sliderRunnable = object : Runnable {
-//        override fun run() {
-//            val itemCount = binding.bannerSlider.adapter?.itemCount ?: 0
-//            if (itemCount > 0) {
-//                currentPage = (currentPage + 1) % itemCount
-//                binding.bannerSlider.setCurrentItem(currentPage, true)
-//                sliderHandler.postDelayed(this, delay)
-//            }
-//        }
-//    }
 
     //Hàm tạo giao diện cho Fragment.
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -90,20 +75,32 @@ class HomeFragment : Fragment() {
         userId = appSessionViewModel.getUserId()
         firebaseFirestore = FirebaseFirestore.getInstance()
         listMovie = mutableMapOf()
-        getMovieWatching { list ->
-            activity?.runOnUiThread {
-                listMovieWatching = list
-
-                val adapter = MovieWatchingAdapter(listMovieWatching){movie ->
-                    val intent = Intent(requireContext(), WatchMovieActivity::class.java)
-                    intent.putExtra("movie",listMovie[movie.movieId])
-                    startActivity(intent)
+        if(!appSessionViewModel.isAnonymous()){
+            getMovieWatching { list ->
+                activity?.runOnUiThread {
+                    listMovieWatching = list
+                    val adapter = MovieWatchingAdapter(listMovieWatching){movie ->
+                        val intent = Intent(requireContext(), WatchMovieActivity::class.java)
+                        intent.putExtra("movie",listMovie[movie.movieId])
+                        startActivity(intent)
+                    }
+                    binding.movieWatching.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                    binding.movieWatching.adapter = adapter
                 }
-                binding.movieWatching.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-                binding.movieWatching.adapter = adapter
             }
         }
         getBannerMovie()
+        getMovieVip {  list ->
+            val adapter = MovieAdapter(list.toMutableList()) { movie ->
+                val intent = Intent(requireContext(), MovieDetailActivity::class.java)
+                intent.putExtra("movieId", movie.id.toString())
+                intent.putExtra("type", movie.type) // truyền thêm loại
+                intent.putExtra("vip", movie.vip)
+                startActivity(intent)
+            }
+            binding.movieVipList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            binding.movieVipList.adapter = adapter
+        }
         sessionManager = SessionManager(requireContext())
         binding.buyPackageButton.setOnClickListener {
             if(appSessionViewModel.isAnonymous()){
@@ -159,6 +156,27 @@ class HomeFragment : Fragment() {
         }
     }
 
+    //Kiem tra da mua movie chua
+    private fun checkBuyMovie(movieId : String,callback: (Boolean) -> Unit){
+        firebaseFirestore.collection("users")
+            .document(userId)
+            .collection("buyMovie")
+            .document(movieId)
+            .get()
+            .addOnSuccessListener {
+                val status = it.getBoolean("status") ?: false
+                activity?.runOnUiThread {
+                    callback(status)
+                }
+            }
+            .addOnFailureListener {
+                Log.e("MovieDetail", "CHua mua phim nay", it)
+                activity?.runOnUiThread {
+                    callback(false)
+                }
+            }
+    }
+
     // Hàm gọi API TMDB để lấy poster từ movieId
     private fun fetchBannerMovie(movieId: String,callback : (String) -> Unit){
 
@@ -186,9 +204,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun fetchTopRatedMovies ( url : String,callback: (List<ItemMovie>) -> Unit) {
-
         val request = Request.Builder().url(url).build()
-
         OkHttpClient().newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 Log.e("TMDB", "Failed to fetch", e)
@@ -198,7 +214,7 @@ class HomeFragment : Fragment() {
                 val json = JSONObject(response.body!!.string())
                 val results = json.getJSONArray("results")
                 val movies = mutableListOf<ItemMovie>()
-                for (i in 0 until minOf(5,results.length())){
+                for (i in 0 until minOf(10,results.length())){
                     val item = results.getJSONObject(i)
                     val id = item.getInt("id")
                     val title = item.getString("title")
@@ -206,11 +222,14 @@ class HomeFragment : Fragment() {
                     val fullPosterUrl = if (posterPath != null) "https://image.tmdb.org/t/p/w500$posterPath" else null
                     val releaseDate = item.getString("release_date")
                     val voteAverage = item.getDouble("vote_average")
-
-                    movies.add(ItemMovie(id,title,"movie",releaseDate,voteAverage,fullPosterUrl))
-                }
-                activity?.runOnUiThread {
-                    callback(movies)
+                    checkVip(id.toString(),"movie"){ status ->
+                        movies.add(ItemMovie(id,title,"movie",releaseDate,voteAverage,fullPosterUrl,status))
+                        if(movies.size == minOf(10,results.length())){
+                            activity?.runOnUiThread {
+                                callback(movies)
+                            }
+                        }
+                    }
                 }
             }
         })
@@ -228,7 +247,7 @@ class HomeFragment : Fragment() {
                 val json = JSONObject(response.body!!.string())
                 val results = json.getJSONArray("results")
                 val tvShows = mutableListOf<ItemMovie>()
-                for (i in 0 until minOf(5, results.length())) {
+                for (i in 0 until minOf(10, results.length())) {
                     val item = results.getJSONObject(i)
                     val id = item.getInt("id")
                     val name = item.getString("name") // khác với movie: dùng name thay vì title
@@ -236,12 +255,16 @@ class HomeFragment : Fragment() {
                     val fullPosterUrl = if (posterPath != null) "https://image.tmdb.org/t/p/w500$posterPath" else null
                     val firstAirDate = item.optString("first_air_date", "")
                     val voteAverage = item.getDouble("vote_average")
+                    checkVip(id.toString(),"tv"){ status ->
+                        tvShows.add(ItemMovie(id,name,"tv",firstAirDate,voteAverage,fullPosterUrl,status))
+                        if(tvShows.size == minOf(10,results.length())){
+                            activity?.runOnUiThread {
+                                callback(tvShows)
+                            }
+                        }
+                    }
+                }
 
-                    tvShows.add(ItemMovie(id, name,"tv", firstAirDate, voteAverage, fullPosterUrl))
-                }
-                activity?.runOnUiThread {
-                    callback(tvShows)
-                }
             }
         })
     }
@@ -268,6 +291,7 @@ class HomeFragment : Fragment() {
                     val intent = Intent(requireContext(), MovieDetailActivity::class.java)
                     intent.putExtra("movieId", movie.id.toString())
                     intent.putExtra("type", movie.type) // truyền thêm loại
+                    intent.putExtra("vip", movie.vip)
                     startActivity(intent)
                 }
 
@@ -285,6 +309,7 @@ class HomeFragment : Fragment() {
                     val intent = Intent(requireContext(), MovieDetailActivity::class.java)
                     intent.putExtra("movieId", movie.id.toString())
                     intent.putExtra("type", movie.type) // truyền thêm loại
+                    intent.putExtra("vip", movie.vip)
                     startActivity(intent)
                 }
                 binding.actionmovie.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -300,6 +325,7 @@ class HomeFragment : Fragment() {
                     val intent = Intent(requireContext(), MovieDetailActivity::class.java)
                     intent.putExtra("movieId", show.id.toString())
                     intent.putExtra("type", show.type) // truyền thêm loại
+                    intent.putExtra("vip", show.vip)
                     startActivity(intent)
                 }
                 binding.movieLong.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -325,16 +351,19 @@ class HomeFragment : Fragment() {
                     val progress = document.getLong("progress") ?: 0
                     val type = document.getString("type") ?: "movie"
                     getBannerMovie(movieId,type) { bannerUrl ->
-                        listMovieWatching.add(MovieWatching(movieId,type, progress,duration,episode,bannerUrl ))
-                        getMovieDetails(movieId,type){ movie->
-                            listMovie[movieId] = movie
-                            if(listMovieWatching.size == documents.size()){
-                                activity?.runOnUiThread {
-                                    callback(listMovieWatching)
+                        checkVip(movieId,type){ vip ->
+                            checkBuyMovie(movieId) { statusBuy ->
+                                listMovieWatching.add(MovieWatching(movieId,type, progress,duration,episode,bannerUrl,vip))
+                                getMovieDetails(movieId,type,vip,statusBuy){ movie->
+                                    listMovie[movieId] = movie
+                                    if(listMovieWatching.size == documents.size()){
+                                        activity?.runOnUiThread {
+                                            callback(listMovieWatching)
+                                        }
+                                    }
                                 }
                             }
                         }
-
                     }
                 }
             }
@@ -362,7 +391,7 @@ class HomeFragment : Fragment() {
         return
     }
 
-    private fun getMovieDetails(movieId: String,type: String,callback: (Movie) -> Unit) {
+    private fun getMovieDetails(movieId: String,type: String,statusVip: Boolean = false,statusBuy: Boolean,callback: (Movie) -> Unit) {
         val url = "https://api.themoviedb.org/3/$type/$movieId?api_key=$TMDB_API_KEY&language=vi-VN"
 
         val request = Request.Builder().url(url).build()
@@ -409,7 +438,9 @@ class HomeFragment : Fragment() {
                             voteCount,
                             keyVideo,
                             actors,
-                            directors
+                            directors,
+                            statusVip,
+                            statusBuy
                         )
                         activity?.runOnUiThread {
                             callback(movie)
@@ -499,6 +530,86 @@ class HomeFragment : Fragment() {
             }
         }
         return if (results.length() > 0) results.getJSONObject(0).optString("key") else null
+    }
+
+    private fun getMovieVip(callback: (List<ItemMovie>) -> Unit) {
+        firebaseFirestore.collection("vip")
+            .get()
+            .addOnSuccessListener { documents ->
+                val listMovieIdVip = mutableListOf<Pair<String,String>>()
+                val listMovieVip = mutableListOf<ItemMovie>()
+                for(document in documents){
+                    Log.d("HomeFragment","$document")
+                    val movieId = document.getString("movieId") ?: ""
+                    val type = document.getString("type") ?: "movie"
+                    val vip = document.getBoolean("vip") ?: false
+                    Log.d("HomeFragment","$movieId,$type,$vip")
+                    if(vip){
+                        listMovieIdVip.add(Pair(movieId,type))
+                        getItemMovie(movieId,type){
+                            listMovieVip.add(it)
+                            if(listMovieIdVip.size == documents.size()){
+                                activity?.runOnUiThread {
+                                    Log.d("HomeFragment","$listMovieVip")
+                                    callback(listMovieVip)
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+            .addOnFailureListener {
+                Log.d("WatchMovieActivity", "get failed with ", it)
+                callback(emptyList())
+            }
+        return
+    }
+
+    private fun checkVip(movieId: String,typeMovie: String,callback: (Boolean) -> Unit){
+        firebaseFirestore.collection("vip")
+            .document("$movieId")
+            .get()
+            .addOnSuccessListener { document ->
+                if(document == null || !document.exists() ){
+                    callback(false)
+                    return@addOnSuccessListener
+                }
+                val vip = document.getBoolean("vip") ?: false
+                val type = document.getString("type") ?: "movie"
+                val id = document.getString("movieId") ?: ""
+                if(type.equals(typeMovie) && id.equals(movieId)){
+                    callback(vip)
+                }else{
+                    callback(false)
+                }
+            }
+            .addOnFailureListener {
+                callback(false)
+            }
+        return
+    }
+
+    private fun getItemMovie(movieId: String,type: String,callback: (ItemMovie) -> Unit) {
+        val url = "https://api.themoviedb.org/3/$type/$movieId?api_key=$TMDB_API_KEY&language=vi-VN"
+        val request = Request.Builder().url(url).build()
+        OkHttpClient().newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e("TMDB", "Failed to fetch", e)
+            }
+            override fun onResponse(call: Call, response: Response) {
+                val json = JSONObject(response.body!!.string())
+                val title = if(type.equals("movie")) json.getString("title") else json.getString("name")
+                val posterPath = json.getString("poster_path")
+                val fullPosterUrl = "https://image.tmdb.org/t/p/w500$posterPath"
+                val releaseDate = json.optString("release_date", json.optString("first_air_date", ""))
+                val voteAverage = json.getDouble("vote_average")
+                val itemMovie = ItemMovie(movieId.toInt(),title,type,releaseDate,voteAverage,fullPosterUrl,true)
+                activity?.runOnUiThread {
+                    callback(itemMovie)
+                }
+            }
+        })
     }
 
 }

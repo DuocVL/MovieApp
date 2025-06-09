@@ -2,6 +2,7 @@ package com.example.movieapp.Adapters
 
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -35,6 +36,7 @@ class MovieSearchAdapter(
         holder.binding.year.text = item.releaseDate.takeIf { it.length >= 4 }?.substring(0, 4) ?: "N/A"
         holder.binding.country.text = item.country
         holder.binding.overview.text = item.overview
+        if(item.vip) holder.binding.vipLabel.visibility = View.VISIBLE
 
         holder.itemView.setOnClickListener {
             onMovieClick(item)

@@ -92,6 +92,7 @@ class WatchMovieActivity : AppCompatActivity() {
     private var progress : Long = 0
     private lateinit var appSessionViewModel: AppSessionViewModel
     private lateinit var sessionManager: SessionManager
+    private var packageVipStatus : Boolean = false
 
     private lateinit var binding: ActivityWatchMovieBinding
 
@@ -105,7 +106,7 @@ class WatchMovieActivity : AppCompatActivity() {
         }else{
             movie = intent.getParcelableExtra("movie")
         }
-        Toast.makeText(this,"${movie?.id}",Toast.LENGTH_SHORT).show()
+        Log.d("WatchMovieActivity", "Movie: $movie")
 
         scrollView = binding.nestedScrollView
         playerView = binding.playerView
@@ -117,6 +118,43 @@ class WatchMovieActivity : AppCompatActivity() {
 
         appSessionViewModel = AppSessionViewModel(application)
         sessionManager = SessionManager(this)
+
+        appSessionViewModel.getPackageVip {
+            packageVipStatus = it
+            getVideoUrlFromFirestore(callback = { list ->
+                listEpisode = list
+                if(movie?.type.equals("movie")){
+                    binding.episodes.setText("1/1 tập")
+                }else{
+                    binding.episodes.setText("${listEpisode?.size}/${movie?.runtime} tập")
+                }
+                if(listEpisode.isNullOrEmpty()){
+                    Log.e("WatchMovieActivity", "Video URL list is null or empty")
+                    Toast.makeText(this,"Video URL list is null or empty",Toast.LENGTH_SHORT).show()
+                }else{
+                    listEpisode?.let { list ->
+                        Log.d("WatchMovieActivity", "Video URL list: ${listEpisode}")
+                        if(movie?.vip == true){
+                            if (packageVipStatus || movie?.buy == true){
+                                getMovieProgress()
+                            }else{
+                                showDialogBuyPackage()
+                            }
+                        }else{
+                            if(appSessionViewModel.isAnonymous()){
+                                this.videoUrl = list[0].url
+                                episode = 1
+                                setTitle()
+                                setupVideoPlayer(videoUrl)
+                            }else{
+                                getMovieProgress()
+                            }
+                        }
+                        setEpisode()
+                    }
+                }
+            })
+        }
 
 
         // Ẩn commentInputLayout ban đầu
@@ -143,36 +181,16 @@ class WatchMovieActivity : AppCompatActivity() {
         // Lấy video URL từ Firestore
         if(movie != null && currentUser != null){
             checkIfMovieSaved()
-            checkIfMovieDowload()
+            if(packageVipStatus){
+                showDialogBuyPackage()
+            }else{
+                checkIfMovieDowload()
+            }
             setDetailMovie(movie!!)
         }else{
             Log.e("WatchMovieActivity", "Movie is null, unable to load video.")
         }
-        getVideoUrlFromFirestore(callback = { list ->
-            listEpisode = list
-            if(movie?.type.equals("movie")){
-                binding.episodes.setText("1/1 tập")
-            }else{
-                binding.episodes.setText("${listEpisode?.size}/${movie?.runtime} tập")
-            }
-            if(listEpisode.isNullOrEmpty()){
-                Log.e("WatchMovieActivity", "Video URL list is null or empty")
-                Toast.makeText(this,"Video URL list is null or empty",Toast.LENGTH_SHORT).show()
-            }else{
-                listEpisode?.let { list ->
-                    Log.d("WatchMovieActivity", "Video URL list: ${listEpisode}")
-                    if(appSessionViewModel.isAnonymous()){
-                        this.videoUrl = list[0].url
-                        episode = 1
-                        setTitle()
-                        setupVideoPlayer(videoUrl)
-                    }else{
-                        getMovieProgress()
-                    }
-                    setEpisode()
-                }
-            }
-        })
+
 
 
         // Click để chuyển chế độ fullscreen
@@ -185,7 +203,7 @@ class WatchMovieActivity : AppCompatActivity() {
         binding.bookmarkButton.setOnClickListener {
             // Thực hiện hành động lưu vào danh sách xem sau
             if(appSessionViewModel.isAnonymous()){
-                showDiaLog()
+                showDialogLogin()
                 return@setOnClickListener
             }else{
                 saveWatchLater(movie!!)
@@ -205,7 +223,7 @@ class WatchMovieActivity : AppCompatActivity() {
         //Click senButton de gui binh luan
         sendButton.setOnClickListener {
             if(appSessionViewModel.isAnonymous()){
-                showDiaLog()
+                showDialogLogin()
                 return@setOnClickListener
             }else{
                 val content = binding.commentEditText.text.toString().trim()
@@ -221,7 +239,11 @@ class WatchMovieActivity : AppCompatActivity() {
         //Click tai xuong để tải xuống
         binding.dowloadButton.setOnClickListener {
             if(appSessionViewModel.isAnonymous()){
-                showDiaLog()
+                showDialogLogin()
+                return@setOnClickListener
+            }
+            if(movie?.vip == true && !packageVipStatus && movie?.buy == false){
+                showDialogBuyPackage()
                 return@setOnClickListener
             }
             if(movie == null){
@@ -259,13 +281,36 @@ class WatchMovieActivity : AppCompatActivity() {
 
     private fun setTitle(){
         if (movie?.type.equals("movie")){
-            binding.Title.setText(movie?.title)
+            if(movie?.vip == true){
+                binding.Title.setText("${movie?.title} - VIP")
+            }else{
+                binding.Title.setText("${movie?.title}")
+            }
         }else{
-            binding.Title.setText("${movie?.title} - Tập ${episode}")
+            if(movie?.vip == true){
+                binding.Title.setText("${movie?.title} - Tập ${episode} - VIP")
+            }else{
+                binding.Title.setText("${movie?.title} - Tập ${episode}")
+            }
         }
     }
 
-    private fun showDiaLog(){
+    private fun showDialogBuyPackage(){
+        val dialog = AlertDialog.Builder(this)
+            .setTitle("Thông báo")
+            .setMessage("Bạn cần mua gói VIP ?")
+            .setIcon(R.drawable.ic_help)
+            .setPositiveButton("Mua ngay") { _, _ ->
+                val intent = Intent(this,PackagePaymentActivity::class.java)
+                startActivity(intent)
+            }
+            .setNegativeButton("Hủy"){ _, _ ->
+                // Không làm gì khi người dùng chọn hủy
+            }
+        dialog.show()
+    }
+
+    private fun showDialogLogin(){
         val dialog = AlertDialog.Builder(this)
             .setTitle("Thông báo")
             .setMessage("Bạn cần đăng nhập để mua gói ?")
@@ -359,6 +404,7 @@ class WatchMovieActivity : AppCompatActivity() {
                 .setNegativeButton("Hủy") { _, _ ->
                     // Không làm gì khi người dùng chọn hủy
                 }
+            dialog.show()
 
         }else{
             currentUser?.uid?.let { userId ->
@@ -471,6 +517,7 @@ class WatchMovieActivity : AppCompatActivity() {
                 val intent = Intent(this, MovieDetailActivity::class.java)
                 intent.putExtra("movieId", movie.id.toString())
                 intent.putExtra("type", movie.type)
+                intent.putExtra("vip", movie.vip)
                 startActivity(intent)
             }
             binding.recommentmovie.adapter = adapter
@@ -483,6 +530,10 @@ class WatchMovieActivity : AppCompatActivity() {
     //Ham hien thi danh sach cac tap
     private fun setEpisode(){
         val adapter = EpisodeAdapter(listEpisode!!.toList()) { url,episode ->
+            if(!packageVipStatus && movie?.buy == false && movie?.vip == true){
+                showDialogBuyPackage()
+                return@EpisodeAdapter
+            }
             setupVideoPlayer(url)
             videoUrl = url
             this.episode = episode
@@ -527,15 +578,35 @@ class WatchMovieActivity : AppCompatActivity() {
                     val fullPosterUrl = "https://image.tmdb.org/t/p/w500$posterPath"
                     val releaseDate = if(type.equals("movie")) movieObject.getString("release_date") else movieObject.getString("first_air_date")
                     val voteAverage = movieObject.getDouble("vote_average")
-                    val movie = ItemMovie(id,title,type,releaseDate,voteAverage,fullPosterUrl)
-
-                    movies.add(movie)
-                    runOnUiThread {
-                        callback(movies)
+                    checkVip(id.toString(),type) { status ->
+                        val movie = ItemMovie(id,title,type,releaseDate,voteAverage,fullPosterUrl,status)
+                        movies.add(movie)
+                        runOnUiThread {
+                            callback(movies)
+                        }
                     }
                 }
             }
         })
+    }
+
+    private fun checkVip(movieId: String,type: String,callback: (Boolean) -> Unit){
+        firestore.collection("vip")
+            .document("$movieId")
+            .get()
+            .addOnSuccessListener { document ->
+                val vip = document.getBoolean("vip") ?: false
+                val type = document.getString("type") ?: "movie"
+                val id = document.getString("movieId") ?: ""
+                if(type.equals(type) && id.equals(movieId)){
+                    callback(vip)
+                }else{
+                    callback(false)
+                }
+            }
+            .addOnFailureListener {
+                callback(false)
+            }
     }
 
     //Ham lay video url tu firestore
@@ -775,11 +846,14 @@ class WatchMovieActivity : AppCompatActivity() {
         if(userId.isNullOrEmpty()){
             Log.e("WatchMovieActivity","User ID is null or empty")
         }else{
+            if(!packageVipStatus && movie?.buy == false && movie?.vip == true){
+                return
+            }
             firestore.collection("users")
                 .document(userId)
                 .collection("movieProgress")
                 .document(movie?.id.toString())
-                .set(MovieWatching(movie?.id.toString(),movie?.type!!,position,length,episode))
+                .set(MovieWatching(movie?.id.toString(),movie?.type!!,position,length,episode,movie?.backdropPath,movie?.vip!!))
                 .addOnSuccessListener {
                     Log.d("WatchMovieActivity","Movie progress updated successfully")
                 }
@@ -800,17 +874,22 @@ class WatchMovieActivity : AppCompatActivity() {
         if(userId.isNullOrEmpty()){
             Log.e("WatchMovieActivity","User ID is null or empty")
         }else{
-            firestore.collection("users")
-                .document(userId)
-                .collection("movieProgress")
-                .document(movie?.id.toString())
-                .set(MovieWatching(movie?.id.toString(),movie?.type!!,position,length,episode))
-                .addOnSuccessListener {
-                    Log.d("WatchMovieActivity","Movie progress updated successfully")
+            if(!appSessionViewModel.isAnonymous()){
+                if(!packageVipStatus && movie?.buy == false && movie?.vip == true){
+                    return
                 }
-                .addOnFailureListener {
-                    Log.e("WatchMovieActivity","Failed to update movie progress",it)
-                }
+                firestore.collection("users")
+                    .document(userId)
+                    .collection("movieProgress")
+                    .document(movie?.id.toString())
+                    .set(MovieWatching(movie?.id.toString(),movie?.type!!,position,length,episode,movie?.backdropPath,movie?.vip!!))
+                    .addOnSuccessListener {
+                        Log.d("WatchMovieActivity","Movie progress updated successfully")
+                    }
+                    .addOnFailureListener {
+                        Log.e("WatchMovieActivity","Failed to update movie progress",it)
+                    }
+            }
         }
     }
 }

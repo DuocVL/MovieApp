@@ -26,6 +26,7 @@ class PackagePaymentActivity : AppCompatActivity() {
     private lateinit var viewPager: ViewPager2
     private lateinit var firestore: FirebaseFirestore
     private lateinit var appSessionViewModel: AppSessionViewModel
+    private lateinit var type: String
 
     private lateinit var statusPackage: TextView
     private lateinit var timeStartText: TextView

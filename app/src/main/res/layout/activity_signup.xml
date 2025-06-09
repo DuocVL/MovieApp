@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="@color/main_color"
+    android:background="@android:color/black"
     android:layout_gravity="center"
     android:fitsSystemWindows="true"
     tools:context=".Activities.SignupActivity">

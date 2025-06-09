@@ -6,5 +6,6 @@ data class ItemMovie(
     val type: String,
     val releaseDate: String,
     val rating: Double,
-    val posterUrl: String?
+    val posterUrl: String?,
+    val vip : Boolean = false
 )

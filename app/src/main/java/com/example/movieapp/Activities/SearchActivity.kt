@@ -13,6 +13,7 @@ import com.example.movieapp.Adapters.MovieSearchAdapter
 import com.example.movieapp.BuildConfig
 import com.example.movieapp.Dataclass.Movie
 import com.example.movieapp.databinding.ActivitySearchBinding
+import com.google.firebase.firestore.FirebaseFirestore
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.OkHttpClient
@@ -26,6 +27,7 @@ class SearchActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivitySearchBinding
     private val TMDB_API_KEY = BuildConfig.TMDB_API_KEY
+    private val firebaseFirestore = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +53,7 @@ class SearchActivity : AppCompatActivity() {
                                 val intent = Intent(this, MovieDetailActivity::class.java)
                                 intent.putExtra("movieId", movie.id.toString())
                                 intent.putExtra("type", movie.type) // truyền thêm loại
+                                intent.putExtra("vip", movie.vip)
                                 startActivity(intent)
                             }
                             binding.movie.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -64,6 +67,7 @@ class SearchActivity : AppCompatActivity() {
                                 val intent = Intent(this, MovieDetailActivity::class.java)
                                 intent.putExtra("movieId", movie.id.toString())
                                 intent.putExtra("type", movie.type) // truyền thêm loại
+                                intent.putExtra("vip", movie.vip)
                                 startActivity(intent)
                             }
                             binding.tv.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -112,10 +116,15 @@ class SearchActivity : AppCompatActivity() {
                     }
                     val genres = genreIdsToString(genreIdList)
                     val originalLanguage = item.optString("original_language")
-                    movies.add(Movie(id, title,type,0,originalLanguage,releaseDate,genres,overview, fullPosterUrl,"",voteAverage,0,null, listOf(), listOf()))
-                }
-                runOnUiThread {
-                    callback(movies)
+                    checkVip(id.toString(),type) { status ->
+                        movies.add(Movie(id, title,type,0,originalLanguage,releaseDate,genres,overview, fullPosterUrl,"",voteAverage,0,null, listOf(), listOf(),status))
+                        if(movies.size == results.length()){
+                            runOnUiThread {
+                                callback(movies)
+                            }
+                        }
+                    }
+
                 }
             }
         })
@@ -151,6 +160,30 @@ class SearchActivity : AppCompatActivity() {
             10767 to "Talk Show"
         )
         return genreIds.mapNotNull { genreMap[it] }
+    }
+
+    private fun checkVip(movieId: String,typeMovie: String,callback: (Boolean) -> Unit){
+        firebaseFirestore.collection("vip")
+            .document("$movieId")
+            .get()
+            .addOnSuccessListener { document ->
+                if(document == null || !document.exists() ){
+                    callback(false)
+                    return@addOnSuccessListener
+                }
+                val vip = document.getBoolean("vip") ?: false
+                val type = document.getString("type") ?: "movie"
+                val id = document.getString("movieId") ?: ""
+                if(type.equals(typeMovie) && id.equals(movieId)){
+                    callback(vip)
+                }else{
+                    callback(false)
+                }
+            }
+            .addOnFailureListener {
+                callback(false)
+            }
+        return
     }
 
 }

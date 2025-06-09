@@ -2,6 +2,7 @@ package com.example.movieapp.Adapters
 
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -27,7 +28,7 @@ class MovieAdapter(private val movies : MutableList<ItemMovie>, private val onMo
         holder.binding.rating.text = movie.rating.toString()
         holder.binding.releaseYear.text = movie.releaseDate
         holder.binding.movieType.text = if (movie.type == "movie") "Phim lẻ" else "TV"
-
+        if(movie.vip) holder.binding.vipLabel.visibility = View.VISIBLE
         holder.itemView.setOnClickListener {
             onMovieClick(movie)
         }

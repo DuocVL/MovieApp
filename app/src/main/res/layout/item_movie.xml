@@ -22,24 +22,24 @@
 
     <!-- Poster phim -->
     <LinearLayout
+        android:id="@+id/vipLabel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="4dp"
         android:orientation="horizontal"
-        android:background="@android:color/darker_gray"
+        android:background="@android:color/holo_red_dark"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone">
 
         <ImageView
-            android:id="@+id/imageView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             app:srcCompat="@drawable/ic_vip" />
 
         <TextView
-            android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

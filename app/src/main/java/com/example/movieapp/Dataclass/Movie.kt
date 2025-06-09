@@ -19,5 +19,7 @@ data class Movie(
     val voteCount: Int,
     val keyVideo: String?,
     val actors: List<Actor>,
-    val directors: List<Director>
+    val directors: List<Director>,
+    val vip: Boolean = false,
+    val buy: Boolean = false
 ):Parcelable

@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.annotation.OptIn
 import androidx.appcompat.app.AppCompatActivity
@@ -13,12 +14,14 @@ import androidx.media3.common.util.UnstableApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.movieapp.Adapters.PersonAdapter
+import com.example.movieapp.AppSessionViewModel
 import com.example.movieapp.BuildConfig
 import com.example.movieapp.Dataclass.Actor
 import com.example.movieapp.Dataclass.Director
 import com.example.movieapp.Dataclass.Movie
 import com.example.movieapp.Dataclass.ItemPerson
 import com.example.movieapp.databinding.ActivityMovieDetailBinding
+import com.google.firebase.firestore.FirebaseFirestore
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.OkHttpClient
@@ -30,9 +33,15 @@ import java.io.IOException
 class MovieDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMovieDetailBinding
+    private val firebaseFirestore = FirebaseFirestore.getInstance()
+    private lateinit var appSessionViewModel: AppSessionViewModel
     private lateinit var movie: Movie
+    private lateinit var userId : String
+    private var statusBuyMovie = false
     private var movieId: String? = null
     private var type: String = "movie" // Gán mặc định là "movie"
+    private var vip : Boolean = false
+    private var price : Int = 0
     private val TMDB_API_KEY = BuildConfig.TMDB_API_KEY
 
     @OptIn(UnstableApi::class)
@@ -41,8 +50,36 @@ class MovieDetailActivity : AppCompatActivity() {
         binding = ActivityMovieDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        appSessionViewModel = AppSessionViewModel(application)
+        userId = appSessionViewModel.getUserId()
         movieId = intent.getStringExtra("movieId")
         type = intent.getStringExtra("type") ?: "movie" // Lấy loại từ intent (mặc định là "movie")
+        vip = intent.getBooleanExtra("vip",false)
+
+        if(vip){
+            binding.vipLabel.visibility = View.VISIBLE
+            getPriceMovie { priceCall ->
+                this.price = priceCall
+                if(price != 0){
+                    checkBuyMovie { status ->
+                        statusBuyMovie = status
+                        binding.buyMovie.visibility = View.VISIBLE
+                        if(status){
+                            binding.buyMovie.setText("Đã mua phim")
+                        }else{
+                            binding.buyMovie.setText("Mua phim $price VND")
+                            binding.buyMovie.setOnClickListener {
+                                val intent = Intent(this, BuyMovieActivity::class.java)
+                                intent.putExtra("movieId", movieId)
+                                intent.putExtra("type", type)
+                                intent.putExtra("price", price)
+                                startActivity(intent)
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         if (movieId == null) {
             Log.e("MovieDetail", "Không có movieId được truyền vào")
@@ -64,7 +101,7 @@ class MovieDetailActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        binding.dropdown.setOnClickListener {
+        binding.drogDown.setOnClickListener {
             // Quay trở lại màn hình trước đó
             val intent = Intent(this, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
@@ -121,7 +158,9 @@ class MovieDetailActivity : AppCompatActivity() {
                             voteCount,
                             keyVideo,
                             actors,
-                            directors
+                            directors,
+                            vip,
+                            statusBuyMovie
                         )
                         runOnUiThread {
                             showMovieDetails()
@@ -249,5 +288,43 @@ class MovieDetailActivity : AppCompatActivity() {
                 runOnUiThread { callback(key) }
             }
         })
+    }
+
+    private fun getPriceMovie(callback: (Int) -> Unit){
+        firebaseFirestore.collection("vip")
+            .document(movieId!!)
+            .get()
+            .addOnSuccessListener {
+                val price = it.getLong("price") ?: 0
+                runOnUiThread {
+                    callback(price.toInt())
+                }
+            }
+            .addOnFailureListener {
+                Log.e("MovieDetail", "Lỗi khi lấy thông tin gia phim", it)
+                runOnUiThread {
+                    callback(0)
+                }
+            }
+    }
+
+    private fun checkBuyMovie(callback: (Boolean) -> Unit){
+        firebaseFirestore.collection("users")
+            .document(userId)
+            .collection("buyMovie")
+            .document(movieId!!)
+            .get()
+            .addOnSuccessListener {
+                val status = it.getBoolean("status") ?: false
+                runOnUiThread {
+                    callback(status)
+                }
+            }
+            .addOnFailureListener {
+                Log.e("MovieDetail", "CHua mua phim nay", it)
+                runOnUiThread {
+                    callback(false)
+                }
+            }
     }
 }

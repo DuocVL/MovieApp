@@ -2,6 +2,7 @@ package com.example.movieapp.Activities
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.LinearLayout
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -25,13 +26,14 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
         //Hiển thị giao diện HomeFragment mặc dịnh
         loadFragment(HomeFragment())
         appSessionViewModel = AppSessionViewModel(application)
         val userId = appSessionViewModel.getUserId()
         val isAnonymous = appSessionViewModel.isAnonymous()
         Log.d("AppSessionViewModel", "User ID: $userId, Anonymous: $isAnonymous")
-
+        
         //Xử lý sự kiện khi chọn item trong BottomNavigationView
         binding.bottomNavigation.setOnItemSelectedListener { item ->
             when(item.itemId){
