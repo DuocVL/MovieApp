@@ -187,6 +187,25 @@ cloudinary-backend/     # Thư mục gốc của dự án Node.js Server Backend
 ├── package-lock.json   # Khóa phiên bản dependencies
 └── Procfile            # File khai báo tiến trình khi deploy (Railway)
 ```
+## 🧩 Mô tả các module
+
+### Android Client (MovieApp)
+
+- **Activities/**: Chứa các màn hình chính như `MainActivity`, `MovieDetailActivity`, `PlayerActivity` — quản lý UI chính và logic.
+- **Adapters/**: Adapter cho `RecyclerView` để hiển thị danh sách phim, banner, thể loại...
+- **Dataclass/**: Các model dữ liệu như `Movie.kt`, `Actor.kt`, `Comment.kt` ánh xạ từ TMDB hoặc Firestore.
+- **Fragment/**: Các phần UI riêng biệt như `HomeFragment`, `SearchFragment`, `WatchLaterFragment`.
+- **res/**: Giao diện người dùng – layout XML, ảnh, màu sắc, style,...
+
+### Backend (cloudinary-backend)
+
+- **index.js**: File khởi tạo ứng dụng Express.
+- **public/**: (Nếu có) chứa các file tĩnh để test hoặc host giao diện.
+- **.env**: File cấu hình biến môi trường như API keys.
+- **package.json**: Khai báo dependencies như `express`, `cloudinary`, `firebase-admin`, `dotenv`, `cors`,...
+- **Procfile**: Chạy backend trên Railway/Heroku.
+
+
 
 
 ## Demo
