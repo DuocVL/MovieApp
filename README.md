@@ -1,8 +1,15 @@
 # 🎬 MovieApp – Ứng dụng xem phim trên Android
 
 [![GitHub license](https://img.shields.io/github/license/DuocVL/MovieApp)](https://github.com/DuocVL/MovieApp/blob/main/LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/DuocVL/MovieApp)](https://github.com/DuocVL/MovieApp/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/DuocVL/MovieApp)](https://github.com/DuocVL/MovieApp/network/members)
+[![GitHub stars](https://img.shields.io/github/stars/DuocVL/MovieApp?style=social)](https://github.com/DuocVL/MovieApp/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/DuocVL/MovieApp?style=social)](https://github.com/DuocVL/MovieApp/network/members)
+
+![Platform](https://img.shields.io/badge/platform-Android-green)
+![Language](https://img.shields.io/badge/language-Kotlin-blueviolet)
+![Backend](https://img.shields.io/badge/backend-Node.js-brightgreen)
+![Database](https://img.shields.io/badge/database-Firebase-orange)
+![Status](https://img.shields.io/badge/status-Active-success)
+
 
 Một ứng dụng xem phim trên Android, cung cấp trải nghiệm giải trí phong phú với các tính năng như xem phim trực tuyến, tải xuống offline, thanh toán mua phim, đánh giá, bình luận và nhiều hơn nữa.
 
@@ -17,7 +24,8 @@ Một ứng dụng xem phim trên Android, cung cấp trải nghiệm giải tr�
   - [Cấu hình Backend (Server)](#cấu-hình-backend-server)
   - [Cấu hình Client (Ứng dụng Android)](#cấu-hình-client-ứng-dụng-android)
   - [Chạy ứng dụng](#chạy-ứng-dụng)
-- [Cấu trúc Project](#cấu-trúc-project)
+- [Cấu trúc Project](#-cấu-trúc-project)
+- [Mô tả các module](#-mô-tả-các-module)
 - [Demo](#demo)
 
 ## Tổng quan
