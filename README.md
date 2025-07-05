@@ -59,6 +59,19 @@ Một ứng dụng xem phim trên Android, cung cấp trải nghiệm giải tr�
 ## Công nghệ sử dụng
 
 Dự án này sử dụng các công nghệ và thư viện sau:
+| Loại                   | Công nghệ / Thư viện                          | Mục đích chính                                |
+| ---------------------- | --------------------------------------------- | --------------------------------------------- |
+| **Ngôn ngữ**           | Kotlin (Android), Node.js (Backend)           | Phát triển ứng dụng và server                 |
+| **UI Android**         | Android Jetpack, ViewBinding, Material Design | Giao diện và xử lý layout                     |
+| **Player**             | ExoPlayer                                     | Phát video online/offline                     |
+| **Networking**         | OkHttp                                        | Gọi TMDB API, giao tiếp backend               |
+| **Firebase**           | Authentication, Firestore, FCM                | Xác thực, lưu dữ liệu, gửi thông báo          |
+| **Thanh toán**         | PayOS API                                     | Tạo QR, xử lý webhook thanh toán              |
+| **Lưu trữ video**      | Bunny Stream                                  | Lưu và phát video                             |
+| **Tìm kiếm / Gợi ý**   | TMDB API                                      | Lấy dữ liệu phim, tìm kiếm, trailer, đánh giá |
+| **Triển khai backend** | Railway                                       | Triển khai server Node.js online              |
+| **Quản lý gói**        | npm, Gradle                                   | Quản lý thư viện cho backend & Android        |
+
 
 ### Frontend (Ứng dụng Android)
 
@@ -121,7 +134,7 @@ Làm theo các bước dưới đây để cài đặt và chạy dự án cục
 
 1.  **Clone mã nguồn Backend:**
     ```bash
-    git clone https://github.com/DuocVL/cloudinary-backend.git
+    git clone [https://github.com/DuocVL/cloudinary-backend.git](https://github.com/DuocVL/cloudinary-backend.git)
     cd cloudinary-backend # <-- Thay đổi tên thư mục nếu khác
     ```
 2.  **Cài đặt Dependencies:**
@@ -199,7 +212,7 @@ cloudinary-backend/     # Thư mục gốc của dự án Node.js Server Backend
 
 ### Android Client (MovieApp)
 
-- **Activities/**: Chứa các màn hình chính như `MainActivity`, `MovieDetailActivity`, `PlayerActivity` — quản lý UI chính và logic.
+- **Activities/**: Chứa các màn hình chính như `MainActivity`, `MovieDetailActivity` — quản lý UI chính và logic.
 - **Adapters/**: Adapter cho `RecyclerView` để hiển thị danh sách phim, banner, thể loại...
 - **Dataclass/**: Các model dữ liệu như `Movie.kt`, `Actor.kt`, `Comment.kt` ánh xạ từ TMDB hoặc Firestore.
 - **Fragment/**: Các phần UI riêng biệt như `HomeFragment`, `SearchFragment`, `WatchLaterFragment`.
@@ -208,7 +221,7 @@ cloudinary-backend/     # Thư mục gốc của dự án Node.js Server Backend
 ### Backend (cloudinary-backend)
 
 - **index.js**: File khởi tạo ứng dụng Express.
-- **public/**: (Nếu có) chứa các file tĩnh để test hoặc host giao diện.
+- **public/**: (Nếu có) chứa các file tĩnh để test .
 - **.env**: File cấu hình biến môi trường như API keys.
 - **package.json**: Khai báo dependencies như `express`, `cloudinary`, `firebase-admin`, `dotenv`, `cors`,...
 - **Procfile**: Chạy backend trên Railway/Heroku.
