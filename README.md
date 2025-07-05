@@ -169,6 +169,30 @@ Làm theo các bước dưới đây để cài đặt và chạy dự án cục
 
 
 ## Demo
+<h3>📸 Demo giao diện ứng dụng MovieApp</h3>
 
-![Screenshot_20250605_180454](https://github.com/user-attachments/assets/5ec8e4ac-4215-4ca7-a45b-f2610f430e1c)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/3ce27e9b-3aa4-474c-be27-128da8832337" alt="Screenshot 1" width="270"/>
+  <img src="https://github.com/user-attachments/assets/359eb09d-eff4-4dcf-8c1b-f153e87a9268" alt="Screenshot 2" width="270"/>
+  <img src="https://github.com/user-attachments/assets/41ee2a19-565a-4db4-8428-1b2bde91efa6" alt="Screenshot 3" width="270"/>
+</p>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/a216719b-1ab9-452d-b446-b795df82d45d" alt="Screenshot 4" width="270"/>
+  <img src="https://github.com/user-attachments/assets/3c7933cc-efc0-4658-97e2-b81dfce7f245" alt="Screenshot 5" width="270"/>
+  <img src="https://github.com/user-attachments/assets/bc6146d9-bfe6-413e-902f-c214e76f4e41" alt="Screenshot 6" width="270"/>
+</p>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/d633623f-586a-4d6f-8825-df6a707cbbdc" alt="Screenshot 7" width="270"/>
+  <img src="https://github.com/user-attachments/assets/8dcdc81e-154e-4b5b-90df-c416d0f25b9b" alt="Screenshot 8" width="270"/>
+  <img src="https://github.com/user-attachments/assets/f5f6d3a9-7247-4bc4-82dd-f96dd7bc9c69" alt="Screenshot 9" width="270"/>
+</p>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/33ccb21b-39e7-43db-b5b3-ea48f1da7a73" alt="Screenshot 10" width="270"/>
+  <img src="https://github.com/user-attachments/assets/336f9db8-5fc7-4764-b47a-3547d87ada92" alt="Screenshot 11" width="270"/>
+</p>
+
+
 
