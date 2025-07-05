@@ -162,7 +162,9 @@ Làm theo các bước dưới đây để cài đặt và chạy dự án cục
 2.  Trong Android Studio, chọn một thiết bị giả lập (Emulator) hoặc kết nối thiết bị Android vật lý của bạn.
 3.  Nhấp vào nút `Run 'app'` (biểu tượng mũi tên màu xanh lá) trên thanh công cụ của Android Studio.
 
-## Cấu trúc Project
+## 📁 Cấu trúc Project
+
+```text
 ├── MovieApp/               # Thư mục gốc của dự án Android Client
 │   ├── app/                # Module ứng dụng Android chính
 │   │   ├── src/main/java/com/example/movieapp/
@@ -177,13 +179,14 @@ Làm theo các bước dưới đây để cài đặt và chạy dự án cục
 │   └── local.properties    # File chứa các biến môi trường cục bộ (API Keys, Backend URL)
 
 cloudinary-backend/     # Thư mục gốc của dự án Node.js Server Backend, chứa toàn bộ mã nguồn backend.
-├── node_modules/       # Thư mục chứa tất cả các thư viện và gói (dependencies) Node.js của bên thứ ba được cài đặt bởi npm.
-├── public/             # Thư mục này chứa các tệp tĩnh (static files) như HTML, CSS, JavaScript, hình ảnh, v.v., mà server  phục vụ trực tiếp cho client.
-├── index.js            # File chính (entry point) của ứng dụng Node.js. Đây là nơi khởi tạo Express app, định nghĩa các route và kết nối cơ sở dữ liệu.
-├── .env                # File cấu hình môi trường cục bộ.
-├── package.json        # File manifest của dự án Node.js. 
-├── package-lock.json   # Được tạo tự động bởi npm, ghi lại phiên bản chính xác của tất cả các dependencies và sub-dependencies đã được cài đặt. 
-└── Procfile            # (Process file) Được sử dụng bởi các nền tảng triển khai như Heroku hoặc Railway để khai báo loại ứng dụng và lệnh để chạy nó khi deploy.      
+├── node_modules/       # Thư viện và dependencies Node.js
+├── public/             # Các tệp tĩnh (HTML, CSS, JS,...)
+├── index.js            # File chính khởi tạo Express App
+├── .env                # Cấu hình biến môi trường
+├── package.json        # File manifest của Node.js
+├── package-lock.json   # Khóa phiên bản dependencies
+└── Procfile            # File khai báo tiến trình khi deploy (Railway)
+
 
 
 ## Demo
