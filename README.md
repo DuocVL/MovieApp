@@ -19,9 +19,6 @@ Một ứng dụng xem phim trên Android, cung cấp trải nghiệm giải tr�
   - [Chạy ứng dụng](#chạy-ứng-dụng)
 - [Cấu trúc Project](#cấu-trúc-project)
 - [Demo](#demo)
-- [Đóng góp](#đóng-góp)
-- [Giấy phép](#giấy-phép)
-- [Liên hệ](#liên-hệ)
 
 ## Tổng quan
 
@@ -166,6 +163,27 @@ Làm theo các bước dưới đây để cài đặt và chạy dự án cục
 3.  Nhấp vào nút `Run 'app'` (biểu tượng mũi tên màu xanh lá) trên thanh công cụ của Android Studio.
 
 ## Cấu trúc Project
+├── MovieApp/               # Thư mục gốc của dự án Android Client
+│   ├── app/                # Module ứng dụng Android chính
+│   │   ├── src/main/java/com/example/movieapp/
+│   │   │   ├── Activities/ # Các Activity của ứng dụng
+│   │   │   ├── Adapters/   # Các Adapter cho RecyclerView
+│   │   │   ├── Dataclass/  # Các lớp dữ liệu (Movie, Actor, etc.)
+│   │   │   └── Fragment    # Các Fragment 
+│   │   │   └── ...         # Các package khác             
+│   │   ├── src/main/res/   # Tài nguyên UI (layout, drawable, values, etc.)
+│   │   └── google-services.json # File cấu hình Firebase cho Android
+│   ├── build.gradle        # File Gradle của module app
+│   └── local.properties    # File chứa các biến môi trường cục bộ (API Keys, Backend URL)
+
+cloudinary-backend/     # Thư mục gốc của dự án Node.js Server Backend, chứa toàn bộ mã nguồn backend.
+├── node_modules/       # Thư mục chứa tất cả các thư viện và gói (dependencies) Node.js của bên thứ ba được cài đặt bởi npm.
+├── public/             # Thư mục này chứa các tệp tĩnh (static files) như HTML, CSS, JavaScript, hình ảnh, v.v., mà server  phục vụ trực tiếp cho client.
+├── index.js            # File chính (entry point) của ứng dụng Node.js. Đây là nơi khởi tạo Express app, định nghĩa các route và kết nối cơ sở dữ liệu.
+├── .env                # File cấu hình môi trường cục bộ.
+├── package.json        # File manifest của dự án Node.js. 
+├── package-lock.json   # Được tạo tự động bởi npm, ghi lại phiên bản chính xác của tất cả các dependencies và sub-dependencies đã được cài đặt. 
+└── Procfile            # (Process file) Được sử dụng bởi các nền tảng triển khai như Heroku hoặc Railway để khai báo loại ứng dụng và lệnh để chạy nó khi deploy.      
 
 
 ## Demo
