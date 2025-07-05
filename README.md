@@ -1,10 +1,10 @@
-# TÊN_DỰ_ÁN (Ví dụ: MovieApp - Ứng dụng xem phim Android)
+# 🎬 MovieApp – Ứng dụng xem phim trên Android
 
 [![GitHub license](https://img.shields.io/github/license/DuocVL/MovieApp)](https://github.com/DuocVL/MovieApp/blob/main/LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/DuocVL/MovieApp)](https://github.com/DuocVL/MovieApp/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/DuocVL/MovieApp)](https://github.com/DuocVL/MovieApp/network/members)
 
-Một ứng dụng xem phim đa nền tảng trên Android, cung cấp trải nghiệm giải trí phong phú với các tính năng như xem phim trực tuyến, tải xuống offline, thanh toán mua phim, đánh giá, bình luận và nhiều hơn nữa.
+Một ứng dụng xem phim trên Android, cung cấp trải nghiệm giải trí phong phú với các tính năng như xem phim trực tuyến, tải xuống offline, thanh toán mua phim, đánh giá, bình luận và nhiều hơn nữa.
 
 ## Mục lục
 
@@ -32,7 +32,6 @@ Một ứng dụng xem phim đa nền tảng trên Android, cung cấp trải ng
 * **Đăng nhập & Xác thực:**
     * Đăng ký/đăng nhập bằng tài khoản email/mật khẩu.
     * Đăng nhập với tư cách khách (quyền truy cập hạn chế).
-    * Hỗ trợ đăng nhập Google, SĐT (nếu đã triển khai và hoạt động).
 * **Duyệt và Tìm kiếm phim:**
     * Hiển thị danh sách phim đa dạng (phim mới, phim nổi bật, theo thể loại).
     * Xem thông tin chi tiết phim (tóm tắt, diễn viên, đạo diễn, poster, trailer).
@@ -61,8 +60,8 @@ Dự án này sử dụng các công nghệ và thư viện sau:
 * **Ngôn ngữ:** Kotlin
 * **Framework:** Android SDK, Android Jetpack
 * **Kiến trúc:** MVC (Model-View-Controller)
-* **Thư viện UI:** (VD: AndroidX AppCompat, Material Design)
-* **Networking:** OkHttp (hoặc Retrofit nếu có), Glide (tải ảnh)
+* **Thư viện UI:** AndroidX AppCompat, Material Design,...
+* **Networking:** OkHttp, Glide (tải ảnh)
 * **Media Playback:** ExoPlayer
 * **Firebase:** Authentication, Cloud Firestore, Cloud Messaging (FCM)
 * **Gradle:** Quản lý dependencies
@@ -99,7 +98,6 @@ Dự án này sử dụng các công nghệ và thư viện sau:
 
 **Dịch vụ bên ngoài:** TMDB, Bunny Stream, PayOS, Firebase.
 
-(Có thể chèn lại sơ đồ kiến trúc tại đây nếu muốn, như trong báo cáo của bạn)
 
 ## Cài đặt và Chạy ứng dụng
 
@@ -110,7 +108,7 @@ Làm theo các bước dưới đây để cài đặt và chạy dự án cục
 * **Android Studio:** Phiên bản Arctic Fox 2020.3.1 trở lên (hoặc phiên bản bạn đang dùng).
 * **JDK:** Phiên bản 11 trở lên.
 * **Node.js:** Phiên bản 14.x trở lên.
-* **npm / Yarn:** Trình quản lý gói cho Node.js.
+* **npm :** Trình quản lý gói cho Node.js.
 * **Git:** Để clone repository.
 * Kết nối Internet ổn định.
 
@@ -118,7 +116,7 @@ Làm theo các bước dưới đây để cài đặt và chạy dự án cục
 
 1.  **Clone mã nguồn Backend:**
     ```bash
-    git clone [https://github.com/DuocVL/cloudinary-backend.git](https://github.com/DuocVL/cloudinary-backend.git) # <-- Đảm bảo đây là link backend của project phim của bạn
+    git clone https://github.com/DuocVL/cloudinary-backend.git
     cd cloudinary-backend # <-- Thay đổi tên thư mục nếu khác
     ```
 2.  **Cài đặt Dependencies:**
@@ -129,13 +127,11 @@ Làm theo các bước dưới đây để cài đặt và chạy dự án cục
     Tạo file `.env` trong thư mục gốc của backend và điền các thông tin sau:
     ```
     PORT=3000
-    TMDB_API_KEY=YOUR_TMDB_API_KEY
     PAYOS_CLIENT_ID=YOUR_PAYOS_CLIENT_ID
     PAYOS_API_KEY=YOUR_PAYOS_API_KEY
     PAYOS_CHECKSUM_KEY=YOUR_PAYOS_CHECKSUM_KEY
     FIREBASE_SERVICE_ACCOUNT_PATH=./path/to/your/firebase-service-account.json # Đảm bảo đường dẫn chính xác
     ```
-    * **TMDB_API_KEY:** Lấy từ [The Movie Database API](https://www.themoviedb.org/documentation/api).
     * **PAYOS_CLIENT_ID, PAYOS_API_KEY, PAYOS_CHECKSUM_KEY:** Lấy từ tài khoản PayOS Developer của bạn.
     * **FIREBASE_SERVICE_ACCOUNT_PATH:** Đường dẫn đến file JSON Service Account Key của Firebase. File này cần được tạo từ Firebase Console (`Project settings` -> `Service accounts`).
 4.  **Chạy Backend (Development):**
@@ -171,4 +167,8 @@ Làm theo các bước dưới đây để cài đặt và chạy dự án cục
 
 ## Cấu trúc Project
 
-Dự án được tổ chức thành hai phần chính: Client (ứng dụng Android) và Server (API Backend).
+
+## Demo
+
+![Screenshot_20250605_180454](https://github.com/user-attachments/assets/5ec8e4ac-4215-4ca7-a45b-f2610f430e1c)
+
